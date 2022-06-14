@@ -1,7 +1,11 @@
+import Login from "./pages/auth/Login";
+import Registration from "./pages/auth/Registration";
+
 function App() {
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Login />
+      <Registration />
     </div>
   );
 }
