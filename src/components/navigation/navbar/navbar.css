@@ -1,0 +1,29 @@
+.navbar {
+  @apply flex w-full items-center p-5 fixed top-0;
+  @apply md:relative;
+}
+.logo {
+  @apply hidden;
+  @apply md:block;
+}
+.leftNav {
+  @apply flex items-center flex-1 gap-8;
+}
+.menuBurger {
+  @apply bg-white flex-shrink-0 p-3 rounded-xl;
+  @apply md:hidden;
+}
+.searchField {
+  @apply relative w-full rounded-lg bg-white;
+  @apply md:bg-gray-300 md:w-1/2;
+}
+.searchField > input {
+  @apply w-full rounded-lg bg-transparent outline-none placeholder-gray-700 p-3 focus:outline-purple-400;
+}
+.searchField > button {
+  @apply absolute right-3 top-3;
+}
+.rightNav {
+  @apply hidden;
+  @apply md:block;
+}
