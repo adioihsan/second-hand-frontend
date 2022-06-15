@@ -1,0 +1,22 @@
+:root {
+  --primary: rgb(160, 110, 206, 1);
+  --secondary: rgb(255, 255, 255, 0);
+}
+.Login {
+  min-height: 100vh;
+}
+.loginWrapper {
+  min-height: 100vh;
+  @apply flex items-center;
+}
+.background-image {
+  @apply hidden;
+  @apply md:flex;
+  background: linear-gradient(0deg, var(--primary), var(--secondary)),
+    url("../../../assets/images/background-login.png") no-repeat center;
+  background-size: cover;
+  height: 100vh;
+}
+.form-form-login {
+  @apply w-3/4 h-full;
+}
