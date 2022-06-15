@@ -13,7 +13,7 @@ const Register = () => {
         </div>
         <div className="form-register">
           <form className="form-form-register">
-            <h1 className="text-2xl font-bold">Masuk</h1>
+            <h1 className="text-2xl font-bold">Register</h1>
             <label className="block font-regular mt-5 text-xs">Nama</label>
             <input
               type="text"
