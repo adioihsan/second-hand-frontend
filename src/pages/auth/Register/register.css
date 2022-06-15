@@ -1,0 +1,24 @@
+:root {
+  --primary: rgb(160, 110, 206, 1);
+  --secondary: rgb(255, 255, 255, 0);
+}
+.background-image {
+  background: linear-gradient(0deg, var(--primary), var(--secondary)),
+    url(../../../assets/images/background-login.png) no-repeat center center /
+      cover;
+  height: 100vh;
+}
+
+.form-form-register {
+  width: 65%;
+  @apply w-3/4 h-full;
+}
+
+.registerWraper {
+  min-height: 100vh;
+  @apply flex items-center;
+}
+
+.form-register {
+  @apply flex-1 flex items-center justify-center;
+}
