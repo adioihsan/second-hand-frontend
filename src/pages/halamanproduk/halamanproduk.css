@@ -1,0 +1,16 @@
+.HalamanProduk {
+}
+
+.halamanProdukWraper {
+  @apply flex flex-col px-3;
+  @apply md:mt-7 md:flex-row md:container md:justify-center md:mx-auto md:gap-10;
+}
+
+.imageProduct {
+  @apply rounded-xl;
+  object-fit: cover;
+  height: 70vh;
+}
+
+.description {
+}
