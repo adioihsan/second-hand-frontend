@@ -1,0 +1,19 @@
+.productCard {
+  @apply grid gap-2 min-w-fit bg-white p-3 shadow-md rounded-md;
+}
+.productImage {
+  @apply w-full;
+  @apply rounded-md;
+}
+.cardBody {
+  @apply grid gap-1;
+}
+.productName {
+  @apply font-medium text-base;
+}
+.productCategory {
+  @apply text-sm text-gray-600;
+}
+.productPrice {
+  @apply text-base font-medium;
+}

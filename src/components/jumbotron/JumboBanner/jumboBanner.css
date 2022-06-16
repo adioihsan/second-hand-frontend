@@ -17,15 +17,23 @@
   @apply md:mx-auto md:bg-[url("../../../assets/images/banner-bg-1.png")] md:container md:rounded-3xl;
 }
 .mainBanner {
-  @apply bg-gradient-to-b from-cream-200 via-cream-300 to-white flex items-center gap-3 h-96 px-4 font-medium;
+  @apply bg-gradient-to-b from-cream-200 via-cream-300 to-white grid grid-cols-2 place-content-center gap-5 h-96 px-4 font-medium;
   @apply md:bg-gradient-to-r md:rounded-3xl md:px-9;
   @apply lg:px-16;
 }
 .bannerTitle {
-  @apply text-3xl;
+  @apply text-3xl font-medium justify-items-center;
   @apply md:text-4xl;
-  @apply lg:w-1/2 lg:text-5xl;
+  @apply lg:text-5xl;
+  @apply xl:text-6xl;
 }
 .bannerImage {
-  @apply rotate-6;
+  @apply rotate-6 translate-y-12;
+  @apply md:w-36;
+  @apply xl:translate-x-[-2rem];
+}
+.subtitle p:nth-child(2) {
+  @apply text-2xl text-red-600 mt-2;
+  @apply md:text-3xl;
+  @apply lg:text-4xl;
 }
