@@ -12,6 +12,10 @@ function JumboBanner(props) {
             src="/assets/images/banner-pic-1.png"
             alt="banner"
           />
+          <div className="subtitle">
+            <p>Diskon hingga</p>
+            <p>60%</p>
+          </div>
         </div>
       </div>
       <div className="sideBox"></div>
