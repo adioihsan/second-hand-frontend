@@ -1,3 +1,6 @@
 .buttonPrimary {
   @apply flex justify-center min-w-fit py-3 px-6 rounded-xl bg-purple-400 text-white;
 }
+.buttonPrimaryOutlined {
+  @apply flex justify-center min-w-fit py-3 px-6 rounded-xl bg-white outline outline-1 outline-purple-400;
+}
