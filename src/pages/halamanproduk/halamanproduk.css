@@ -12,5 +12,15 @@
   height: 70vh;
 }
 
-.description {
+.buttonOne {
+  @apply bg-purple-400 text-white w-96 py-3 rounded-xl m-5;
+}
+
+.buttonTwo {
+  @apply bg-white text-black border border-purple-600 w-96 py-3 rounded-xl mx-5 mb-5;
+}
+
+.profilePicture {
+  width: 60px;
+  height: 60px;
 }
