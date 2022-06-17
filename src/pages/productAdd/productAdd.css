@@ -1,0 +1,29 @@
+.productAdd {
+  @apply flex justify-center  py-10;
+}
+.productAddForm {
+  @apply flex flex-col gap-5 w-full max-w-4xl relative;
+}
+.inputWrapper {
+  @apply grid gap-2 w-full;
+}
+
+.productAdd input[type="text"],
+.productAdd input[type="number"],
+.productAdd textarea,
+.productAdd select {
+  @apply w-full p-3 outline outline-1 outline-gray-300 rounded-xl focus:outline-purple-300;
+}
+
+.labelPhotoProduct {
+  @apply w-24 h-24 flex justify-center items-center rounded-xl outline-dashed outline-purple-400 outline-2;
+  cursor: pointer;
+}
+.inputPhotoProduct {
+  @apply hidden;
+}
+.btnBack {
+  @apply hidden;
+  @apply md:block md:absolute left-0;
+  @apply lg:translate-x-[-3rem];
+}

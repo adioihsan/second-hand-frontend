@@ -1,5 +1,5 @@
 .navbar {
-  @apply flex w-full items-center p-5 fixed top-0;
+  @apply flex w-full items-center p-5 fixed top-0 z-10;
   @apply md:relative;
 }
 .logo {
@@ -26,4 +26,8 @@
 .rightNav {
   @apply hidden;
   @apply md:block;
+}
+.pageTitle {
+  @apply text-base font-semibold;
+  @apply md:text-xl;
 }
