@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Guest from "./layouts/Guest";
 import Home from "./pages/home/Home";
 import Register from "./pages/auth/Register/Registration";
+import Halamanproduk from "./pages/halamanproduk/Halamanproduk";
 import ProfileInfo from "./pages/profileInfo/ProfileInfo";
 import Buyer from "./layouts/Buyer";
 import ProductAdd from "./pages/productAdd/productAdd";
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<Guest />}>
             <Route path="/" element={<Home />} />
+            <Route path="/halamanproduk" element={<Halamanproduk />} />
           </Route>
           <Route element={<Buyer />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
