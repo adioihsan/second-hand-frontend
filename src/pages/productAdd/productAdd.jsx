@@ -60,7 +60,12 @@ function ProductAdd(props) {
             />
           </label>
         </div>
-        <ButtonPrimary className="w-full mt-3">Simpan</ButtonPrimary>
+        <div className="flex gap-3 mt-3 w-full ">
+          <ButtonPrimary className="w-full" type="outlined">
+            Preview
+          </ButtonPrimary>
+          <ButtonPrimary className="w-full">Terbitkan</ButtonPrimary>
+        </div>
       </form>
     </div>
   );
