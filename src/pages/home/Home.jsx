@@ -1,4 +1,5 @@
 import React from "react";
+import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import ProductCard from "../../components/card/productCard/ProductCard";
 import JumboBanner from "../../components/jumbotron/JumboBanner/JumboBanner";
 import JumboSlider from "../../components/jumbotron/JumboSlider";
@@ -22,6 +23,9 @@ function Home(props) {
               <ProductCard key={"Card" + index} />
             ))}
         </section>
+        <ButtonPrimary className="fixed bottom-8 translate-x-[-50%] left-1/2 shadow-xl shadow-purple-300">
+          + Jual
+        </ButtonPrimary>
       </article>
     </main>
   );
