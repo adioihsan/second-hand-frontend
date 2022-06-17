@@ -27,3 +27,7 @@
   @apply hidden;
   @apply md:block;
 }
+.pageTitle {
+  @apply text-base font-semibold;
+  @apply md:text-xl;
+}

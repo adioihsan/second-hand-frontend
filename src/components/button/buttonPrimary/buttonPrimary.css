@@ -1,0 +1,3 @@
+.buttonPrimary {
+  @apply flex justify-center min-w-fit py-3 px-6 rounded-xl bg-purple-400 text-white;
+}
