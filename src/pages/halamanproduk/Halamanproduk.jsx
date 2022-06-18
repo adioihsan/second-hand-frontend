@@ -1,16 +1,28 @@
 import React from "react";
 import "./halamanproduk.css";
+import { Carousel } from "react-responsive-carousel";
 
 const Halamanproduk = () => {
   return (
     <div className="HalamanProduk">
       <div className="halamanProdukWraper">
         <div className="flex basis-1/2 flex-col">
-          <img
+          {/* <img
             src="/assets/images/product.png.png"
             className="imageProduct mb-10 flex justify-center"
-          />
-          <div className="description border border-2 border-gray rounded-xl">
+          /> */}
+          <Carousel showArrows={true} className="carousel" showThumbs={false}>
+            <div>
+              <img
+                src="/assets/images/product.png.png"
+                className="imageProduct"
+              />
+            </div>
+            <div>
+              <img src="/assets/images/product.png" className="imageProduct" />
+            </div>
+          </Carousel>
+          <div className="description border border-2 border-gray rounded-xl mb-5">
             <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
             <h1 className="mx-5 mb-5 text-regular text-gray-400">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -44,7 +56,7 @@ const Halamanproduk = () => {
             <div className="">
               <img
                 src="/assets/images/profilepicture.jpg"
-                className="profilePicture rounded-xl"
+                className="profilePicture rounded-xl object-cover"
               />
             </div>
             <div className="flex-col ml-5 ">
