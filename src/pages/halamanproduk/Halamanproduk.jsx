@@ -30,17 +30,17 @@ const Halamanproduk = () => {
             </h1>
           </div>
         </div>
-        <div className="flex basis-1/4 flex-col ">
-          <div className="description shadow-xl rounded-xl">
-            <h1 className="my-3 mx-5 font-bold">Jam Tangan Casio</h1>
-            <h1 className="mx-5 mb-5 text-regular text-gray-400">Aksesoris</h1>
-            <h1 className="my-5 mx-5 font-regular">Rp. 250.000</h1>
+        <div className="flex basis-1/4 flex-col">
+          <div className="description shadow-xl flex flex-col rounded-xl w-full p-5">
+            <h1 className=" font-bold">Jam Tangan Casio</h1>
+            <h1 className=" py-3 text-regular text-gray-400">Aksesoris</h1>
+            <h1 className=" pb-5 font-regular">Rp. 250.000</h1>
             <button className="buttonOne button button-primary">
               Terbitkan
             </button>
             <button className="buttonTwo button button-primary">Edit</button>
           </div>
-          <div className="description flex items-center border border-2 border-gray rounded-xl mt-7 p-5">
+          <div className="description flex items-center border border-2 border-gray rounded-xl mt-7 p-5 w-full">
             <div className="">
               <img
                 src="/assets/images/profilepicture.jpg"

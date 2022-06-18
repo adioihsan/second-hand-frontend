@@ -2,22 +2,22 @@
 }
 
 .halamanProdukWraper {
-  @apply flex flex-col px-3;
+  @apply flex flex-col;
   @apply md:mt-7 md:flex-row md:container md:justify-center md:mx-auto md:gap-10;
 }
 
 .imageProduct {
-  @apply rounded-xl;
-  object-fit: cover;
+  @apply object-cover;
+  @apply md:rounded-xl;
   height: 70vh;
 }
 
 .buttonOne {
-  @apply bg-purple-400 text-white w-96 py-3 rounded-xl m-5;
+  @apply bg-purple-400 text-white py-3 w-full flex justify-center rounded-xl mb-5;
 }
 
 .buttonTwo {
-  @apply bg-white text-black border border-purple-600 w-96 py-3 rounded-xl mx-5 mb-5;
+  @apply bg-white text-black border border-purple-600 w-full py-3 flex justify-center rounded-xl mb-5;
 }
 
 .profilePicture {
