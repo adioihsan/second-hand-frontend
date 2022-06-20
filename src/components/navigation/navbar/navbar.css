@@ -1,6 +1,5 @@
 .navbar {
-  @apply flex w-full items-center p-5 fixed top-0 z-10;
-  @apply md:relative;
+  @apply flex w-full items-center p-5 h-20;
 }
 .logo {
   @apply hidden;

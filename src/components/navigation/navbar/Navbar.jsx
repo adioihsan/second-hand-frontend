@@ -5,7 +5,7 @@ import iconSearch from "../../../assets/images/icon-search.png";
 import iconMenu from "../../../assets/images/icon-menu.png";
 import iconArrowLeft from "../../../assets/images/icon-arrow-left.png";
 import "./navbar.css";
-function Navbar({ navTitle }) {
+function Navbar({ type, navTitle }) {
   if (navTitle)
     return (
       <nav className="navbar relative">

@@ -8,6 +8,7 @@ import ProfileInfo from "./pages/profileInfo/ProfileInfo";
 import Buyer from "./layouts/Buyer";
 import ProductAdd from "./pages/productAdd/productAdd";
 import Seller from "./layouts/Seller";
+import Navbar from "./components/navigation/navbar/Navbar";
 
 function App() {
   return (
