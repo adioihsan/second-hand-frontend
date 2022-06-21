@@ -27,6 +27,6 @@
   @apply md:block;
 }
 .pageTitle {
-  @apply text-base font-semibold;
+  @apply mx-3 absolute text-base font-semibold translate-x-[-50%];
   @apply md:text-xl;
 }

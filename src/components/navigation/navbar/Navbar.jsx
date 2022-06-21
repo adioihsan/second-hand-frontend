@@ -5,8 +5,8 @@ import iconSearch from "../../../assets/images/icon-search.png";
 import iconMenu from "../../../assets/images/icon-menu.png";
 import iconArrowLeft from "../../../assets/images/icon-arrow-left.png";
 import "./navbar.css";
-function Navbar({ type, navTitle }) {
-  if (navTitle)
+function Navbar({ type, title }) {
+  if (type === "back" && title)
     return (
       <nav className="navbar relative">
         <div className="logo">
@@ -16,11 +16,23 @@ function Navbar({ type, navTitle }) {
           <img src={iconArrowLeft} alt="back" />
         </button>
         <div className="pageTitle absolute  left-1/2 translate-x-[-50%]">
-          {navTitle}
+          {title}
         </div>
       </nav>
     );
-  else
+  else if (type === "burger" && title) {
+    <nav className="navbar relative">
+      <div className="logo">
+        <img src={logo} alt="SecondHand" />
+      </div>
+      <button className="md:hidden">
+        <img src={iconArrowLeft} alt="back" />
+      </button>
+      <div className="pageTitle absolute  left-1/2 translate-x-[-50%]">
+        {title}
+      </div>
+    </nav>;
+  } else
     return (
       <nav className="navbar">
         <div className="leftNav">
