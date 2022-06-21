@@ -8,11 +8,11 @@ function Buyer(props) {
     <>
       <div className="md:bg-white md:shadow-md md:mb-5 mb-10">
         <div className="container mx-auto">
-          <Navbar title={navTitle} />
+          <Navbar title={navTitle} type={navType} />
         </div>
       </div>
       <div className="container mx-auto px-5">
-        <Outlet context={setNavTitle} />
+        <Outlet context={{ setNavTitle, setNavType }} />
       </div>
     </>
   );
