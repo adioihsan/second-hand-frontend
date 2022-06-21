@@ -6,9 +6,10 @@ import { useOutletContext } from "react-router-dom";
 import "./profileInfo.css";
 
 function ProfileInfo(props) {
-  const setNavTitle = useOutletContext();
+  const navProps = useOutletContext();
   useEffect(() => {
-    setNavTitle("Info Profil");
+    navProps.setNavType("back");
+    navProps.setNavTitle("Info Profil");
   }, []);
   return (
     <div className="profileInfoWrapper">

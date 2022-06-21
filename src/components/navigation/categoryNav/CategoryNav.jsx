@@ -1,15 +1,33 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import CategoryButton from "../../button/buttonCategory.jsx/ButtonCategory";
+import ButtonCategory from "../../button/buttonCategory.jsx/ButtonCategory";
 import "./categoryNav.css";
-function CategoryNav(props) {
+function CategoryNav({ categories, type }) {
+  if (type === "list") {
+    return (
+      <div className="categoryList">
+        {categories.map((cat, index) => (
+          <div
+            className={
+              cat.isActive
+                ? "categoryListItem text-purple-500"
+                : "categoryListItem text-gray-900"
+            }
+          >
+            <FontAwesomeIcon icon={cat.icon} width={"32px"} />
+            {cat.name}
+          </div>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="categoryNav">
-      <CategoryButton isActive={true}>Semua</CategoryButton>
-      <CategoryButton>Hobi</CategoryButton>
-      <CategoryButton>Kendaraan</CategoryButton>
-      <CategoryButton>Baju</CategoryButton>
-      <CategoryButton>Elektronik</CategoryButton>
-      <CategoryButton>Kesehatan</CategoryButton>
+      {categories.map((cat, index) => (
+        <ButtonCategory icon={cat.icon} isActive={cat.isActive}>
+          {cat.name}
+        </ButtonCategory>
+      ))}
     </div>
   );
 }

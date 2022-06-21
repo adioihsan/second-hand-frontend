@@ -17,3 +17,6 @@
 .productPrice {
   @apply text-base font-medium;
 }
+.addProduct {
+  @apply border-gray-800 border border-dashed grid gap-3 text-lg  place-items-center place-content-center cursor-pointer text-center w-full;
+}

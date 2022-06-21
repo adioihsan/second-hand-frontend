@@ -6,8 +6,8 @@ html {
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-  box-sizing: border-box;
 }
 body {
   background-color: #fafafa;
+  box-sizing: border-box;
 }

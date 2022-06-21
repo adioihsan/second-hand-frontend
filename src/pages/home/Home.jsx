@@ -17,7 +17,7 @@ function Home(props) {
           <h1 className="text-xl font-semibold  mb-3 px-3">
             Telusuri Kategori
           </h1>
-          <CategoryNav />
+          {/* <CategoryNav /> */}
         </section>
         <section className="products mt-6 px-3 ">
           {Array(12)
