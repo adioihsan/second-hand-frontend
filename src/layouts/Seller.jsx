@@ -6,9 +6,9 @@ function Seller(props) {
   const [navType, setNavType] = useState(null);
   return (
     <div>
-      <div className="md:bg-white md:shadow-md">
+      <div className="md:bg-white md:shadow-md sticky top-0 z-10">
         <div className="container mx-auto">
-          <Navbar title={navTitle} type={navType} />
+          <Navbar />
         </div>
       </div>
       <div className="container mx-auto px-5">
