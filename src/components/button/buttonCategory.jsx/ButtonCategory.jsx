@@ -1,7 +1,8 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import iconSearch from "../../../assets/images/icon-search.png";
 import "./buttonCategory.css";
-function CategoryButton({ children, isActive }) {
+function ButtonCategory({ children, icon, isActive }) {
   return (
     <button
       className={
@@ -10,9 +11,10 @@ function CategoryButton({ children, isActive }) {
           : "buttonCategory  bg-purple-100 text-gray-800"
       }
     >
-      <img src={iconSearch} alt="->" /> {children}
+      <FontAwesomeIcon icon={icon} color={isActive ? "white" : "gray"} />{" "}
+      {children}
     </button>
   );
 }
 
-export default CategoryButton;
+export default ButtonCategory;

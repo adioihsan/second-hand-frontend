@@ -6,9 +6,10 @@ import { useOutletContext } from "react-router-dom";
 import "./productAdd.css";
 
 function ProductAdd(props) {
-  const setNavTitle = useOutletContext();
+  const navProps = useOutletContext();
   useEffect(() => {
-    setNavTitle("Lengkapi Detail Produk");
+    navProps.setNavType("back");
+    navProps.setNavTitle("Lengkapi Detail Produk");
   }, []);
   return (
     <div className="productAddWrapper">
