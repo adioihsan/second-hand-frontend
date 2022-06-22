@@ -31,3 +31,6 @@
 .form-form-register .error {
   @apply text-sm mx-2 mt-1 mb-2  text-red-500;
 }
+.form-form-register .message {
+  @apply p-5 my-5  text-white rounded-sm;
+}
