@@ -21,7 +21,7 @@ function App() {
           <Route element={<Guest />}>
             <Route path="/" element={<Home />} />
             <Route path="/halamanproduk" element={<Halamanproduk />} />
-            <Route path="/negotiationinfo" element={<Negotiationinfo />} />
+            <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>
           <Route element={<Buyer />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
