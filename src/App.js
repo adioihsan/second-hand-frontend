@@ -8,6 +8,7 @@ import ProfileInfo from "./pages/profileInfo/ProfileInfo";
 import Buyer from "./layouts/Buyer";
 import ProductAdd from "./pages/productAdd/productAdd";
 import Seller from "./layouts/Seller";
+import Negotiationinfo from "./pages/negotiationinfo/Negotiationinfo";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route element={<Guest />}>
             <Route path="/" element={<Home />} />
             <Route path="/halamanproduk" element={<Halamanproduk />} />
+            <Route path="/negotiationinfo" element={<Negotiationinfo />} />
           </Route>
           <Route element={<Buyer />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
