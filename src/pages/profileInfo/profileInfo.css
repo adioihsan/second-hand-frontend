@@ -1,5 +1,5 @@
 .profileInfo {
-  @apply flex justify-center  py-10;
+  @apply flex justify-center py-5 relative;
 }
 .profileInfoForm {
   @apply flex flex-col gap-5 w-full max-w-4xl relative;
@@ -9,9 +9,6 @@
 }
 .inputWrapperPhoto {
   @apply flex justify-center w-full;
-}
-.inputWrapper:nth-child(2) {
-  @apply flex justify-center;
 }
 .profileInfo input[type="text"],
 .profileInfo input[type="number"],
@@ -26,9 +23,4 @@
 }
 .inputPhoto {
   @apply hidden;
-}
-.btnBack {
-  @apply hidden;
-  @apply md:block md:absolute left-0;
-  @apply lg:translate-x-[-3rem];
 }

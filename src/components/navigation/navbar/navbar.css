@@ -1,33 +1,74 @@
 .navbar {
-  @apply flex w-full items-center p-5 fixed top-0 z-10;
-  @apply md:relative;
+  @apply flex w-full items-center p-5 h-20;
 }
 .logo {
   @apply hidden;
   @apply md:block;
 }
 .leftNav {
-  @apply flex items-center flex-1 gap-8;
+  @apply flex items-center  flex-1 gap-8;
 }
-.menuBurger {
-  @apply bg-white flex-shrink-0 p-3 rounded-xl;
-  @apply md:hidden;
-}
+
 .searchField {
   @apply relative w-full rounded-lg bg-white;
-  @apply md:bg-gray-300 md:w-1/2;
+  @apply md:bg-gray-200 md:w-1/2;
 }
 .searchField > input {
-  @apply w-full rounded-lg bg-transparent outline-none placeholder-gray-700 p-3 focus:outline-purple-400;
+  @apply w-full rounded-lg bg-transparent outline-none placeholder-gray-700 p-3 focus:border-2 border-purple-300;
 }
 .searchField > button {
   @apply absolute right-3 top-3;
 }
 .rightNav {
   @apply hidden;
-  @apply md:block;
+  @apply md:flex items-center;
 }
 .pageTitle {
-  @apply text-base font-semibold;
+  @apply mx-3 absolute text-base font-semibold translate-x-[-50%];
   @apply md:text-xl;
+}
+.userMenu {
+  @apply flex gap-5;
+}
+.userPhoto {
+  @apply h-6 object-cover rounded-full outline-1 outline outline-gray-700;
+}
+.menuBurger {
+  @apply relative;
+}
+.burgerIcon {
+  @apply bg-white flex-shrink-0 p-3 rounded-xl;
+  @apply md:hidden;
+}
+.burgerItems {
+  @apply hidden bg-white  p-5 rounded-lg;
+}
+.burgerItemActive {
+  @apply block absolute top-12;
+  @apply md:hidden;
+}
+.userMenuList {
+  @apply grid place-content-center gap-3;
+}
+.userMenuList > .whistlist,
+.userMenuList > .notification {
+  @apply flex gap-5;
+}
+.userProfile {
+  @apply relative;
+}
+.userProfileMenu {
+  @apply hidden  flex-col gap-3 absolute top-10 right-0 translate-x-3 bg-white p-5 shadow-md w-40 rounded-md;
+}
+.userProfileMenuActive {
+  @apply flex;
+}
+.userProfileHeader {
+  @apply flex gap-2 items-center text-sm text-gray-500;
+}
+.userMenuList .userProfileHeader {
+  @apply gap-4;
+}
+.userProfileMenu button {
+  @apply flex gap-3 items-center border-b-2 border-gray-200;
 }

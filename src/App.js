@@ -9,6 +9,7 @@ import Buyer from "./layouts/Buyer";
 import ProductAdd from "./pages/productAdd/productAdd";
 import Seller from "./layouts/Seller";
 import Negotiationinfo from "./pages/negotiationinfo/Negotiationinfo";
+import ProductList from "./pages/productList/ProductList";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route element={<Seller />}>
             <Route path="/product-add" element={<ProductAdd />} />
+            <Route path="/product-list" element={<ProductList />} />
           </Route>
         </Routes>
       </BrowserRouter>
