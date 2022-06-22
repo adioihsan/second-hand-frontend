@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./register.css";
 import useForm from "../../../hooks/useForm";
 import ButtonPrimary from "../../../components/button/buttonPrimary/ButtonPrimary";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { createUser } from "../../../services/actions/userAction";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Register = () => {
+  // hooks
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { message, pending, error, success } = useSelector(
+    (state) => state.user
+  );
   const { values, errors, handleChange } = useForm();
-  console.log("values :", values);
-  console.log("errors :", errors);
+
+  // actions
+  const doRegister = (e) => {
+    e.persist();
+    e.preventDefault();
+    if (isAllValid()) dispatch(createUser(values));
+  };
+  const isAllValid = () => {
+    if (Object.keys(errors).length === 0) return false;
+    return (
+      errors.name === null && errors.password === null && errors.email === null
+    );
+  };
+  useEffect(() => {
+    if (success)
+      navigate("/login", {
+        state: {
+          email: values.email,
+          message: "Registrasi berhasil, silahkan login",
+        },
+      });
+  }, [success]);
   return (
     <div className="Register">
       <div className="registerWraper">
@@ -17,8 +48,21 @@ const Register = () => {
           </span>
         </div>
         <div className="form-register">
-          <form className="form-form-register">
+          <form
+            className="form-form-register"
+            onSubmit={doRegister}
+            method="post"
+          >
             <h1 className="text-2xl font-bold">Daftar</h1>
+            {message && (
+              <div
+                className={
+                  error ? "message bg-red-500" : "message bg-green-600"
+                }
+              >
+                {message}
+              </div>
+            )}
             <label>Nama</label>
             <input
               type="text"
@@ -45,7 +89,7 @@ const Register = () => {
             {errors.password && (
               <span className="error">{errors.password}</span>
             )}
-            <ButtonPrimary className="w-full mt-5">Masuk</ButtonPrimary>
+            <ButtonPrimary className="w-full mt-5">Daftar</ButtonPrimary>
             <span className="flex justify-center mt-5">
               Sudah punya akun?
               <Link to="/register" className="ml-2 font-bold text-purple-700">
