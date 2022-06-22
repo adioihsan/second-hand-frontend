@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./register.css";
+import useForm from "../../../hooks/useForm";
+import ButtonPrimary from "../../../components/button/buttonPrimary/ButtonPrimary";
 
 const Register = () => {
+  const { values, errors, handleChange } = useForm();
+  console.log("values :", values);
+  console.log("errors :", errors);
   return (
     <div className="Register">
       <div className="registerWraper">
@@ -13,28 +18,34 @@ const Register = () => {
         </div>
         <div className="form-register">
           <form className="form-form-register">
-            <h1 className="text-2xl font-bold">Register</h1>
-            <label className="block font-regular mt-5 text-xs">Nama</label>
+            <h1 className="text-2xl font-bold">Daftar</h1>
+            <label>Nama</label>
             <input
               type="text"
+              name="name"
               placeholder="Nama Lengkap"
-              className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-xl"
+              onChange={handleChange}
             />
-            <label class="block font-regular mt-5 text-xs">Email</label>
+            {errors.name && <span className="error">{errors.name}</span>}
+            <label>Email</label>
             <input
               type="text"
+              name="email"
               placeholder="Email"
-              className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-xl"
+              onChange={handleChange}
             />
-            <label class="block mt-5 font-regular text-xs">Password</label>
+            {errors.email && <span className="error">{errors.email}</span>}
+            <label>Password</label>
             <input
               type="password"
+              name="password"
               placeholder="Password"
-              className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-xl"
+              onChange={handleChange}
             />
-            <button className="button button-primary bg-purple-600 text-white w-full py-3 rounded-xl mt-7">
-              Masuk
-            </button>
+            {errors.password && (
+              <span className="error">{errors.password}</span>
+            )}
+            <ButtonPrimary className="w-full mt-5">Masuk</ButtonPrimary>
             <span className="flex justify-center mt-5">
               Sudah punya akun?
               <Link to="/register" className="ml-2 font-bold text-purple-700">
