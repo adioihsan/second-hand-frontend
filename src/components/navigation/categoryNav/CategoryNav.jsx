@@ -24,7 +24,13 @@ function CategoryNav({ categories, type }) {
   return (
     <div className="categoryNav">
       {categories.map((cat, index) => (
-        <ButtonCategory icon={cat.icon} isActive={cat.isActive}>
+        <ButtonCategory
+          icon={cat.icon}
+          isActive={cat.isActive}
+          onClick={() => {
+            cat.cb(cat.id);
+          }}
+        >
           {cat.name}
         </ButtonCategory>
       ))}
