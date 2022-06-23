@@ -3,6 +3,7 @@ import {
   authUser,
   createUser,
   setUserData,
+  setUserMessage,
   setUserToken,
 } from "../actions/userAction";
 
@@ -68,6 +69,11 @@ const userSlice = createSlice({
     //
     builder.addCase(setUserData, (state, action) => {
       state.userData = action.payload;
+    });
+    //
+    builder.addCase(setUserMessage, (state, action) => {
+      state.message = action.payload.message;
+      state.error = action.payload.error;
     });
   },
 });

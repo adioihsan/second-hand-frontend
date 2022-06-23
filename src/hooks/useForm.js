@@ -5,7 +5,6 @@ function useForm() {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    e.persist();
     validateForm(e.target.name, e.target.value, (error, name, value) => {
       setErrors({ ...errors, [name]: error });
       setValues({ ...values, [name]: value });

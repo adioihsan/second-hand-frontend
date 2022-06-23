@@ -1,18 +1,26 @@
 import React from "react";
+import { useState } from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
 import useForm from "../../../hooks/useForm";
-import { authUser, setUserData } from "../../../services/actions/userAction";
+import {
+  authUser,
+  setUserData,
+  setUserMessage,
+} from "../../../services/actions/userAction";
 import { parseJwt, saveLocalJWT } from "../../../services/utils/jwtHandler";
 import "./login.css";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const emailRef = useRef();
   const { values, errors, handleChange } = useForm();
   const { token, message, success, pending, error } = useSelector(
     (state) => state.user
@@ -23,16 +31,30 @@ const Login = () => {
   };
   const doLogin = (e) => {
     e.preventDefault();
-    if (isAllValid()) dispatch(authUser(values));
+    if (isAllValid()) {
+      dispatch(authUser(values));
+    }
   };
   useEffect(() => {
-    if (success) {
+    if (success && token) {
       saveLocalJWT(token);
       const user = parseJwt(token);
       dispatch(setUserData(user));
       navigate("/", { state: { message: "Login berhasil" } });
     }
   }, [success]);
+  useEffect(() => {
+    if (location.state) {
+      dispatch(
+        setUserMessage({ message: location.state.message, error: false })
+      );
+      emailRef.current.value = location.state.email;
+      const e = {
+        target: { name: emailRef.current.name, value: emailRef.current.value },
+      };
+      handleChange(e);
+    }
+  }, [location]);
   return (
     <div className="Login">
       <div className="loginWrapper">
@@ -59,6 +81,7 @@ const Login = () => {
               placeholder="Email"
               name="email"
               onChange={handleChange}
+              ref={emailRef}
             />
             {errors.email && <span className="error">{errors.email}</span>}
             <label className="block mt-3 font-regular text-xs">Password</label>
