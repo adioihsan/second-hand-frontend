@@ -5,22 +5,31 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
-import { setUserToken } from "../services/actions/userAction";
+import { setUserData, setUserToken } from "../services/actions/userAction";
+import { useNavigate } from "react-router-dom";
 function Public(props) {
   const dispatch = useDispatch();
-  const { token, user } = useSelector((state) => state.user);
-  const localToken = getLocalJWT();
+  const navigate = useNavigate();
+  const { token, userData } = useSelector((state) => state.user);
+
   useEffect(() => {
-    if (!token && localToken) {
-      dispatch(setUserToken(localToken));
+    try {
+      if (!token) {
+        const localToken = getLocalJWT();
+        dispatch(setUserToken(localToken));
+        const user = parseJwt(localToken);
+        dispatch(setUserData(user));
+      }
+    } catch (error) {
+      // console.log(error);
     }
   }, []);
-  if (token) console.log("parsed jwt : ", parseJwt(token));
+
   return (
     <>
       <div className="md:bg-white md:shadow-md sticky top-0 z-10">
         <div className="container mx-auto">
-          <Navbar />
+          <Navbar userData={userData} />
         </div>
       </div>
       <Outlet />

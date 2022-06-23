@@ -13,7 +13,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-function Navbar({ type, title }) {
+function Navbar({ type, title, userData }) {
   //hooks
   const burgerRef = useRef();
   const userProfileMenuRef = useRef();
@@ -43,7 +43,7 @@ function Navbar({ type, title }) {
         <FontAwesomeIcon icon={faBars} size="lg" width="24px" height="24px" />
       </div>
       <div className="burgerItems" ref={burgerRef}>
-        {true ? renderLoginButton() : renderUserMenu("userMenuList")}
+        {/* {true ? renderLoginButton() : renderUserMenu("userMenuList")} */}
       </div>
     </div>
   );
@@ -65,7 +65,7 @@ function Navbar({ type, title }) {
       {<FontAwesomeIcon icon={faArrowRightFromBracket} />}Keluar
     </ButtonPrimary>
   );
-  const renderUserMenu = (type) => {
+  const renderUserMenu = (type, userData) => {
     const isList = type === "userMenuList";
     return (
       <div className={type}>
@@ -77,32 +77,27 @@ function Navbar({ type, title }) {
           <FontAwesomeIcon icon={faBell} size="lg" width="18px" />{" "}
           {isList && " Notification"}
         </button>
-        {renderUserProfile()}
-      </div>
-    );
-  };
-
-  const renderUserProfile = () => {
-    return (
-      <div className="userProfile">
-        <button className="userProfileHeader" onClick={showUserProfileMenu}>
-          <img
-            src="https://picsum.photos/200"
-            alt="userPhoto"
-            className="userPhoto"
-          />{" "}
-          User
-          <FontAwesomeIcon icon={faChevronDown} />
-        </button>
-        <div className="userProfileMenu" ref={userProfileMenuRef}>
-          <button>
-            <FontAwesomeIcon icon={faUser} /> Info Profile
+        <div className="userProfile">
+          <button className="userProfileHeader" onClick={showUserProfileMenu}>
+            <img
+              src="https://picsum.photos/200"
+              alt="userPhoto"
+              className="userPhoto"
+            />{" "}
+            {userData.name}
+            <FontAwesomeIcon icon={faChevronDown} />
           </button>
-          {renderLogoutButton()}
+          <div className="userProfileMenu" ref={userProfileMenuRef}>
+            <button>
+              <FontAwesomeIcon icon={faUser} /> Info Profile
+            </button>
+            {renderLogoutButton()}
+          </div>
         </div>
       </div>
     );
   };
+
   //check nav type
   if (type === "back" && title)
     return (
@@ -133,7 +128,9 @@ function Navbar({ type, title }) {
           {renderSearch()}
         </div>
         <div className="rightNav">
-          {true ? renderUserMenu("userMenu") : renderLoginButton()}
+          {userData
+            ? renderUserMenu("userMenu", userData)
+            : renderLoginButton()}
         </div>
       </nav>
     );
