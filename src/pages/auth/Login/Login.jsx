@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useForm from "../../../hooks/useForm";
 import { authUser, setUserData } from "../../../services/actions/userAction";
@@ -9,6 +11,7 @@ import { parseJwt, saveLocalJWT } from "../../../services/utils/jwtHandler";
 import "./login.css";
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { values, errors, handleChange } = useForm();
   const { token, message, success, pending, error } = useSelector(
     (state) => state.user
@@ -26,6 +29,7 @@ const Login = () => {
       saveLocalJWT(token);
       const user = parseJwt(token);
       dispatch(setUserData(user));
+      navigate("/");
     }
   }, [success]);
   return (

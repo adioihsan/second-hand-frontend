@@ -12,7 +12,7 @@ const initialState = {
   pending: false,
   error: false,
   token: null,
-  userData: {},
+  userData: null,
 };
 
 const userSlice = createSlice({

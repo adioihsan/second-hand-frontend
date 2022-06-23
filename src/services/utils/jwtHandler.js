@@ -23,6 +23,7 @@ export const getLocalJWT = () => {
   return token;
 };
 export const parseJwt = (token) => {
+  if (!token) throw new Error("Token is null");
   const decoded = jwtdecode(token);
   return decoded;
 };
