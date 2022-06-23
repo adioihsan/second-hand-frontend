@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { createUser } from "../../../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
 
 const Register = () => {
   // hooks
@@ -92,13 +93,14 @@ const Register = () => {
             <ButtonPrimary className="w-full mt-5">Daftar</ButtonPrimary>
             <span className="flex justify-center mt-5">
               Sudah punya akun?
-              <Link to="/register" className="ml-2 font-bold text-purple-700">
+              <Link to="/login" className="ml-2 font-bold text-purple-700">
                 Masuk Disini
               </Link>
             </span>
           </form>
         </div>
       </div>
+      {pending && <LoadingFull />}
     </div>
   );
 };
