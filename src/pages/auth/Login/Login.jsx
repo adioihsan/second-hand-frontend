@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
 import useForm from "../../../hooks/useForm";
 import { authUser, setUserData } from "../../../services/actions/userAction";
 import { parseJwt, saveLocalJWT } from "../../../services/utils/jwtHandler";
@@ -29,7 +30,7 @@ const Login = () => {
       saveLocalJWT(token);
       const user = parseJwt(token);
       dispatch(setUserData(user));
-      navigate("/");
+      navigate("/", { state: { message: "Login berhasil" } });
     }
   }, [success]);
   return (
@@ -82,6 +83,7 @@ const Login = () => {
           </form>
         </div>
       </div>
+      {pending && <LoadingFull />}
     </div>
   );
 };

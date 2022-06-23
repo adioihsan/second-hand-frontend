@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import AlertMe from "../../components/alert/alertMe/AlertMe";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import ProductCard from "../../components/card/productCard/ProductCard";
 import JumboBanner from "../../components/jumbotron/JumboBanner/JumboBanner";
@@ -16,7 +18,9 @@ function Home(props) {
   //hooks
   const disatch = useDispatch();
   const params = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
+  const [message, setMessage] = useState(null);
   const { categories, pending, error } = useSelector(
     (state) => state.categoryList
   );
@@ -41,12 +45,14 @@ function Home(props) {
 
   useEffect(() => {
     disatch(getCategories());
-    console.log("dispatched");
+    console.log(location.state);
+    if (location.state) setMessage(location.state.message);
   }, []);
 
   // useEffect(() => {}, [params.categoryId]);
   return (
     <main className="grid gap-10 md:mt-8">
+      {message ? <AlertMe message={message} showAlert={true} /> : ""}
       <div className="mt-[-5rem] md:mt-0">
         <JumboBanner />
       </div>
