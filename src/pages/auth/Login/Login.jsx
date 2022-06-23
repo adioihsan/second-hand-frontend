@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import useForm from "../../../hooks/useForm";
-import { authUser } from "../../../services/actions/userAction";
-import { saveLocalJWT } from "../../../services/utils/jwtHandler";
+import { authUser, setUserData } from "../../../services/actions/userAction";
+import { parseJwt, saveLocalJWT } from "../../../services/utils/jwtHandler";
 import "./login.css";
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,17 +13,19 @@ const Login = () => {
   const { token, message, success, pending, error } = useSelector(
     (state) => state.user
   );
-  const doLogin = (e) => {
-    e.preventDefault();
-    if (isAllValid()) dispatch(authUser(values));
-  };
   const isAllValid = () => {
     if (Object.keys(values).length === 0) return false;
     return errors.email === null && errors.password === null;
   };
+  const doLogin = (e) => {
+    e.preventDefault();
+    if (isAllValid()) dispatch(authUser(values));
+  };
   useEffect(() => {
     if (success) {
       saveLocalJWT(token);
+      const user = parseJwt(token);
+      dispatch(setUserData(user));
     }
   }, [success]);
   return (

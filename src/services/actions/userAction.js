@@ -23,3 +23,4 @@ export const authUser = createAsyncThunk(
   }
 );
 export const setUserToken = createAction("user/token");
+export const setUserData = createAction("/user/data");

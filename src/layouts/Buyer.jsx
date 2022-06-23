@@ -17,7 +17,6 @@ function Buyer(props) {
       dispatch(setUserToken(localToken));
     }
   }, []);
-  console.log(token);
   if (token) console.log("parsed jwt : ", parseJwt(token));
   return (
     <>

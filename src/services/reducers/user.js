@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authUser, createUser, setUserToken } from "../actions/userAction";
+import {
+  authUser,
+  createUser,
+  setUserData,
+  setUserToken,
+} from "../actions/userAction";
 
 const initialState = {
   success: false,
@@ -7,7 +12,7 @@ const initialState = {
   pending: false,
   error: false,
   token: null,
-  user: {},
+  userData: {},
 };
 
 const userSlice = createSlice({
@@ -59,6 +64,10 @@ const userSlice = createSlice({
     //
     builder.addCase(setUserToken, (state, action) => {
       state.token = action.payload;
+    });
+    //
+    builder.addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
     });
   },
 });
