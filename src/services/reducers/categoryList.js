@@ -23,7 +23,7 @@ const categoryListSlice = createSlice({
     builder.addCase(getCategories.rejected, (state, action) => {
       state.pending = false;
       state.error = true;
-      state.message = action.payload.message || null;
+      if (action.payload) state.message = action.payload.message;
     });
   },
 });
