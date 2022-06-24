@@ -1,10 +1,10 @@
 import React from "react";
-import "./halamanproduk.css";
+import "./buyerproductpage.css";
 import { Carousel } from "react-responsive-carousel";
 
-const Halamanproduk = () => {
+const BuyerProductPage = () => {
   return (
-    <div className="HalamanProduk">
+    <div className="BuyerProductPage">
       <div className="halamanProdukWraper">
         <div className="flex basis-1/2 flex-col">
           {/* <img
@@ -22,7 +22,7 @@ const Halamanproduk = () => {
               <img src="/assets/images/product.png" className="imageProduct" />
             </div>
           </Carousel>
-          <div className=" border border-2 border-gray rounded-xl mb-5">
+          <div className="border border-2 border-gray rounded-xl mb-5">
             <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
             <h1 className="mx-5 mb-5 text-regular text-gray-400">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -48,9 +48,8 @@ const Halamanproduk = () => {
             <h1 className=" py-3 text-regular text-gray-400">Aksesoris</h1>
             <h1 className=" pb-5 font-regular">Rp. 250.000</h1>
             <button className="buttonOne button button-primary">
-              Terbitkan
+              Saya tertarik dan ingin nego
             </button>
-            <button className="buttonTwo button button-primary">Edit</button>
           </div>
           <div className="description flex items-center border border-2 border-gray rounded-xl mt-7 p-5 w-full">
             <div className="">
@@ -66,8 +65,36 @@ const Halamanproduk = () => {
           </div>
         </div>
       </div>
+      <div className="bg-black bg-opacity-50 absolute inset-0 flex justify-center items-center">
+        <div className="bg-gray-200 p-5 rounded-xl">
+          <h1>Harga Tawar</h1>
+          <h1 className=" text-regular text-gray-400 mb-5">
+            Harga tawaranmu akan diketahui penjual, <br></br> jika penjual cocok
+            kamu akan segera <br></br> dihubungi penjual.
+          </h1>
+          <div className="negotiatedproduct">
+            <div>
+              <img
+                src="/assets/images/product.png.png"
+                className="profilePicture rounded-xl object-cover"
+              />
+            </div>
+            <div className="ml-5">
+              <h1 className=" font-bold mb-2">Jam Tangan Casio</h1>
+              <h1 className=" pb-5 font-regular">Rp. 250.000</h1>
+            </div>
+          </div>
+          <h1>Harga Tawar</h1>
+          <input
+            type="text"
+            placeholder="Rp 0,00"
+            className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-xl mb-5"
+          />
+          <button className="buttonOne button button-primary">Kirim</button>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Halamanproduk;
+export default BuyerProductPage;

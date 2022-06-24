@@ -9,6 +9,7 @@ import ProductAdd from "./pages/productAdd/productAdd";
 import Negotiationinfo from "./pages/negotiationinfo/Negotiationinfo";
 import ProductList from "./pages/productList/ProductList";
 import Private from "./layouts/Private";
+import BuyerProductPage from "./pages/BuyerProductPage/BuyerProductPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/product-add" element={<ProductAdd />} />
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
+            <Route path="/buyerproductpage" element={<BuyerProductPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
