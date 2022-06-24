@@ -1,5 +1,5 @@
 .alertMe {
-  @apply hidden absolute text-center text-lg top-[-5rem] left-1/2 translate-x-[-50%] text-white font-medium w-4/5 mx-auto rounded-md p-5 bg-green-500 z-30;
+  @apply hidden absolute text-center text-lg top-[-15rem] left-1/2 translate-x-[-50%] text-white font-medium w-4/5 mx-auto rounded-md p-5 bg-green-500 z-30;
   @apply md:w-1/2;
   @apply lg:w-2/5;
 }
@@ -18,6 +18,6 @@
     top: 1.5rem;
   }
   100% {
-    top: -5rem;
+    top: -10rem;
   }
 }

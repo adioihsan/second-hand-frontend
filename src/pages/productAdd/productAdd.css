@@ -30,3 +30,6 @@
   @apply md:block;
   @apply xl:translate-x-36;
 }
+.productAddForm .error {
+  @apply text-sm mx-1  text-red-500;
+}

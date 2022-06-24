@@ -9,12 +9,26 @@ import noProductImg from "../../assets/images/noProduct.png";
 import SellerCard from "../../components/card/sellerCard/SellerCard";
 import CategoryNav from "../../components/navigation/categoryNav/CategoryNav";
 import "./productList.css";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setProductMessage } from "../../services/actions/productApi";
+import { useSelector } from "react-redux";
+import AlertMe from "../../components/alert/alertMe/AlertMe";
+import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
+import { useState } from "react";
 function ProductList(props) {
+  // hooks
+  const dispatch = useDispatch();
+  const location = useLocation();
+
   const menus = [
     { name: "Produk", icon: faCube, isActive: true },
     { name: "Diminati", icon: faHeart, isActive: false },
     { name: "Terjual", icon: faDollar, isActive: false },
   ];
+  // const { message } = useSelector((state) => state.product);
+  const [message, setMessage] = useState(null);
   const renderNoProduct = () => {
     return (
       <div className="grid place-content-center place-items-center gap-5 w-full my-16">
@@ -25,8 +39,17 @@ function ProductList(props) {
       </div>
     );
   };
+  // effect
+  useEffect(() => {
+    if (location.state) {
+      setMessage(location.state.message);
+      window.history.replaceState({}, document.title);
+    }
+  }, []);
   return (
     <main className="productList">
+      {/* {pending && <LoadingFull />} */}
+      {message && <AlertMe showAlert={true} message={message} />}
       <article>
         <section>
           <h1 className="productPageTitle">Daftar Jual Saya</h1>
