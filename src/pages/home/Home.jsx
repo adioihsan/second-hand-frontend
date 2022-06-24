@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -71,9 +72,11 @@ function Home(props) {
               <ProductCard key={"Card" + index} />
             ))}
         </section>
-        <ButtonPrimary className="fixed bottom-8 translate-x-[-50%] left-1/2 shadow-xl shadow-purple-300">
-          + Jual
-        </ButtonPrimary>
+        <Link to="/product-add">
+          <ButtonPrimary className="fixed bottom-8 translate-x-[-50%] left-1/2 shadow-xl shadow-purple-300">
+            + Jual
+          </ButtonPrimary>
+        </Link>
       </article>
     </main>
   );
