@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   authUser,
   createUser,
+  readUserDetail,
   setUserData,
   setUserMessage,
   setUserToken,
+  updateUserDetail,
 } from "../actions/userAction";
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   error: false,
   token: null,
   userData: null,
+  userDetail: null,
 };
 
 const userSlice = createSlice({
@@ -30,6 +33,7 @@ const userSlice = createSlice({
       state.pending = true;
       state.error = false;
       state.success = false;
+      state.message = null;
     });
     builder.addCase(createUser.rejected, (state, action) => {
       state.error = true;
@@ -52,6 +56,7 @@ const userSlice = createSlice({
       state.pending = true;
       state.error = false;
       state.success = false;
+      state.message = null;
     });
     builder.addCase(authUser.rejected, (state, action) => {
       state.token = null;
@@ -74,6 +79,66 @@ const userSlice = createSlice({
     builder.addCase(setUserMessage, (state, action) => {
       state.message = action.payload.message;
       state.error = action.payload.error;
+    });
+    //
+    builder.addCase(readUserDetail.fulfilled, (state, action) => {
+      const dataResult = action.payload.data;
+      state.message = action.payload.message;
+      state.userDetail = action.payload.data;
+      state.pending = false;
+      state.error = false;
+      state.success = true;
+      // harom
+      state.userData = {
+        id: dataResult.id,
+        name: dataResult.name,
+        photo: dataResult.image,
+      };
+    });
+    builder.addCase(readUserDetail.pending, (state, action) => {
+      state.userDetail = null;
+      state.pending = true;
+      state.error = false;
+      state.success = false;
+      state.message = null;
+    });
+    builder.addCase(readUserDetail.rejected, (state, action) => {
+      state.userDetail = null;
+      state.error = true;
+      state.pending = false;
+      state.message = action.payload
+        ? action.payload.message
+        : "Tidak dapat menghubungi server";
+      state.success = false;
+    });
+    //
+    builder.addCase(updateUserDetail.fulfilled, (state, action) => {
+      const dataResult = action.payload.data;
+      state.message = action.payload.message;
+      state.userDetail = action.payload.data;
+      state.pending = false;
+      state.error = false;
+      state.success = true;
+      // harom
+      state.userData = {
+        id: dataResult.id,
+        name: dataResult.name,
+        photo: dataResult.image,
+      };
+    });
+    builder.addCase(updateUserDetail.pending, (state, action) => {
+      state.pending = true;
+      state.error = false;
+      state.success = false;
+      state.message = null;
+    });
+    builder.addCase(updateUserDetail.rejected, (state, action) => {
+      state.error = true;
+      state.pending = false;
+      state.message = action.payload
+        ? action.payload.message
+        : "Tidak dapat menghubungi server";
+      state.success = false;
     });
   },
 });

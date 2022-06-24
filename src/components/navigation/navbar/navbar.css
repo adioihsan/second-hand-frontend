@@ -31,7 +31,8 @@
   @apply flex gap-5;
 }
 .userPhoto {
-  @apply h-6 object-cover rounded-full outline-1 outline outline-gray-700;
+  border-radius: 50%;
+  @apply h-6 w-6 object-cover outline-1 outline outline-gray-700;
 }
 .menuBurger {
   @apply relative;

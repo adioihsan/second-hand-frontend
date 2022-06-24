@@ -22,6 +22,32 @@ export const authUser = createAsyncThunk(
     }
   }
 );
+export const readUserDetail = createAsyncThunk(
+  "/user/detail/read",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await userApi.fetchUserDetail(authToken);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const updateUserDetail = createAsyncThunk(
+  "/user/detail/update",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await userApi.updateUserDetail({ data, authToken });
+      return response.data;
+    } catch (error) {
+      if (!error.response) throw error;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const setUserToken = createAction("user/token");
 export const setUserData = createAction("/user/data");
 export const setUserMessage = createAction("/user/message");
