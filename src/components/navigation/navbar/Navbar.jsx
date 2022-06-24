@@ -1,46 +1,154 @@
-import React from "react";
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logo.png";
-import iconLogin from "../../../assets/images/icon-login.png";
+import userImg from "../../../assets//images/user.png";
 import iconSearch from "../../../assets/images/icon-search.png";
-import iconMenu from "../../../assets/images/icon-menu.png";
 import iconArrowLeft from "../../../assets/images/icon-arrow-left.png";
 import "./navbar.css";
-function Navbar({ navTitle }) {
-  if (navTitle)
+import ButtonPrimary from "../../button/buttonPrimary/ButtonPrimary";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
+function Navbar({ type, title, userData }) {
+  //hooks
+  const burgerRef = useRef();
+  const userProfileMenuRef = useRef();
+  const navigate = useNavigate();
+  // events
+  const showBurger = (e) => {
+    burgerRef.current.classList.toggle("burgerItemActive");
+  };
+  const showUserProfileMenu = (e) => {
+    userProfileMenuRef.current.classList.toggle("userProfileMenuActive");
+  };
+  // components to render
+  const renderLogo = () => (
+    <div className="logo">
+      <img src={logo} alt="SecondHand" />
+    </div>
+  );
+  const renderTitle = () => (
+    <div className="pageTitle absolute  left-1/2 translate-x-[-50%]">
+      {title}
+    </div>
+  );
+  const renderBurger = () => (
+    <div className="menuBurger">
+      <div className="burgerIcon" onClick={showBurger}>
+        <FontAwesomeIcon icon={faBars} size="lg" width="24px" height="24px" />
+      </div>
+      <div className="burgerItems" ref={burgerRef}>
+        {/* {true ? renderLoginButton() : renderUserMenu("userMenuList")} */}
+      </div>
+    </div>
+  );
+  const renderSearch = () => (
+    <label className="searchField">
+      <input placeholder="Cari di sini..." />
+      <button>
+        <img src={iconSearch} alt="search" />
+      </button>
+    </label>
+  );
+  const renderLoginButton = () => (
+    <Link to="/login">
+      <ButtonPrimary size="small">
+        {<FontAwesomeIcon icon={faArrowRightToBracket} />}Masuk
+      </ButtonPrimary>
+    </Link>
+  );
+  const renderLogoutButton = () => (
+    <ButtonPrimary size="small" onClick={doLogOut}>
+      {<FontAwesomeIcon icon={faArrowRightFromBracket} />}Keluar
+    </ButtonPrimary>
+  );
+  const renderUserMenu = (type, userData) => {
+    const isList = type === "userMenuList";
+    return (
+      <div className={type}>
+        <button className="whistlist">
+          <FontAwesomeIcon icon={faHeart} size="lg" width="18px" />{" "}
+          {isList && " WhistList"}
+        </button>
+        <button className="notification">
+          <FontAwesomeIcon icon={faBell} size="lg" width="18px" />{" "}
+          {isList && " Notification"}
+        </button>
+        <div className="userProfile">
+          <button className="userProfileHeader" onClick={showUserProfileMenu}>
+            <img
+              src={
+                userData.photo
+                  ? process.env.REACT_APP_API_URL + "/images/" + userData.photo
+                  : userImg
+              }
+              alt="userPhoto"
+              className="userPhoto"
+            />{" "}
+            {userData.name}
+            <FontAwesomeIcon icon={faChevronDown} />
+          </button>
+          <div className="userProfileMenu" ref={userProfileMenuRef}>
+            <Link to="/profile-info">
+              <button>
+                <FontAwesomeIcon icon={faUser} /> Info Profile
+              </button>
+            </Link>
+            {renderLogoutButton()}
+          </div>
+        </div>
+      </div>
+    );
+  };
+  //actions
+  const backToPage = () => {
+    navigate(-1);
+  };
+  const doLogOut = () => {
+    localStorage.removeItem("enc_token");
+    window.location.reload();
+  };
+
+  //check nav type
+  if (type === "back" && title)
     return (
       <nav className="navbar relative">
-        <div className="logo">
-          <img src={logo} alt="SecondHand" />
-        </div>
-        <button className="md:hidden">
+        {renderLogo()}
+        <button className="md:hidden" onClick={backToPage}>
           <img src={iconArrowLeft} alt="back" />
         </button>
-        <div className="pageTitle absolute  left-1/2 translate-x-[-50%]">
-          {navTitle}
-        </div>
+        {renderTitle()}
       </nav>
     );
-  else
+  else if (type === "burger" && title) {
+    <nav className="navbar relative">
+      <div className="logo">
+        <img src={logo} alt="SecondHand" />
+      </div>
+      <button className="md:hidden" onClick={backToPage}>
+        <img src={iconArrowLeft} alt="back" />
+      </button>
+      {renderTitle()}
+    </nav>;
+  } else
     return (
       <nav className="navbar">
         <div className="leftNav">
-          <div className="logo">
-            <img src={logo} alt="SecondHand" />
-          </div>
-          <div className="menuBurger">
-            <img src={iconMenu} alt="menu" />
-          </div>
-          <label className="searchField">
-            <input placeholder="Cari di sini..." />
-            <button>
-              <img src={iconSearch} alt="search" />
-            </button>
-          </label>
+          {renderLogo()}
+          {renderBurger()}
+          {renderSearch()}
         </div>
         <div className="rightNav">
-          <button className="flex gap-2 bg-purple-400 hover:bg-purple-500 text-white py-3 px-6 rounded-xl">
-            <img src={iconLogin} alt="->" /> Masuk
-          </button>
+          {userData
+            ? renderUserMenu("userMenu", userData)
+            : renderLoginButton()}
         </div>
       </nav>
     );

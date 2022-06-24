@@ -22,3 +22,15 @@
 .form-register {
   @apply flex-1 flex items-center justify-center;
 }
+.form-form-register input {
+  @apply border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-xl;
+}
+.form-form-register label {
+  @apply block mt-5;
+}
+.form-form-register .error {
+  @apply text-sm mx-2 mt-1 mb-2  text-red-500;
+}
+.form-form-register .message {
+  @apply p-5 my-5  text-white rounded-sm;
+}

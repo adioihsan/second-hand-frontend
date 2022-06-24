@@ -1,5 +1,8 @@
+.productAddWrapper {
+  @apply mt-5;
+}
 .productAdd {
-  @apply flex justify-center  py-10;
+  @apply flex justify-center py-10 relative;
 }
 .productAddForm {
   @apply flex flex-col gap-5 w-full max-w-4xl relative;
@@ -24,6 +27,9 @@
 }
 .btnBack {
   @apply hidden;
-  @apply md:block md:absolute left-0;
-  @apply lg:translate-x-[-3rem];
+  @apply md:block;
+  @apply xl:translate-x-36;
+}
+.productAddForm .error {
+  @apply text-sm mx-1  text-red-500;
 }

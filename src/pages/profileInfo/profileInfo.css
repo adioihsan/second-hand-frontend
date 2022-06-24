@@ -1,5 +1,5 @@
 .profileInfo {
-  @apply flex justify-center  py-10;
+  @apply flex justify-center py-5 relative;
 }
 .profileInfoForm {
   @apply flex flex-col gap-5 w-full max-w-4xl relative;
@@ -10,9 +10,6 @@
 .inputWrapperPhoto {
   @apply flex justify-center w-full;
 }
-.inputWrapper:nth-child(2) {
-  @apply flex justify-center;
-}
 .profileInfo input[type="text"],
 .profileInfo input[type="number"],
 .profileInfo textarea,
@@ -21,14 +18,26 @@
 }
 
 .labelPhoto {
-  @apply bg-purple-100 w-24 h-24 flex justify-center items-center rounded-xl;
+  @apply bg-purple-100 w-24 h-24 rounded-xl bg-cover border-2 border-purple-300 flex items-center justify-center;
   cursor: pointer;
+}
+.labelPhoto > .userImage {
+  @apply bg-purple-100 w-24 h-24 rounded-xl bg-cover border-2 border-purple-300 object-cover;
 }
 .inputPhoto {
   @apply hidden;
 }
-.btnBack {
-  @apply hidden;
-  @apply md:block md:absolute left-0;
-  @apply lg:translate-x-[-3rem];
+.inputWrapper.suggestions {
+  @apply relative;
+}
+
+.suggestionsWrapper {
+  @apply bg-white absolute top-20 rounded-xl grid gap-2 p-3  outline outline-1 outline-gray-300 max-h-96 overflow-scroll;
+}
+.suggestionsWrapper .item {
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+  @apply w-full p-1 hover:bg-gray-500 hover:text-white;
+}
+.profileInfoForm .error {
+  @apply text-sm mx-1  text-red-500;
 }
