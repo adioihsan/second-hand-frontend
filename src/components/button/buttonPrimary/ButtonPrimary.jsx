@@ -1,6 +1,6 @@
 import React from "react";
 import "./buttonPrimary.css";
-function ButtonPrimary({ children, others, className, type, size }) {
+function ButtonPrimary({ children, className, type, size, ...others }) {
   return (
     <button
       className={

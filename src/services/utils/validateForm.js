@@ -27,7 +27,22 @@ function validateForm(name, value, result) {
       else {
         error = null;
       }
+      break;
+    case "image":
+      {
+        if (!value) error = "Tambahkan profile picture !";
+        else error = null;
+      }
+      break;
+    case "phone":
+      {
+        if (value.length < 10) error = "Minimal 10 digit !";
+        else error = null;
+      }
+      break;
     default:
+      if (value.length < 1) error = "Tidak boleh kosong !";
+      else error = null;
       break;
   }
   result(error, name, value);

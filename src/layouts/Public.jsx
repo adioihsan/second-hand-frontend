@@ -5,7 +5,11 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
-import { setUserData, setUserToken } from "../services/actions/userAction";
+import {
+  readUserDetail,
+  setUserData,
+  setUserToken,
+} from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 function Public(props) {
   const dispatch = useDispatch();
@@ -19,6 +23,7 @@ function Public(props) {
         dispatch(setUserToken(localToken));
         const user = parseJwt(localToken);
         dispatch(setUserData(user));
+        dispatch(readUserDetail());
       }
     } catch (error) {
       // console.log(error);

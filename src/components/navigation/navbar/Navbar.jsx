@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logo.png";
+import userImg from "../../../assets//images/user.png";
 import iconSearch from "../../../assets/images/icon-search.png";
 import iconArrowLeft from "../../../assets/images/icon-arrow-left.png";
 import "./navbar.css";
@@ -13,20 +14,20 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 function Navbar({ type, title, userData }) {
   //hooks
   const burgerRef = useRef();
   const userProfileMenuRef = useRef();
+  const navigate = useNavigate();
   // events
   const showBurger = (e) => {
     burgerRef.current.classList.toggle("burgerItemActive");
   };
   const showUserProfileMenu = (e) => {
-    console.log("ow you cllick me");
     userProfileMenuRef.current.classList.toggle("userProfileMenuActive");
   };
-
   // components to render
   const renderLogo = () => (
     <div className="logo">
@@ -64,7 +65,7 @@ function Navbar({ type, title, userData }) {
     </Link>
   );
   const renderLogoutButton = () => (
-    <ButtonPrimary size="small">
+    <ButtonPrimary size="small" onClick={doLogOut}>
       {<FontAwesomeIcon icon={faArrowRightFromBracket} />}Keluar
     </ButtonPrimary>
   );
@@ -83,7 +84,11 @@ function Navbar({ type, title, userData }) {
         <div className="userProfile">
           <button className="userProfileHeader" onClick={showUserProfileMenu}>
             <img
-              src="https://picsum.photos/200"
+              src={
+                userData.photo
+                  ? process.env.REACT_APP_API_URL + "/images/" + userData.photo
+                  : userImg
+              }
               alt="userPhoto"
               className="userPhoto"
             />{" "}
@@ -91,14 +96,24 @@ function Navbar({ type, title, userData }) {
             <FontAwesomeIcon icon={faChevronDown} />
           </button>
           <div className="userProfileMenu" ref={userProfileMenuRef}>
-            <button>
-              <FontAwesomeIcon icon={faUser} /> Info Profile
-            </button>
+            <Link to="/profile-info">
+              <button>
+                <FontAwesomeIcon icon={faUser} /> Info Profile
+              </button>
+            </Link>
             {renderLogoutButton()}
           </div>
         </div>
       </div>
     );
+  };
+  //actions
+  const backToPage = () => {
+    navigate(-1);
+  };
+  const doLogOut = () => {
+    localStorage.removeItem("enc_token");
+    window.location.reload();
   };
 
   //check nav type
@@ -106,7 +121,7 @@ function Navbar({ type, title, userData }) {
     return (
       <nav className="navbar relative">
         {renderLogo()}
-        <button className="md:hidden">
+        <button className="md:hidden" onClick={backToPage}>
           <img src={iconArrowLeft} alt="back" />
         </button>
         {renderTitle()}
@@ -117,7 +132,7 @@ function Navbar({ type, title, userData }) {
       <div className="logo">
         <img src={logo} alt="SecondHand" />
       </div>
-      <button className="md:hidden">
+      <button className="md:hidden" onClick={backToPage}>
         <img src={iconArrowLeft} alt="back" />
       </button>
       {renderTitle()}

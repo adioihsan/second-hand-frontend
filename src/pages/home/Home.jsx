@@ -13,10 +13,11 @@ import JumboBanner from "../../components/jumbotron/JumboBanner/JumboBanner";
 import JumboSlider from "../../components/jumbotron/JumboSlider";
 import CategoryNav from "../../components/navigation/categoryNav/CategoryNav";
 import { getCategories } from "../../services/actions/categoryAction";
+import { setUserMessage } from "../../services/actions/userAction";
 import "./home.css";
 function Home(props) {
   //hooks
-  const disatch = useDispatch();
+  const dispatch = useDispatch();
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,9 +45,9 @@ function Home(props) {
   };
 
   useEffect(() => {
-    disatch(getCategories());
-    console.log(location.state);
+    dispatch(getCategories());
     if (location.state) setMessage(location.state.message);
+    window.history.replaceState({}, document.title);
   }, []);
 
   // useEffect(() => {}, [params.categoryId]);
