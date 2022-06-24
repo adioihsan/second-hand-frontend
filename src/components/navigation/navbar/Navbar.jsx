@@ -15,6 +15,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { faBox } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar({ type, title, userData }) {
   //hooks
@@ -30,7 +31,7 @@ function Navbar({ type, title, userData }) {
   };
   // components to render
   const renderLogo = () => (
-    <div className="logo">
+    <div className="logo" onClick={() => navigate("/")}>
       <img src={logo} alt="SecondHand" />
     </div>
   );
@@ -99,6 +100,11 @@ function Navbar({ type, title, userData }) {
             <Link to="/profile-info">
               <button>
                 <FontAwesomeIcon icon={faUser} /> Info Profile
+              </button>
+            </Link>
+            <Link to="/product-list">
+              <button>
+                <FontAwesomeIcon icon={faBox} /> Daftar jual saya
               </button>
             </Link>
             {renderLogoutButton()}

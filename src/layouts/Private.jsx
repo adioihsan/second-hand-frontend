@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingFull from "../components/loading/lodingFull/LoadingFull";
 function Private(props) {
   // hooks
-  const { token, userDetail } = useSelector((state) => state.user);
+  const { token, userDetail, userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //
@@ -40,7 +40,7 @@ function Private(props) {
       <>
         <div className="md:bg-white md:shadow-md md:mb-5 mb-10">
           <div className="container mx-auto">
-            <Navbar title={navTitle} type={navType} />
+            <Navbar title={navTitle} type={navType} userData={userData} />
           </div>
         </div>
         <div className="container mx-auto px-5">

@@ -68,7 +68,7 @@ function ProductAdd(props) {
     <div className="productAddWrapper">
       {pending && <LoadingFull />}
       {message && <AlertMe showAlert={true} message={message} />}
-      <button className="btnBack">
+      <button className="btnBack" onClick={() => navigate(-1)}>
         <img src={iconArrowLeft} alt="back" />
       </button>
       <div className="productAdd">

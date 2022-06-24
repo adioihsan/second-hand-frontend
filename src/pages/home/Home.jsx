@@ -69,7 +69,9 @@ function Home(props) {
           {Array(12)
             .fill(0)
             .map((item, index) => (
-              <ProductCard key={"Card" + index} />
+              <Link to="/buyerproductpage">
+                <ProductCard key={"Card" + index} />
+              </Link>
             ))}
         </section>
         <Link to="/product-add">

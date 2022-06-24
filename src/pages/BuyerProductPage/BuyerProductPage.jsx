@@ -1,7 +1,7 @@
 import React from "react";
 import "./buyerproductpage.css";
 import { Carousel } from "react-responsive-carousel";
-
+import { Link } from "react-router-dom";
 const BuyerProductPage = () => {
   return (
     <div className="BuyerProductPage">
@@ -22,7 +22,7 @@ const BuyerProductPage = () => {
               <img src="/assets/images/product.png" className="imageProduct" />
             </div>
           </Carousel>
-          <div className="border border-2 border-gray rounded-xl mb-5">
+          <div className="border-2 border-gray rounded-xl mb-5">
             <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
             <h1 className="mx-5 mb-5 text-regular text-gray-400">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -51,7 +51,7 @@ const BuyerProductPage = () => {
               Saya tertarik dan ingin nego
             </button>
           </div>
-          <div className="description flex items-center border border-2 border-gray rounded-xl mt-7 p-5 w-full">
+          <div className="description flex items-center border-2 border-gray rounded-xl mt-7 p-5 w-full">
             <div className="">
               <img
                 src="/assets/images/profilepicture.jpg"
@@ -90,7 +90,9 @@ const BuyerProductPage = () => {
             placeholder="Rp 0,00"
             className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-xl mb-5"
           />
-          <button className="buttonOne button button-primary">Kirim</button>
+          <Link to="/negotiation-info">
+            <button className="buttonOne button button-primary">Kirim</button>
+          </Link>
         </div>
       </div>
     </div>

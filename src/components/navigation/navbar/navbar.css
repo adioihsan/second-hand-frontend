@@ -59,7 +59,7 @@
   @apply relative;
 }
 .userProfileMenu {
-  @apply hidden  flex-col gap-3 absolute top-10 right-0 translate-x-3 bg-white p-5 shadow-md w-40 rounded-md;
+  @apply hidden  flex-col gap-3 absolute top-10 right-0 translate-x-3 bg-white p-5 shadow-md w-52 rounded-md;
 }
 .userProfileMenuActive {
   @apply flex;

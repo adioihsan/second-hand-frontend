@@ -27,8 +27,8 @@ function App() {
             <Route path="/profile-info" element={<ProfileInfo />} />
             <Route path="/product-add" element={<ProductAdd />} />
             <Route path="/product-list" element={<ProductList />} />
-            <Route path="/negotiation-info" element={<Negotiationinfo />} />
             <Route path="/buyerproductpage" element={<BuyerProductPage />} />
+            <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -100,6 +100,7 @@ function ProfileInfo(props) {
             className="profileInfoForm"
             action="post"
             onSubmit={doUpdateProfile}
+            autoComplete="off"
           >
             <div className="inputWrapperPhoto">
               <label htmlFor="image" className="labelPhoto">
@@ -140,7 +141,6 @@ function ProfileInfo(props) {
               <input
                 type="text"
                 name="city"
-                autoComplete="false"
                 value={values.city}
                 onChange={(e) => {
                   handleInput(e);
