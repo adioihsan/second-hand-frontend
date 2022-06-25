@@ -33,6 +33,8 @@ const Login = () => {
     e.preventDefault();
     if (isAllValid()) {
       dispatch(authUser(values));
+    } else {
+      alert("Form belum lengkap");
     }
   };
   useEffect(() => {
