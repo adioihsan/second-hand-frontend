@@ -25,7 +25,7 @@ function ProfileInfo(props) {
   const { values, errors, handleChange, setValues } = useForm();
   const { suggestions, showSuggestions, handleInput, handleSelected } =
     useSuggestionInput(cities);
-  const { userDetail, pending, success, error, message } = useSelector(
+  const { userDetail, pending, error, success, message } = useSelector(
     (state) => state.user
   );
   const imgPrevRef = useRef();
@@ -35,10 +35,9 @@ function ProfileInfo(props) {
     const formData = convertToFormData(values);
     if (checkIsFormValid()) {
       dispatch(updateUserDetail(formData));
-      if (success) toast.success("Info profile berhasil di update");
+      if (!pending && !error) toast.success("Info profile berhasil di update");
       if (error) toast.error(message);
     } else toast.warn("Data belum lengkap");
-    console.log(values);
   };
 
   //helpers
@@ -63,16 +62,19 @@ function ProfileInfo(props) {
   };
 
   const checkIsFormValid = () => {
-    console.log(errors);
     if (Object.keys(values).length === 0) return false;
     if (Object.keys(errors).find((key) => errors[key] !== null)) return false;
+    // if (Object.values(values).includes(null)) return false;
     if (
-      values.name === undefined &&
-      values.city === undefined &&
-      values.address === undefined &&
+      values.name === null ||
+      values.name === undefined ||
+      values.city === null ||
+      values.city === undefined ||
+      values.phone === null ||
       values.phone === undefined
     )
       return false;
+
     return true;
   };
 

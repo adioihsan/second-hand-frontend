@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import AlertMe from "../../components/alert/alertMe/AlertMe";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useState } from "react";
+import { toast } from "react-toastify";
 function ProductList(props) {
   // hooks
   const dispatch = useDispatch();
@@ -43,13 +44,15 @@ function ProductList(props) {
   useEffect(() => {
     if (location.state) {
       setMessage(location.state.message);
+      toast.success("Produk berhasil di tambahkan", {
+        toastId: "productToast",
+      });
       window.history.replaceState({}, document.title);
     }
   }, []);
   return (
     <main className="productList">
       {/* {pending && <LoadingFull />} */}
-      {message && <AlertMe showAlert={true} message={message} />}
       <article>
         <section>
           <h1 className="productPageTitle">Daftar Jual Saya</h1>

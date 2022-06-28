@@ -135,10 +135,10 @@ const userSlice = createSlice({
     builder.addCase(updateUserDetail.rejected, (state, action) => {
       state.error = true;
       state.pending = false;
+      state.success = false;
       state.message = action.payload
         ? action.payload.message
         : "Tidak dapat menghubungi server";
-      state.success = false;
     });
   },
 });

@@ -45,18 +45,10 @@ function ProductAdd(props) {
 
   // helpers
   const checkIsFormValid = () => {
-    console.log(errors);
     setImagesUrl(imagesUrl);
     if (Object.keys(values).length === 0) return false;
     if (Object.keys(errors).find((key) => errors[key] !== null)) return false;
     if (imagesUrl.length === 0) return false;
-    if (
-      values.name === undefined &&
-      values.city === undefined &&
-      values.address === undefined &&
-      values.phone === undefined
-    )
-      return false;
     return true;
   };
   // effect
