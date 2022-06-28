@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../services/actions/categoryAction";
 import DropzoneImages from "../../components/dropzoneImages";
-import { createProduct } from "../../services/actions/productApi";
+import { createProduct } from "../../services/actions/productAction";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -32,6 +32,11 @@ function ProductAdd(props) {
   const doCreateProduct = (e) => {
     e.preventDefault();
     if (checkIsFormValid()) {
+      if (imagesUrl.length === 0) {
+        toast.warn("Tambahkan foto produk");
+        console.log(imagesUrl);
+        return;
+      }
       const formData = { ...values, images_url: imagesUrl.toString() };
       dispatch(createProduct(formData));
       if (error) toast.error(message);
@@ -48,7 +53,6 @@ function ProductAdd(props) {
     setImagesUrl(imagesUrl);
     if (Object.keys(values).length === 0) return false;
     if (Object.keys(errors).find((key) => errors[key] !== null)) return false;
-    if (imagesUrl.length === 0) return false;
     return true;
   };
   // effect

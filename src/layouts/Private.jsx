@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
 import {
-  readUserDetail,
+  getUserDetail,
   setUserData,
   setUserToken,
 } from "../services/actions/userAction";
@@ -28,7 +28,7 @@ function Private(props) {
         const user = parseJwt(localToken);
         console.log(user);
         dispatch(setUserData(user));
-        dispatch(readUserDetail());
+        dispatch(getUserDetail());
       }
     } catch (error) {
       navigate("/login");

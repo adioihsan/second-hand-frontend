@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   authUser,
   createUser,
-  readUserDetail,
+  getUserDetail,
   setUserData,
   setUserMessage,
   setUserToken,
@@ -81,7 +81,7 @@ const userSlice = createSlice({
       state.error = action.payload.error;
     });
     //
-    builder.addCase(readUserDetail.fulfilled, (state, action) => {
+    builder.addCase(getUserDetail.fulfilled, (state, action) => {
       const dataResult = action.payload.data;
       state.message = action.payload.message;
       state.userDetail = action.payload.data;
@@ -95,14 +95,14 @@ const userSlice = createSlice({
         photo: dataResult.image,
       };
     });
-    builder.addCase(readUserDetail.pending, (state, action) => {
+    builder.addCase(getUserDetail.pending, (state, action) => {
       state.userDetail = null;
       state.pending = true;
       state.error = false;
       state.success = false;
       state.message = null;
     });
-    builder.addCase(readUserDetail.rejected, (state, action) => {
+    builder.addCase(getUserDetail.rejected, (state, action) => {
       state.userDetail = null;
       state.error = true;
       state.pending = false;

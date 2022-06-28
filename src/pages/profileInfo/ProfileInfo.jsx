@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useDispatch } from "react-redux";
 import {
-  readUserDetail,
+  getUserDetail,
   updateUserDetail,
 } from "../../services/actions/userAction";
 import useForm from "../../hooks/useForm";
@@ -84,7 +84,7 @@ function ProfileInfo(props) {
   useEffect(() => {
     navProps.setNavType("back");
     navProps.setNavTitle("Info Profil");
-    dispatch(readUserDetail());
+    dispatch(getUserDetail());
   }, []);
 
   useEffect(() => {

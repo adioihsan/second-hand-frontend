@@ -4,5 +4,10 @@ import publicAxios from "./config/publicAxios";
 const productApi = {
   createProduct: ({ data, authToken }) =>
     privateAxios(authToken).post("/product", data),
+  getMyProduct: ({ productId, authToken }) =>
+    privateAxios(authToken).get("/product/" + productId + "/me"),
+  updateProduct: ({ data, authToken }) =>
+    privateAxios(authToken).put("/product/" + data.id, data),
 };
+
 export default productApi;

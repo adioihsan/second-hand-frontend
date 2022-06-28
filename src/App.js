@@ -12,6 +12,7 @@ import Negotiationinfo from "./pages/negotiationinfo/Negotiationinfo";
 import ProductList from "./pages/productList/ProductList";
 import Private from "./layouts/Private";
 import BuyerProductPage from "./pages/BuyerProductPage/BuyerProductPage";
+import ProductEdit from "./pages/productEdit/productEdit";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/profile-info" element={<ProfileInfo />} />
             <Route path="/product-add" element={<ProductAdd />} />
             <Route path="/product-list" element={<ProductList />} />
+            <Route path="/product-edit/:productId" element={<ProductEdit />} />
             <Route path="/buyerproductpage" element={<BuyerProductPage />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>
