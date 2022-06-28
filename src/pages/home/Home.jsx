@@ -7,14 +7,12 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import AlertMe from "../../components/alert/alertMe/AlertMe";
+import { toast } from "react-toastify";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import ProductCard from "../../components/card/productCard/ProductCard";
 import JumboBanner from "../../components/jumbotron/JumboBanner/JumboBanner";
-import JumboSlider from "../../components/jumbotron/JumboSlider";
 import CategoryNav from "../../components/navigation/categoryNav/CategoryNav";
 import { getCategories } from "../../services/actions/categoryAction";
-import { setUserMessage } from "../../services/actions/userAction";
 import "./home.css";
 function Home(props) {
   //hooks
@@ -22,10 +20,7 @@ function Home(props) {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const [message, setMessage] = useState(null);
-  const { categories, pending, error } = useSelector(
-    (state) => state.categoryList
-  );
+  const { categories } = useSelector((state) => state.categoryList);
 
   // actions
   const changeCategory = (id) => {
@@ -47,14 +42,16 @@ function Home(props) {
 
   useEffect(() => {
     dispatch(getCategories());
-    if (location.state) setMessage(location.state.message);
+    if (location.state)
+      toast.success(location.state.message, {
+        toastId: "toast_home",
+      });
     window.history.replaceState({}, document.title);
   }, []);
 
   // useEffect(() => {}, [params.categoryId]);
   return (
     <main className="grid gap-10 md:mt-8">
-      {message ? <AlertMe message={message} showAlert={true} /> : ""}
       <div className="mt-[-5rem] md:mt-0">
         <JumboBanner />
       </div>

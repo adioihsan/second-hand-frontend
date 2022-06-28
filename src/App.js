@@ -1,5 +1,7 @@
 import Login from "./pages/auth/Login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Public from "./layouts/Public";
 import Home from "./pages/home/Home";
 import Register from "./pages/auth/Register/Registration";
@@ -32,6 +34,12 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-center"
+        theme="colored"
+        hideProgressBar
+        autoClose={2500}
+      />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
-import iconCamera from "../../assets/images/icon-camera.png";
 import iconArrowLeft from "../../assets/images/icon-arrow-left.png";
 import userImg from "../../assets/images/user.png";
 import { useOutletContext } from "react-router-dom";
@@ -14,13 +13,10 @@ import {
 } from "../../services/actions/userAction";
 import useForm from "../../hooks/useForm";
 import { useRef } from "react";
-import { useState } from "react";
 import useSuggestionInput from "../../hooks/useSuggestionInput";
 import cities from "../../cache/cities.json";
-import AlertMe from "../../components/alert/alertMe/AlertMe";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 function ProfileInfo(props) {
   const navProps = useOutletContext();
@@ -37,8 +33,11 @@ function ProfileInfo(props) {
   const doUpdateProfile = (e) => {
     e.preventDefault();
     const formData = convertToFormData(values);
-    if (checkIsFormValid()) dispatch(updateUserDetail(formData));
-    else alert("Form belum lengkap");
+    if (checkIsFormValid()) {
+      dispatch(updateUserDetail(formData));
+      if (success) toast.success("Info profile berhasil di update");
+      if (error) toast.error(message);
+    } else toast.warn("Data belum lengkap");
     console.log(values);
   };
 
@@ -62,6 +61,7 @@ function ProfileInfo(props) {
       imgPrev.src = `${process.env.REACT_APP_API_URL}/images/${source}`;
     }
   };
+
   const checkIsFormValid = () => {
     console.log(errors);
     if (Object.keys(values).length === 0) return false;
@@ -76,22 +76,25 @@ function ProfileInfo(props) {
     return true;
   };
 
+  // helpers
+
   //effect
   useEffect(() => {
     navProps.setNavType("back");
     navProps.setNavTitle("Info Profil");
     dispatch(readUserDetail());
   }, []);
+
   useEffect(() => {
     setValues({ ...userDetail });
   }, [userDetail]);
+
   useEffect(() => {
     if (values.image !== null) setImagePreview(values.image);
   }, [values.image]);
   if (values.name !== undefined) {
     return (
       <div className="profileInfoWrapper">
-        {!pending && <AlertMe showAlert={true} message={message} />}
         <button className="btnBack py-5" onClick={() => navigate(-1)}>
           <img src={iconArrowLeft} alt="back" />
         </button>

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
 import useForm from "../../../hooks/useForm";
 import {
@@ -34,7 +35,7 @@ const Login = () => {
     if (isAllValid()) {
       dispatch(authUser(values));
     } else {
-      alert("Form belum lengkap");
+      toast.warn("Data belum lengkap");
     }
   };
   useEffect(() => {

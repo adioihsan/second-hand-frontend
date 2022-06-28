@@ -9,6 +9,7 @@ import { createUser } from "../../../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
+import { toast } from "react-toastify";
 
 const Register = () => {
   // hooks
@@ -18,12 +19,12 @@ const Register = () => {
     (state) => state.user
   );
   const { values, errors, handleChange } = useForm();
-
   // actions
   const doRegister = (e) => {
     e.persist();
     e.preventDefault();
     if (isAllValid()) dispatch(createUser(values));
+    else toast.warn("Data belum lengkap");
   };
   const isAllValid = () => {
     if (Object.keys(errors).length === 0) return false;

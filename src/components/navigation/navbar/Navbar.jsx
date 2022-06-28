@@ -93,7 +93,9 @@ function Navbar({ type, title, userData }) {
               alt="userPhoto"
               className="userPhoto"
             />{" "}
-            {userData.name}
+            {userData.name.length > 10
+              ? userData.name.substr(0, 9) + "..."
+              : userData.name}
             <FontAwesomeIcon icon={faChevronDown} />
           </button>
           <div className="userProfileMenu" ref={userProfileMenuRef}>

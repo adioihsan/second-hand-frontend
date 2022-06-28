@@ -11,8 +11,8 @@ import { getCategories } from "../../services/actions/categoryAction";
 import DropzoneImages from "../../components/dropzoneImages";
 import { createProduct } from "../../services/actions/productApi";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
-import AlertMe from "../../components/alert/alertMe/AlertMe";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ProductAdd(props) {
   const dispatch = useDispatch();
@@ -34,12 +34,13 @@ function ProductAdd(props) {
     if (checkIsFormValid()) {
       const formData = { ...values, images_url: imagesUrl.toString() };
       dispatch(createProduct(formData));
-      if (!error && !pending) {
+      if (error) toast.error(message);
+      if (success) {
         navigate("/product-list", {
           state: { message: "Produk berhasil di tambahkan" },
         });
       }
-    } else alert("Data produk belum lengkap !");
+    } else toast.warn("Data produk belum lengkap");
   };
 
   // helpers
@@ -67,7 +68,6 @@ function ProductAdd(props) {
   return (
     <div className="productAddWrapper">
       {pending && <LoadingFull />}
-      {message && <AlertMe showAlert={true} message={message} />}
       <button className="btnBack" onClick={() => navigate(-1)}>
         <img src={iconArrowLeft} alt="back" />
       </button>
