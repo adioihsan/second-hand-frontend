@@ -1,8 +1,14 @@
 import React from "react";
-import "./halamanproduk.css";
+import "./productView.css";
 import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+const ProductView = () => {
+  // hooks
+  const params = useParams();
 
-const Halamanproduk = () => {
+  useEffect(() => {}, [params.productId]);
   return (
     <div className="HalamanProduk">
       <div className="halamanProdukWraper">
@@ -22,7 +28,7 @@ const Halamanproduk = () => {
               <img src="/assets/images/product.png" className="imageProduct" />
             </div>
           </Carousel>
-          <div className=" border border-2 border-gray rounded-xl mb-5">
+          <div className=" border-2 border-gray rounded-xl mb-5">
             <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
             <h1 className="mx-5 mb-5 text-regular text-gray-400">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -52,7 +58,7 @@ const Halamanproduk = () => {
             </button>
             <button className="buttonTwo button button-primary">Edit</button>
           </div>
-          <div className="description flex items-center border border-2 border-gray rounded-xl mt-7 p-5 w-full">
+          <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
             <div className="">
               <img
                 src="/assets/images/profilepicture.jpg"
@@ -70,4 +76,4 @@ const Halamanproduk = () => {
   );
 };
 
-export default Halamanproduk;
+export default ProductView;

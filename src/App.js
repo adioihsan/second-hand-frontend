@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Public from "./layouts/Public";
 import Home from "./pages/home/Home";
 import Register from "./pages/auth/Register/Registration";
-import Halamanproduk from "./pages/halamanproduk/Halamanproduk";
 import ProfileInfo from "./pages/profileInfo/ProfileInfo";
 import ProductAdd from "./pages/productAdd/productAdd";
 import Negotiationinfo from "./pages/negotiationinfo/Negotiationinfo";
@@ -13,6 +12,7 @@ import ProductList from "./pages/productList/ProductList";
 import Private from "./layouts/Private";
 import BuyerProductPage from "./pages/BuyerProductPage/BuyerProductPage";
 import ProductEdit from "./pages/productEdit/productEdit";
+import ProductView from "./pages/productView/ProductView";
 
 function App() {
   return (
@@ -24,7 +24,10 @@ function App() {
           <Route element={<Public />}>
             <Route path="/" element={<Home />} />
             <Route path="/category/:categoryId" element={<Home />} />
-            <Route path="/halamanproduk" element={<Halamanproduk />} />
+            <Route
+              path="/product-view/:as/:productId"
+              element={<ProductView />}
+            />
           </Route>
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
