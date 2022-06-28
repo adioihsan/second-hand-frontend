@@ -22,12 +22,12 @@ export const authUser = createAsyncThunk(
     }
   }
 );
-export const readUserDetail = createAsyncThunk(
+export const getUserDetail = createAsyncThunk(
   "/user/detail/read",
   async (data, { rejectWithValue, getState }) => {
     try {
       const authToken = getState().user.token;
-      const response = await userApi.fetchUserDetail(authToken);
+      const response = await userApi.getUserDetail(authToken);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

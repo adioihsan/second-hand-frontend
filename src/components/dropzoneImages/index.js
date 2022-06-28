@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import privateAxios from "../../services/apis/config/privateAxios";
 import { useSelector } from "react-redux";
 
-function DropzoneImages({ imagesUrl, setImagesUrl }) {
+function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
   const [images, setImages] = useState([]);
   const [progress, setProgress] = useState({});
   const { token } = useSelector((state) => state.user);
@@ -101,7 +101,13 @@ function DropzoneImages({ imagesUrl, setImagesUrl }) {
 
   const renderPreview = images?.map((file, index) => (
     <div className={styles.image} key={"preview" + index}>
-      <img src={file.localUrl} />
+      <img
+        src={
+          file.isDownload
+            ? process.env.REACT_APP_API_URL + "/images/" + file.localUrl
+            : file.localUrl
+        }
+      />
       {!file.isDownload && (
         <div className={styles.progress}>
           <div
@@ -123,7 +129,10 @@ function DropzoneImages({ imagesUrl, setImagesUrl }) {
 
   const generateFiles = async () => {
     const files = imagesUrl.map((url) => {
-      return { localUrl: url, isDownload: true };
+      return {
+        localUrl: url,
+        isDownload: true,
+      };
     });
     setImages(files);
   };
@@ -135,7 +144,7 @@ function DropzoneImages({ imagesUrl, setImagesUrl }) {
 
   useEffect(() => {
     console.log("files generated");
-    // generateFiles();
+    if (update) generateFiles();
   }, [imagesUrl]);
 
   return (

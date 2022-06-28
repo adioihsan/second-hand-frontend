@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
 import {
-  readUserDetail,
+  getUserDetail,
   setUserData,
   setUserToken,
 } from "../services/actions/userAction";
@@ -23,7 +23,7 @@ function Public(props) {
         dispatch(setUserToken(localToken));
         const user = parseJwt(localToken);
         dispatch(setUserData(user));
-        dispatch(readUserDetail());
+        dispatch(getUserDetail());
       }
     } catch (error) {
       // console.log(error);
