@@ -24,10 +24,7 @@ function App() {
           <Route element={<Public />}>
             <Route path="/" element={<Home />} />
             <Route path="/category/:categoryId" element={<Home />} />
-            <Route
-              path="/product-view/:as/:productId"
-              element={<ProductView />}
-            />
+            <Route path="/product-view/:productId" element={<ProductView />} />
           </Route>
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />

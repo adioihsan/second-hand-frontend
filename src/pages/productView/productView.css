@@ -9,7 +9,7 @@
 }
 
 .imageProduct {
-  @apply object-cover;
+  @apply object-contain;
   @apply md:rounded-xl;
   height: 70vh;
 }

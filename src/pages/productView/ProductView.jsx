@@ -4,76 +4,81 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getMyProduct } from "../../services/actions/productAction";
+import { useSelector } from "react-redux";
+import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 const ProductView = () => {
   // hooks
+  const dispatch = useDispatch();
   const params = useParams();
 
-  useEffect(() => {}, [params.productId]);
-  return (
-    <div className="HalamanProduk">
-      <div className="halamanProdukWraper">
-        <div className="flex basis-1/2 flex-col">
-          {/* <img
-            src="/assets/images/product.png.png"
-            className="imageProduct mb-10 flex justify-center"
-          /> */}
-          <Carousel showArrows={true} className="carousel" showThumbs={false}>
-            <div>
-              <img
-                src="/assets/images/product.png.png"
-                className="imageProduct"
-              />
+  //data
+  const { data, error, pending, succsess } = useSelector(
+    (state) => state.product
+  );
+
+  useEffect(() => {
+    if (params.productId) dispatch(getMyProduct(params.productId));
+  }, [params.productId]);
+
+  if (!data) return <LoadingFull />;
+  else
+    return (
+      <div className="HalamanProduk">
+        <div className="halamanProdukWraper">
+          <div className="flex basis-1/2 flex-col">
+            <Carousel showArrows={true} className="carousel" showThumbs={false}>
+              {data.images_url.split(",").map((url) => (
+                <div>
+                  <img
+                    src={process.env.REACT_APP_API_URL + "/images/" + url}
+                    className="imageProduct"
+                    key={"productImg" + url}
+                  />
+                </div>
+              ))}
+            </Carousel>
+            <div className=" border-2 border-gray rounded-xl mb-5">
+              <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
+              <p className="mx-5 mb-5 text-regular text-gray-400">
+                {data.description}
+              </p>
             </div>
-            <div>
-              <img src="/assets/images/product.png" className="imageProduct" />
-            </div>
-          </Carousel>
-          <div className=" border-2 border-gray rounded-xl mb-5">
-            <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
-            <h1 className="mx-5 mb-5 text-regular text-gray-400">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </h1>
           </div>
-        </div>
-        <div className="flex basis-1/4 flex-col">
-          <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
-            <h1 className=" font-bold">Jam Tangan Casio</h1>
-            <h1 className=" py-3 text-regular text-gray-400">Aksesoris</h1>
-            <h1 className=" pb-5 font-regular">Rp. 250.000</h1>
-            <button className="buttonOne button button-primary">
-              Terbitkan
-            </button>
-            <button className="buttonTwo button button-primary">Edit</button>
-          </div>
-          <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
-            <div className="">
-              <img
-                src="/assets/images/profilepicture.jpg"
-                className="profilePicture rounded-xl object-cover"
-              />
+          <div className="flex basis-1/4 flex-col">
+            <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
+              <h1 className=" font-bold">{data.name}</h1>
+              <h1 className=" py-3 text-regular text-gray-400">
+                {data.category}
+              </h1>
+              <h1 className=" pb-5 font-regular">
+                {data.price.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
+              </h1>
+              <button className="buttonOne button button-primary">
+                Terbitkan
+              </button>
+              <button className="buttonTwo button button-primary">Edit</button>
             </div>
-            <div className="flex-col ml-5 ">
-              <h1 className="font-bold">Nama Penjual</h1>
-              <h1>Kota</h1>
+            <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
+              <div className="">
+                <img
+                  src="/assets/images/profilepicture.jpg"
+                  className="profilePicture rounded-xl object-cover"
+                />
+              </div>
+              <div className="flex-col ml-5 ">
+                <h1 className="font-bold">Nama Penjual</h1>
+                <h1>Kota</h1>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default ProductView;
