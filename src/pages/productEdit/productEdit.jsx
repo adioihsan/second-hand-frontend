@@ -47,6 +47,7 @@ function ProductEdit(props) {
       if (error) toast.error(message);
       if (!pending && !error) {
         toast.success("product berhasil di update");
+        navigate(-1);
       }
     } else toast.warn("Data produk belum lengkap");
   };
