@@ -1,6 +1,6 @@
 import privateAxios from "./config/privateAxios";
 import publicAxios from "./config/publicAxios";
-// import qs from "qs";
+
 const productApi = {
   createProduct: ({ data, authToken }) =>
     privateAxios(authToken).post("/product", data),
@@ -8,6 +8,18 @@ const productApi = {
     privateAxios(authToken).get("/product/" + productId + "/me"),
   updateProduct: ({ data, authToken }) =>
     privateAxios(authToken).put("/product/" + data.id, data),
+  releaseProduct: ({ productId, authToken }) =>
+    privateAxios(authToken).patch("/product/" + productId + "/release", {
+      is_release: true,
+    }),
+  unReleaseProduct: ({ productId, authToken }) =>
+    privateAxios(authToken).patch("/product/" + productId + "/release", {
+      is_release: false,
+    }),
+  soldProduct: ({ productId, authToken }) =>
+    privateAxios(authToken).patch("/product/" + productId + "/sold"),
+  deleteProduct: ({ productId, authToken }) =>
+    privateAxios(authToken).delete("/product/" + productId),
 };
 
 export default productApi;

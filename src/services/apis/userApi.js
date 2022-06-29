@@ -1,6 +1,6 @@
 import privateAxios from "./config/privateAxios";
 import publicAxios from "./config/publicAxios";
-// import qs from "qs";
+
 const userApi = {
   authRegister: (data) => publicAxios.post("/register", data),
   authLogin: (data) => publicAxios.post("/login", data),
