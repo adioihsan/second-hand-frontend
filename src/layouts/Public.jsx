@@ -19,38 +19,38 @@ function Public(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //
-  const [isGuest, setIsGuest] = useState(false);
+  const [isGuest, setIsGuest] = useState(true);
 
-  useEffect(() => {
-    try {
-      if (!token) {
-        const localToken = getLocalJWT();
-        dispatch(setUserToken(localToken));
-        const user = parseJwt(localToken);
-        dispatch(setUserData(user));
-        dispatch(getUserDetail());
-        console.log(userDetail);
-      }
-    } catch (error) {
-      navigate("/login");
-      setIsGuest(true);
-    }
-  }, []);
-  if (!token || isGuest) return <LoadingFull />;
-  else
-    return (
-      <>
-        <div className="md:bg-white md:shadow-md sticky top-0 z-10">
-          <div className="container mx-auto">
-            <Navbar userData={userData} />
-          </div>
-          {showBar && (
-            <LinearProgress indeterminate buffer={0.9} progress={0.8} />
-          )}
+  // useEffect(() => {
+  //   try {
+  //     if (!token) {
+  //       const localToken = getLocalJWT();
+  //       dispatch(setUserToken(localToken));
+  //       const user = parseJwt(localToken);
+  //       dispatch(setUserData(user));
+  //       dispatch(getUserDetail());
+  //       console.log(userDetail);
+  //     }
+  //     setIsGuest(false);
+  //   } catch (error) {
+  //     setIsGuest(true);
+  //   }
+  // }, []);
+  // if (!token || isGuest) return <LoadingFull />;
+  // else
+  return (
+    <>
+      <div className="md:bg-white md:shadow-md sticky top-0 z-10">
+        <div className="container mx-auto">
+          <Navbar userData={userData} />
         </div>
-        <Outlet context={{ setShowBar }} />
-      </>
-    );
+        {showBar && (
+          <LinearProgress indeterminate buffer={0.9} progress={0.8} />
+        )}
+      </div>
+      <Outlet context={{ setShowBar }} />
+    </>
+  );
 }
 
 export default Public;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyProductList } from "../actions/productAction";
+import { getMyProductList, getProductList } from "../actions/productAction";
 
 const initialState = {
   data: null,
@@ -57,6 +57,16 @@ const productListSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(getMyProductList.rejected, (state, action) => {
+      defaultRejected(state, action);
+    });
+    //
+    builder.addCase(getProductList.fulfilled, (state, action) => {
+      defaultFulfilled(state, action);
+    });
+    builder.addCase(getProductList.pending, (state, action) => {
+      defaultPending(state, action);
+    });
+    builder.addCase(getProductList.rejected, (state, action) => {
       defaultRejected(state, action);
     });
   },

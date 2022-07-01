@@ -29,6 +29,16 @@ function Navbar({ type, title, userData }) {
   const showUserProfileMenu = (e) => {
     userProfileMenuRef.current.classList.toggle("userProfileMenuActive");
   };
+  // actions
+  const doSearch = (e) => {
+    const key = e.key;
+    const value = e.target.value;
+    if (key == "Enter") {
+      if (!value) navigate("/");
+      else navigate("/search/" + value + "/1");
+      console.log("search");
+    }
+  };
   // components to render
   const renderLogo = () => (
     <div className="logo" onClick={() => navigate("/")}>
@@ -52,7 +62,7 @@ function Navbar({ type, title, userData }) {
   );
   const renderSearch = () => (
     <label className="searchField">
-      <input placeholder="Cari di sini..." />
+      <input placeholder="Cari di sini..." onKeyUp={doSearch} />
       <button>
         <img src={iconSearch} alt="search" />
       </button>

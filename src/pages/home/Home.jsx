@@ -9,10 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
-import ProductCard from "../../components/card/productCard/ProductCard";
+import ProductCard, {
+  ProductCardLoading,
+} from "../../components/card/productCard/ProductCard";
 import JumboBanner from "../../components/jumbotron/JumboBanner/JumboBanner";
 import CategoryNav from "../../components/navigation/categoryNav/CategoryNav";
 import { getCategories } from "../../services/actions/categoryAction";
+import { getProductList } from "../../services/actions/productAction";
+import apiStatus from "../../services/utils/apiStatus";
 import "./home.css";
 function Home(props) {
   //hooks
@@ -21,6 +25,7 @@ function Home(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.categoryList);
+  const { data, status, message } = useSelector((state) => state.productList);
 
   // actions
   const changeCategory = (id) => {
@@ -41,14 +46,32 @@ function Home(props) {
   };
 
   useEffect(() => {
-    dispatch(getCategories());
     if (location.state)
       toast.success(location.state.message, {
         toastId: "toast_home",
       });
     window.history.replaceState({}, document.title);
+    dispatch(getCategories());
+    if (!params.categoryId && !params.search)
+      dispatch(
+        getProductList({
+          page: 1,
+          search: "",
+          categoryId: "",
+        })
+      );
   }, []);
-
+  useEffect(() => {
+    dispatch(
+      getProductList({
+        page: params.page,
+        limit: 12,
+        search: params.search,
+        categoryId: params.categoryId,
+      })
+    );
+  }, [params.page, params.search, params.categoryId]);
+  console.log(data);
   // useEffect(() => {}, [params.categoryId]);
   return (
     <main className="grid gap-10 md:mt-8">
@@ -63,6 +86,22 @@ function Home(props) {
           )}
         </section>
         <section className="products mt-6 px-3 ">
+          {status === apiStatus.pending &&
+            Array(12)
+              .fill(0)
+              .map((dum, index) => (
+                <ProductCardLoading key={"cardDummy" + index} />
+              ))}
+          {status === apiStatus.error && (
+            <h1>Terjadi kesalahan saat mengambil data</h1>
+          )}
+          {status === apiStatus.success &&
+            data.map((product, index) => (
+              <ProductCard
+                product={product}
+                key={"productHome" + product.name + product.id}
+              />
+            ))}
           {/* {Array(12)
             .fill(0)
             .map((item, index) => (

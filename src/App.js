@@ -23,14 +23,16 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<Public />}>
             <Route path="/" element={<Home />} />
+            <Route path="/category/:categoryId/:page" element={<Home />} />
+            <Route path="/search/:search/:page" element={<Home />} />
             <Route path="/category/:categoryId" element={<Home />} />
-            <Route path="/product-view/:productId" element={<ProductView />} />
           </Route>
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
             <Route path="/product-add" element={<ProductAdd />} />
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
+            <Route path="/product-view/:productId" element={<ProductView />} />
             <Route path="/buyerproductpage" element={<BuyerProductPage />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>

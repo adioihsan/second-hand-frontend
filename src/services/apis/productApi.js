@@ -26,6 +26,15 @@ const productApi = {
     privateAxios(authToken).patch("/product/" + productId + "/sold"),
   deleteProduct: ({ productId, authToken }) =>
     privateAxios(authToken).delete("/product/" + productId),
+  //
+  getProductList: (pageConfig) =>
+    publicAxios.get(
+      `/products?page=${pageConfig.page || 1}&limit=${
+        pageConfig.limit || 12
+      }&search=${pageConfig.search || ""}&category_id=${
+        pageConfig.categoryId || ""
+      }`
+    ),
 };
 
 export default productApi;
