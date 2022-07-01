@@ -119,5 +119,17 @@ export const getMyProductList = createAsyncThunk(
     }
   }
 );
+export const getProductList = createAsyncThunk(
+  "product/list",
+  async (pageConfig, { rejectWithValue, getState }) => {
+    try {
+      const response = await productApi.getProductList(pageConfig);
+      return response.data;
+    } catch (error) {
+      if (!error.response) throw error;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const setProductMessage = createAction("/product/message");
 export const resetProductStatus = createAction("/product/status/reset");
