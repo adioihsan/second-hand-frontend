@@ -6,6 +6,12 @@ const productApi = {
     privateAxios(authToken).post("/product", data),
   getMyProduct: ({ productId, authToken }) =>
     privateAxios(authToken).get("/product/" + productId + "/me"),
+  getMyProductList: ({ pageConfig, authToken }) =>
+    privateAxios(authToken).get(
+      `products/me?page=${pageConfig.page || 1}&limit=${
+        pageConfig.limit || 12
+      }&filter=${pageConfig.filter || 1}`
+    ),
   updateProduct: ({ data, authToken }) =>
     privateAxios(authToken).put("/product/" + data.id, data),
   releaseProduct: ({ productId, authToken }) =>

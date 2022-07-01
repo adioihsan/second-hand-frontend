@@ -103,4 +103,20 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 );
+export const getMyProductList = createAsyncThunk(
+  "product/me/list",
+  async (pageConfig, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await productApi.getMyProductList({
+        pageConfig,
+        authToken,
+      });
+      return response.data;
+    } catch (error) {
+      if (!error.response) throw error;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const setProductMessage = createAction("/product/message");
