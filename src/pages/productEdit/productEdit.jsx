@@ -41,7 +41,6 @@ function ProductEdit(props) {
         console.log(imagesUrl);
         return;
       }
-      console.log(values);
       const formData = { ...values, images_url: imagesUrl.toString() };
       dispatch(updateProduct(formData));
       if (error) toast.error(message);

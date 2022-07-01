@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContentLoader from "react-content-loader";
 import React from "react";
 import "./productCard.css";
-function ProductCard({ product }) {
+function ProductCard({ product, ...others }) {
   return (
-    <div className="productCard">
+    <div className="productCard" {...others}>
       <div className="cardHeader">
         <img
           src={

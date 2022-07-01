@@ -26,6 +26,7 @@ function ProductAdd(props) {
     error: catError,
   } = useSelector((state) => state.categoryList);
   const { data, status, message } = useSelector((state) => state.product);
+  const [isAction, setIsAction] = useState(false);
   const [imagesUrl, setImagesUrl] = useState([]);
   // actions
   const doCreateProduct = (e) => {
@@ -38,6 +39,7 @@ function ProductAdd(props) {
       }
       const formData = { ...values, images_url: imagesUrl.toString() };
       dispatch(createProduct(formData));
+      setIsAction(true);
     } else toast.warn("Data produk belum lengkap");
   };
 
@@ -57,16 +59,17 @@ function ProductAdd(props) {
   useEffect(() => {
     const toastStatus = toast;
     if (status === apiStatus.pending) {
-      toastStatus.info("Sedang menyimpan produk");
       outletContext.setShowBar(true);
-    } else if (status === apiStatus.success) {
-      toast.success(message);
+    } else if (status === apiStatus.success && isAction) {
+      toast.success("produk berhasil di tambahkan");
+      setIsAction(false);
       navigate("/product-list");
-      outletContext.setShowBar(false);
-    } else if (status === apiStatus.error) {
+    } else if (status === apiStatus.error && isAction) {
+      if (!message) toast.error("Tidak dapat terhubung ke server");
       toast.error(message);
-      outletContext.setShowBar(false);
+      setIsAction(false);
     }
+    if (status !== apiStatus.pending) outletContext.setShowBar(false);
   }, [status]);
   return (
     <div className="productAddWrapper">

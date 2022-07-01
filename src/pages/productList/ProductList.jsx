@@ -16,10 +16,12 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getMyProductList } from "../../services/actions/productAction";
 import apiStatus from "../../services/utils/apiStatus";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function ProductList(props) {
   // hooks
   const dispatch = useDispatch();
-  const location = useLocation();
+  const navigate = useNavigate();
   const menus = [
     { name: "Produk", icon: faCube, isActive: true },
     { name: "Diminati", icon: faHeart, isActive: false },
@@ -55,9 +57,10 @@ function ProductList(props) {
           <section className="menuLeft">
             <CategoryNav categories={menus} type="list" />
           </section>
-
           <section className="productListItem">
-            <ProductCardAdd />
+            <Link to="/product-add">
+              <ProductCardAdd />{" "}
+            </Link>
             {status === apiStatus.pending &&
               Array(5)
                 .fill(0)
@@ -67,17 +70,16 @@ function ProductList(props) {
             {status === apiStatus.error && (
               <h1>Terjadi kesalahan saat mengambil data</h1>
             )}
-            {status === apiStatus.error && (
-              <h1>Terjadi kesalahan saat mengambil data</h1>
-            )}
-            {data?.length === 0 && renderNoProduct()}
             {data?.map((product) => (
               <ProductCard
                 product={product}
-                key={"card" + product.name + product.id}
+                onClick={() => navigate("/product-view/" + product.id)}
               />
             ))}
           </section>
+          {status === apiStatus.error && (
+            <h1>Terjadi kesalahan saat mengambil data</h1>
+          )}
         </div>
       </article>
     </main>

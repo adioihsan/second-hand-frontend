@@ -48,7 +48,7 @@ function Public(props) {
             <LinearProgress indeterminate buffer={0.9} progress={0.8} />
           )}
         </div>
-        <Outlet context={setShowBar} />
+        <Outlet context={{ setShowBar }} />
       </>
     );
 }
