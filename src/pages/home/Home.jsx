@@ -29,12 +29,14 @@ function Home(props) {
 
   // actions
   const changeCategory = (id) => {
-    navigate("/category/" + id);
+    console.log(id);
+    if (id === 0) navigate("/");
+    else navigate("/category/" + id);
   };
 
   // helper
   const addIconToCategories = (categories) => {
-    return categories.map((cat) => {
+    const catWithIcon = categories.map((cat) => {
       return {
         id: cat.id,
         name: cat.name,
@@ -43,6 +45,14 @@ function Home(props) {
         cb: changeCategory,
       };
     });
+    catWithIcon.unshift({
+      id: 0,
+      name: "All Categories",
+      icon: faSearch,
+      isActive: !params.categoryId || params.categoryId == 0,
+      cb: changeCategory,
+    });
+    return catWithIcon;
   };
 
   useEffect(() => {
@@ -100,6 +110,7 @@ function Home(props) {
               <ProductCard
                 product={product}
                 key={"productHome" + product.name + product.id}
+                onClick={() => navigate("/product-view/see/" + product.id)}
               />
             ))}
           {/* {Array(12)

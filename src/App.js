@@ -32,7 +32,10 @@ function App() {
             <Route path="/product-add" element={<ProductAdd />} />
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
-            <Route path="/product-view/:productId" element={<ProductView />} />
+            <Route
+              path="/product-view/:userType/:productId"
+              element={<ProductView />}
+            />
             <Route path="/buyerproductpage" element={<BuyerProductPage />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>

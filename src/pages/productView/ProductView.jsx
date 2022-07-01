@@ -8,8 +8,8 @@ import { useDispatch } from "react-redux";
 import {
   deleteProduct,
   getMyProduct,
+  getProduct,
   releaseProduct,
-  resetProductStatus,
   unReleaseProduct,
 } from "../../services/actions/productAction";
 import { useSelector } from "react-redux";
@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import user from "../../services/reducers/user";
 import apiStatus from "../../services/utils/apiStatus";
 import { useOutletContext } from "react-router-dom";
+import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
@@ -51,8 +52,45 @@ const ProductView = () => {
     toast.success("produk berhasil dihapus");
   };
 
+  // render component
+
+  const renderSellerButton = () => (
+    <>
+      {data?.is_release ? (
+        <button
+          className="buttonOne button button-primary"
+          onClick={doUnReleaseProduct}
+        >
+          Sembunyikan
+        </button>
+      ) : (
+        <button
+          className="buttonOne button button-primary"
+          onClick={doReleaseProduct}
+        >
+          Terbitkan
+        </button>
+      )}
+      <button
+        className="buttonTwo button button-primary"
+        onClick={doEditProduct}
+      >
+        Edit
+      </button>
+      <button
+        className="outline  rounded-md py-3 px-2 outline-1 outline-red-600"
+        onClick={doDeleteProduct}
+      >
+        Hapus Produk
+      </button>
+    </>
+  );
+  const renderUserButton = () => <ButtonPrimary>Saya tertarik</ButtonPrimary>;
+
   useEffect(() => {
-    if (params.productId) dispatch(getMyProduct(params.productId));
+    if (params.productId && params.userType === "seller")
+      dispatch(getMyProduct(params.productId));
+    else dispatch(getProduct(params.productId));
   }, [params.productId]);
 
   useEffect(() => {
@@ -116,33 +154,9 @@ const ProductView = () => {
                   currency: "IDR",
                 })}
               </h1>
-              {data?.is_release ? (
-                <button
-                  className="buttonOne button button-primary"
-                  onClick={doUnReleaseProduct}
-                >
-                  Sembunyikan
-                </button>
-              ) : (
-                <button
-                  className="buttonOne button button-primary"
-                  onClick={doReleaseProduct}
-                >
-                  Terbitkan
-                </button>
-              )}
-              <button
-                className="buttonTwo button button-primary"
-                onClick={doEditProduct}
-              >
-                Edit
-              </button>
-              <button
-                className="outline  rounded-md py-3 px-2 outline-1 outline-red-600"
-                onClick={doDeleteProduct}
-              >
-                Hapus Produk
-              </button>
+              {/* button herer */}
+              {params.userType === "seller" && renderSellerButton()}
+              {params.userType !== "seller" && renderUserButton()}
             </div>
             <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
               <div className="">

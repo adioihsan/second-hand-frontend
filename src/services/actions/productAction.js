@@ -119,6 +119,18 @@ export const getMyProductList = createAsyncThunk(
     }
   }
 );
+export const getProduct = createAsyncThunk(
+  "/product/byId",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const response = await productApi.getProduct(productId);
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const getProductList = createAsyncThunk(
   "product/list",
   async (pageConfig, { rejectWithValue, getState }) => {

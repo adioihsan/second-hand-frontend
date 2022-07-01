@@ -73,7 +73,7 @@ function ProductList(props) {
             {data?.map((product) => (
               <ProductCard
                 product={product}
-                onClick={() => navigate("/product-view/" + product.id)}
+                onClick={() => navigate("/product-view/seller/" + product.id)}
               />
             ))}
           </section>

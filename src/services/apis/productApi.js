@@ -35,6 +35,7 @@ const productApi = {
         pageConfig.categoryId || ""
       }`
     ),
+  getProduct: (productId) => publicAxios.get("/product/" + productId),
 };
 
 export default productApi;
