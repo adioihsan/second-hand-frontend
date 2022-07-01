@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import user from "../../services/reducers/user";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const ProductView = () => {
   const { data, error, pending, succsess, message } = useSelector(
     (state) => state.product
   );
+  const { userData } = useSelector((state) => state.user);
 
   // actions
   const doReleaseProduct = () => {

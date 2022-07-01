@@ -30,7 +30,7 @@ function CategoryNav({ categories, type }) {
           onClick={() => {
             cat.cb(cat.id);
           }}
-          key={"category" + cat.id}
+          key={"categoryNav" + cat.id}
         >
           {cat.name}
         </ButtonCategory>

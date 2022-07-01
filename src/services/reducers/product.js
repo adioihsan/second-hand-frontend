@@ -12,25 +12,19 @@ import { setUserMessage } from "../actions/userAction";
 
 const initialState = {
   data: null,
-  success: true,
-  pending: false,
-  error: false,
+  status: "idle",
   message: null,
 };
 
 const defaultPending = (state, action) => {
   state.data = null;
   state.message = null;
-  state.pending = true;
-  state.error = false;
-  state.success = false;
+  state.status = "pending";
 };
 const defaultError = (state, action) => {
   state.data = null;
   state.pending = false;
-  state.error = true;
-  state.success = false;
-  state.success = false;
+  state.status = "error";
   if (action.payload) {
     state.message = action.payload.message;
   }
@@ -38,9 +32,7 @@ const defaultError = (state, action) => {
 const defaultFulfilled = (state, action) => {
   state.data = action.payload.data;
   state.message = action.payload.message;
-  state.success = true;
-  state.pending = false;
-  state.error = false;
+  state.status = "success";
 };
 
 const productSlice = createSlice({

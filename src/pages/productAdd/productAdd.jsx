@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
-import iconCamera from "../../assets/images/icon-camera.png";
 import iconArrowLeft from "../../assets/images/icon-arrow-left.png";
 import { useOutletContext } from "react-router-dom";
 import "./productAdd.css";
@@ -13,20 +12,20 @@ import { createProduct } from "../../services/actions/productAction";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { isFulfilled } from "@reduxjs/toolkit";
+import apiStatus from "../../services/utils/apiStatus";
 
 function ProductAdd(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const navProps = useOutletContext();
+  const outletContext = useOutletContext();
   const { values, errors, handleChange } = useForm();
   const {
     categories,
     pending: catPending,
     error: catError,
   } = useSelector((state) => state.categoryList);
-  const { data, pending, error, success, message } = useSelector(
-    (state) => state.product
-  );
+  const { data, status, message } = useSelector((state) => state.product);
   const [imagesUrl, setImagesUrl] = useState([]);
   // actions
   const doCreateProduct = (e) => {
@@ -39,12 +38,6 @@ function ProductAdd(props) {
       }
       const formData = { ...values, images_url: imagesUrl.toString() };
       dispatch(createProduct(formData));
-      if (error) toast.error(message);
-      if (success) {
-        navigate("/product-list", {
-          state: { message: "Produk berhasil di tambahkan" },
-        });
-      }
     } else toast.warn("Data produk belum lengkap");
   };
 
@@ -57,13 +50,26 @@ function ProductAdd(props) {
   };
   // effect
   useEffect(() => {
-    navProps.setNavType("back");
-    navProps.setNavTitle("Lengkapi Detail Produk");
+    outletContext.setNavType("back");
+    outletContext.setNavTitle("Lengkapi Detail Produk");
     dispatch(getCategories());
   }, []);
+  useEffect(() => {
+    const toastStatus = toast;
+    if (status === apiStatus.pending) {
+      toastStatus.info("Sedang menyimpan produk");
+      outletContext.setShowBar(true);
+    } else if (status === apiStatus.success) {
+      toast.success(message);
+      navigate("/product-list");
+      outletContext.setShowBar(false);
+    } else if (status === apiStatus.error) {
+      toast.error(message);
+      outletContext.setShowBar(false);
+    }
+  }, [status]);
   return (
     <div className="productAddWrapper">
-      {pending && <LoadingFull />}
       <button className="btnBack" onClick={() => navigate(-1)}>
         <img src={iconArrowLeft} alt="back" />
       </button>

@@ -90,7 +90,7 @@ function Navbar({ type, title, userData }) {
                   ? process.env.REACT_APP_API_URL + "/images/" + userData.photo
                   : userImg
               }
-              alt="userPhoto"
+              alt="x"
               className="userPhoto"
             />{" "}
             {userData.name.length > 10

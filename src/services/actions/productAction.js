@@ -1,6 +1,11 @@
 import { createAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import productApi from "../apis/productApi";
+
+const defaultError = {
+  message: "Tidak dapat terhubung ke server ",
+};
+
 export const createProduct = createAsyncThunk(
   "/product/create",
   async (data, { rejectWithValue, getState }) => {
@@ -22,7 +27,7 @@ export const getMyProduct = createAsyncThunk(
       const response = await productApi.getMyProduct({ productId, authToken });
       return response.data;
     } catch (error) {
-      if (!error.response) throw error;
+      if (!error.response) return defaultError;
       return rejectWithValue(error.response.data);
     }
   }
@@ -35,7 +40,7 @@ export const updateProduct = createAsyncThunk(
       const response = await productApi.updateProduct({ data, authToken });
       return response.data;
     } catch (error) {
-      if (!error.response) throw error;
+      if (!error.response) return defaultError;
       return rejectWithValue(error.response.data);
     }
   }
@@ -51,7 +56,7 @@ export const releaseProduct = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      if (!error.response) throw error;
+      if (!error.response) return defaultError;
       return rejectWithValue(error.response.data);
     }
   }

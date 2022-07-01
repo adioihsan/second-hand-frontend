@@ -1,11 +1,12 @@
 .categoryNav {
   @apply grid grid-flow-col gap-3 overflow-scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  /* -ms-overflow-style: none;
+  scrollbar-width: none; */
+  overflow-y: hidden;
 }
-.categoryNav::-webkit-scrollbar {
+/* .categoryNav::-webkit-scrollbar {
   display: none;
-}
+} */
 .categoryList {
   @apply p-5 shadow-lg rounded-lg bg-white grid gap-3;
 }

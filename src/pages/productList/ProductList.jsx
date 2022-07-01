@@ -38,15 +38,6 @@ function ProductList(props) {
     );
   };
   // effect
-  useEffect(() => {
-    if (location.state) {
-      setMessage(location.state.message);
-      toast.success("Produk berhasil di tambahkan", {
-        toastId: "productToast",
-      });
-      window.history.replaceState({}, document.title);
-    }
-  }, []);
   return (
     <main className="productList">
       {/* {pending && <LoadingFull />} */}

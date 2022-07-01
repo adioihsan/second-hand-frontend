@@ -12,6 +12,7 @@ import {
 } from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import LoadingFull from "../components/loading/lodingFull/LoadingFull";
+import LinearProgress from "@material/react-linear-progress";
 function Private(props) {
   // hooks
   const { token, userDetail, userData } = useSelector((state) => state.user);
@@ -20,6 +21,7 @@ function Private(props) {
   //
   const [navTitle, setNavTitle] = useState(null);
   const [navType, setNavType] = useState(null);
+  const [showBar, setShowBar] = useState(false);
   useEffect(() => {
     try {
       if (!token) {
@@ -42,9 +44,12 @@ function Private(props) {
           <div className="container mx-auto">
             <Navbar title={navTitle} type={navType} userData={userData} />
           </div>
+          {showBar && (
+            <LinearProgress indeterminate buffer={0.9} progress={0.8} />
+          )}
         </div>
         <div className="container mx-auto px-5">
-          <Outlet context={{ setNavTitle, setNavType }} />
+          <Outlet context={{ setNavTitle, setNavType, setShowBar }} />
         </div>
       </>
     );

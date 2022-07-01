@@ -2,6 +2,7 @@ import Login from "./pages/auth/Login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "@material/react-linear-progress/dist/linear-progress.css";
 import Public from "./layouts/Public";
 import Home from "./pages/home/Home";
 import Register from "./pages/auth/Register/Registration";
@@ -13,7 +14,6 @@ import Private from "./layouts/Private";
 import BuyerProductPage from "./pages/BuyerProductPage/BuyerProductPage";
 import ProductEdit from "./pages/productEdit/productEdit";
 import ProductView from "./pages/productView/ProductView";
-
 function App() {
   return (
     <div className="App">
