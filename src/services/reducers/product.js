@@ -8,6 +8,7 @@ import {
   unReleaseProduct,
   soldProduct,
   resetProductStatus,
+  getProduct,
 } from "../actions/productAction";
 import { setUserMessage } from "../actions/userAction";
 
@@ -21,7 +22,7 @@ const defaultPending = (state, action) => {
   state.message = null;
   state.status = "pending";
 };
-const defaultError = (state, action) => {
+const defaultRejected = (state, action) => {
   state.pending = false;
   state.status = "error";
   if (action.payload) {
@@ -45,7 +46,7 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(createProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(getMyProduct.fulfilled, (state, action) => {
@@ -55,7 +56,7 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(getMyProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(updateProduct.fulfilled, (state, action) => {
@@ -65,7 +66,7 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(updateProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
@@ -75,7 +76,7 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(deleteProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(releaseProduct.fulfilled, (state, action) => {
@@ -85,7 +86,7 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(releaseProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(unReleaseProduct.fulfilled, (state, action) => {
@@ -95,7 +96,7 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(unReleaseProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(soldProduct.fulfilled, (state, action) => {
@@ -105,12 +106,22 @@ const productSlice = createSlice({
       defaultPending(state, action);
     });
     builder.addCase(soldProduct.rejected, (state, action) => {
-      defaultError(state, action);
+      defaultRejected(state, action);
     });
     //
     builder.addCase(resetProductStatus, (state, action) => {
       state.status = "idle";
       state.message = null;
+    });
+    //
+    builder.addCase(getProduct.fulfilled, (state, action) => {
+      defaultFulfilled(state, action);
+    });
+    builder.addCase(getProduct.pending, (state, action) => {
+      defaultPending(state, action);
+    });
+    builder.addCase(getProduct.rejected, (state, action) => {
+      defaultRejected(state, action);
     });
   },
 });

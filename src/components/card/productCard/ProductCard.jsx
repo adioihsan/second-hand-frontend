@@ -19,7 +19,10 @@ function ProductCard({ product, ...others }) {
       </div>
       <div className="cardBody">
         <div className="productName">{product.name}</div>
-        <div className="productCategory">Aksesoris</div>
+        <div className="productCategory">
+          {(product.categories !== undefined && product?.categories[0]?.name) ||
+            "Others"}
+        </div>
         <div className="productPrice">
           {" "}
           {product.price.toLocaleString("id-ID", {
