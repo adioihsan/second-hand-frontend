@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./productView.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -9,6 +9,7 @@ import {
   deleteProduct,
   getMyProduct,
   releaseProduct,
+  resetProductStatus,
   unReleaseProduct,
 } from "../../services/actions/productAction";
 import { useSelector } from "react-redux";
@@ -16,62 +17,76 @@ import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import user from "../../services/reducers/user";
+import apiStatus from "../../services/utils/apiStatus";
+import { useOutletContext } from "react-router-dom";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
+  const outletContext = useOutletContext();
 
   //data
-  const { data, error, pending, succsess, message } = useSelector(
-    (state) => state.product
-  );
-  const { userData } = useSelector((state) => state.user);
+  const { data, status, message } = useSelector((state) => state.product);
+  const [isAction, setIsAction] = useState(false);
+  // const { userData } = useSelector((state) => state.user);
 
   // actions
   const doReleaseProduct = () => {
     dispatch(releaseProduct(params.productId));
-    if (!pending && !error) toast.success("Produk berhasil di terbitkan");
-    if (error) toast.error(message);
+    setIsAction(true);
   };
   const doUnReleaseProduct = () => {
     dispatch(unReleaseProduct(params.productId));
-    if (!pending && !error) toast.success("Produk telah di sembunyikan");
-    if (error) toast.error(message);
+    setIsAction(true);
   };
   const doEditProduct = () => {
     navigate("/product-edit/" + params.productId);
+    setIsAction(true);
   };
   const doDeleteProduct = () => {
     dispatch(deleteProduct(params.productId));
-    if (!pending && !error) {
-      toast.success("Produk telah dihapus");
-      navigate("/product-list");
-    }
-    if (error) toast.error(message);
+    setIsAction(true);
+    navigate("/product-list");
+    toast.success("produk berhasil dihapus");
   };
 
   useEffect(() => {
     if (params.productId) dispatch(getMyProduct(params.productId));
   }, [params.productId]);
 
-  if (error) {
-    if (message === "You are not authorized to see this product") {
-      toast.error(message, { toastId: "productViewToast" });
-      navigate("/");
+  useEffect(() => {
+    if (status === apiStatus.pending) {
+      outletContext.setShowBar(true);
+    } else if (status === apiStatus.success && isAction) {
+      data.is_release
+        ? toast.success("Produk berhasil di rilis", {
+            toastId: "hideToast",
+          })
+        : toast.success("Produk berhasil di sembunyikan", {
+            toastId: "releaseToast",
+          });
+      setIsAction(false);
+    } else if (status === apiStatus.error) {
+      if (message === "You are not authorized to see this product") {
+        toast.error(message, { toastId: "productViewToast" });
+        navigate("/");
+      }
+      if (message === "Product not found") {
+        toast.error("Produk tidak tersedia", { toastId: "productViewToast" });
+        navigate("/");
+      }
     }
-    if (message === "Product not found") {
-      toast.error("Produk tidak tersedia", { toastId: "productViewToast" });
-      navigate("/");
-    }
-  } else if (!data) return <LoadingFull />;
-  else
+    if (status !== apiStatus.pending) outletContext.setShowBar(false);
+  }, [status]);
+  if (!data || data?.length === 0) return <LoadingFull />;
+  if (data.name)
     return (
       <div className="HalamanProduk">
         <div className="halamanProdukWraper">
           <div className="flex basis-1/2 flex-col">
             <Carousel showArrows={true} className="carousel" showThumbs={false}>
-              {data.images_url.split(",").map((url) => (
+              {data?.images_url.split(",").map((url) => (
                 <div>
                   <img
                     src={process.env.REACT_APP_API_URL + "/images/" + url}
@@ -81,10 +96,11 @@ const ProductView = () => {
                 </div>
               ))}
             </Carousel>
+
             <div className=" border-2 border-gray rounded-xl mb-5">
               <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
               <p className="mx-5 mb-5 text-regular text-gray-400">
-                {data.description}
+                {data?.description}
               </p>
             </div>
           </div>
@@ -92,15 +108,15 @@ const ProductView = () => {
             <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
               <h1 className=" font-bold">{data.name}</h1>
               <h1 className=" py-3 text-regular text-gray-400">
-                {data.category}
+                {data?.category}
               </h1>
               <h1 className=" pb-5 font-regular">
-                {data.price.toLocaleString("id-ID", {
+                {data?.price.toLocaleString("id-ID", {
                   style: "currency",
                   currency: "IDR",
                 })}
               </h1>
-              {data.is_release ? (
+              {data?.is_release ? (
                 <button
                   className="buttonOne button button-primary"
                   onClick={doUnReleaseProduct}
@@ -136,8 +152,8 @@ const ProductView = () => {
                 />
               </div>
               <div className="flex-col ml-5 ">
-                <h1 className="font-bold">Nama Penjual</h1>
-                <h1>Kota</h1>
+                <h1 className="font-bold">{data?.user?.name}</h1>
+                <h1>{data?.user?.city}</h1>
               </div>
             </div>
           </div>

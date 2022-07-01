@@ -7,6 +7,7 @@ import {
   releaseProduct,
   unReleaseProduct,
   soldProduct,
+  resetProductStatus,
 } from "../actions/productAction";
 import { setUserMessage } from "../actions/userAction";
 
@@ -17,12 +18,10 @@ const initialState = {
 };
 
 const defaultPending = (state, action) => {
-  state.data = null;
   state.message = null;
   state.status = "pending";
 };
 const defaultError = (state, action) => {
-  state.data = null;
   state.pending = false;
   state.status = "error";
   if (action.payload) {
@@ -109,6 +108,10 @@ const productSlice = createSlice({
       defaultError(state, action);
     });
     //
+    builder.addCase(resetProductStatus, (state, action) => {
+      state.status = "idle";
+      state.message = null;
+    });
   },
 });
 

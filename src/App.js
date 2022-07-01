@@ -40,7 +40,7 @@ function App() {
         position="top-center"
         theme="colored"
         hideProgressBar
-        autoClose={2500}
+        autoClose={1000}
       />
     </div>
   );

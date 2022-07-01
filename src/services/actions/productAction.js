@@ -14,7 +14,7 @@ export const createProduct = createAsyncThunk(
       const response = await productApi.createProduct({ data, authToken });
       return response.data;
     } catch (error) {
-      if (!error.response) throw error;
+      if (!error.response) return defaultError;
       return rejectWithValue(error.response.data);
     }
   }
@@ -120,3 +120,4 @@ export const getMyProductList = createAsyncThunk(
   }
 );
 export const setProductMessage = createAction("/product/message");
+export const resetProductStatus = createAction("/product/status/reset");
