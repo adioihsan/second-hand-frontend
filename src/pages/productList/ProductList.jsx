@@ -4,6 +4,7 @@ import { faCube } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import ProductCard, {
   ProductCardAdd,
+  ProductCardLoading,
 } from "../../components/card/productCard/ProductCard";
 import noProductImg from "../../assets/images/noProduct.png";
 import SellerCard from "../../components/card/sellerCard/SellerCard";
@@ -12,21 +13,19 @@ import "./productList.css";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { getMyProductList } from "../../services/actions/productAction";
+import apiStatus from "../../services/utils/apiStatus";
 function ProductList(props) {
   // hooks
   const dispatch = useDispatch();
   const location = useLocation();
-
   const menus = [
     { name: "Produk", icon: faCube, isActive: true },
     { name: "Diminati", icon: faHeart, isActive: false },
     { name: "Terjual", icon: faDollar, isActive: false },
   ];
-  // const { message } = useSelector((state) => state.product);
-  const [message, setMessage] = useState(null);
+  const { data, status, count } = useSelector((state) => state.productList);
   const renderNoProduct = () => {
     return (
       <div className="grid place-content-center place-items-center gap-5 w-full my-16">
@@ -38,6 +37,9 @@ function ProductList(props) {
     );
   };
   // effect
+  useEffect(() => {
+    dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
+  }, []);
   return (
     <main className="productList">
       {/* {pending && <LoadingFull />} */}
@@ -53,18 +55,29 @@ function ProductList(props) {
           <section className="menuLeft">
             <CategoryNav categories={menus} type="list" />
           </section>
-          {false ? (
-            <section className="productListItem">
-              <ProductCardAdd />
-              {Array(12)
+
+          <section className="productListItem">
+            <ProductCardAdd />
+            {status === apiStatus.pending &&
+              Array(5)
                 .fill(0)
-                .map((item, index) => (
-                  <ProductCard key={"cardSample" + index} />
+                .map((dum, index) => (
+                  <ProductCardLoading key={"productDummy" + index} />
                 ))}
-            </section>
-          ) : (
-            renderNoProduct()
-          )}
+            {status === apiStatus.error && (
+              <h1>Terjadi kesalahan saat mengambil data</h1>
+            )}
+            {status === apiStatus.error && (
+              <h1>Terjadi kesalahan saat mengambil data</h1>
+            )}
+            {data?.length === 0 && renderNoProduct()}
+            {data?.map((product) => (
+              <ProductCard
+                product={product}
+                key={"card" + product.name + product.id}
+              />
+            ))}
+          </section>
         </div>
       </article>
     </main>

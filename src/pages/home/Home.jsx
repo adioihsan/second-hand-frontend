@@ -63,13 +63,13 @@ function Home(props) {
           )}
         </section>
         <section className="products mt-6 px-3 ">
-          {Array(12)
+          {/* {Array(12)
             .fill(0)
             .map((item, index) => (
               <Link to="/buyerproductpage">
                 <ProductCard key={"Card" + index} />
               </Link>
-            ))}
+            ))} */}
         </section>
         <Link to="/product-add">
           <ButtonPrimary className="fixed bottom-8 translate-x-[-50%] left-1/2 shadow-xl shadow-purple-300">
