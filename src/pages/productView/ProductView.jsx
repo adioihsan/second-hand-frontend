@@ -30,6 +30,7 @@ const ProductView = () => {
   //data
   const { data, status, message } = useSelector((state) => state.product);
   const [isAction, setIsAction] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   // const { userData } = useSelector((state) => state.user);
 
   // actions
@@ -47,9 +48,7 @@ const ProductView = () => {
   };
   const doDeleteProduct = () => {
     dispatch(deleteProduct(params.productId));
-    setIsAction(true);
-    navigate("/product-list");
-    toast.success("produk berhasil dihapus");
+    setIsDelete(true);
   };
 
   // render component
@@ -98,6 +97,12 @@ const ProductView = () => {
   useEffect(() => {
     if (status === apiStatus.pending) {
       outletContext.setShowBar(true);
+    } else if (status === apiStatus.success && isDelete) {
+      toast.success("Produk telah di hapus");
+      navigate("/product-list");
+    } else if (status === apiStatus.error && isDelete) {
+      toast.error(message);
+      navigate("/product-list");
     } else if (status === apiStatus.success && isAction) {
       data.is_release
         ? toast.success("Produk berhasil di rilis", {
