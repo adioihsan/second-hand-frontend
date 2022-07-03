@@ -91,6 +91,8 @@ const ProductView = () => {
     if (params.productId && params.userType === "seller")
       dispatch(getMyProduct(params.productId));
     else dispatch(getProduct(params.productId));
+    outletContext.setNavType(null);
+    outletContext.setNavTitle(null);
   }, [params.productId]);
 
   useEffect(() => {

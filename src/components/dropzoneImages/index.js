@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { useEffect } from "react";
 import privateAxios from "../../services/apis/config/privateAxios";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
   const [images, setImages] = useState([]);
@@ -21,7 +22,6 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
             [file.name]: percentage,
           };
         });
-        console.log(percentage);
       },
     };
     const formData = new FormData();
@@ -29,7 +29,6 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
     privateAxios(token)
       .post("/image", formData, uploadConfig)
       .then((response) => {
-        console.log(response.data);
         const url = response.data.data.url;
         console.log(url);
         setImagesUrl((prevImages) => {
@@ -42,20 +41,18 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
       });
   };
   const removeImage = (e, file, index) => {
-    console.log(imagesUrl[index]);
+    e.preventDefault();
     privateAxios(token)
       .delete("/image", { data: { url: imagesUrl[index] } })
       .then((response) => {
-        console.log(response);
+        setImages((prevImages) =>
+          prevImages.filter((img, imgIndex) => index !== imgIndex)
+        );
       })
       .catch((error) => {
-        console.log(error);
+        toast.error("Gagal menghapus image");
       });
-    setImages((prevImages) =>
-      prevImages.filter((img, imgIndex) => index !== imgIndex)
-    );
     imagesUrl.splice(index, 1);
-    e.preventDefault();
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -78,6 +75,7 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
       const joinImages = prevImages.concat(newImages);
       return joinImages;
     });
+    //upload
     const imageCount = images.length;
     if (imageCount < 5) {
       filesWithUrl.forEach((file) => {

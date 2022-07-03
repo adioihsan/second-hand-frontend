@@ -12,25 +12,24 @@ import {
   getMyProduct,
   updateProduct,
 } from "../../services/actions/productAction";
-import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import apiStatus from "../../services/utils/apiStatus";
 
 function ProductEdit(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  const navProps = useOutletContext();
+  const outletContex = useOutletContext();
+  const [isAction, setIsAction] = useState(false);
   const { values, errors, handleChange, setValues } = useForm();
   const {
     categories,
     pending: catPending,
     error: catError,
   } = useSelector((state) => state.categoryList);
-  const { data, pending, message, error } = useSelector(
-    (state) => state.product
-  );
+  const { data, message, status } = useSelector((state) => state.product);
   const [imagesUrl, setImagesUrl] = useState([]);
   // actions
   const doUpdateProduct = (e) => {
@@ -38,16 +37,15 @@ function ProductEdit(props) {
     if (checkIsFormValid()) {
       if (imagesUrl.length === 0) {
         toast.warn("Tambahkan foto produk");
-        console.log(imagesUrl);
         return;
       }
-      const formData = { ...values, images_url: imagesUrl.toString() };
+      console.log("cate", values);
+      const formData = {
+        ...values,
+        images_url: imagesUrl.toString(),
+      };
       dispatch(updateProduct(formData));
-      if (error) toast.error(message);
-      if (!pending && !error) {
-        toast.success("product berhasil di update");
-        navigate(-1);
-      }
+      setIsAction(true);
     } else toast.warn("Data produk belum lengkap");
   };
   // helpers
@@ -60,26 +58,41 @@ function ProductEdit(props) {
   };
   // effect
   useEffect(() => {
-    navProps.setNavType("back");
-    navProps.setNavTitle("Lengkapi Detail Produk");
+    outletContex.setNavType("back");
+    outletContex.setNavTitle("Lengkapi Detail Produk");
     dispatch(getCategories());
   }, []);
+
   useEffect(() => {
     if (params.productId) dispatch(getMyProduct(params.productId));
   }, [params.productId]);
 
   useEffect(() => {
-    if (data) {
-      setValues({ ...data });
+    if (status === apiStatus.pending) {
+      outletContex.setShowBar(true);
+    } else if ((status === apiStatus.success) & isAction) {
+      toast.success("Produk berhasil di update");
+      navigate(-1);
+    } else if ((status === apiStatus.error) & isAction) {
+      toast.error(message);
+    } else if (status === apiStatus.success) {
+      setValues({ ...data, categories: data.categories[0].id + "" });
+      console.log("first data", data);
       setImagesUrl(data.images_url.split(","));
+      outletContex.setShowBar(false);
+    } else if (status === apiStatus.error) {
+      toast.error(message);
+      outletContex.setShowBar(false);
+      navigate("/");
     }
-  }, [data]);
-  if (pending) return <LoadingFull />;
-  if (error) navigate(-1);
-  if (values)
+    if (status !== apiStatus.pending) {
+      outletContex.setShowBar(false);
+    }
+  }, [status]);
+
+  if (Object.keys(values).length !== 0)
     return (
       <div className="productAddWrapper">
-        {pending && <LoadingFull />}
         <button className="btnBack" onClick={() => navigate(-1)}>
           <img src={iconArrowLeft} alt="back" />
         </button>
@@ -115,8 +128,9 @@ function ProductEdit(props) {
                 name="categories"
                 id="categeories"
                 onChange={handleChange}
+                value={values.categories}
               >
-                <option value="" disabled>
+                <option value="0" disabled>
                   Pilih Kategori
                 </option>
                 {!catPending &&
