@@ -99,9 +99,11 @@ const ProductView = () => {
       outletContext.setShowBar(true);
     } else if (status === apiStatus.success && isDelete) {
       toast.success("Produk telah di hapus");
+      setIsDelete(false);
       navigate("/product-list");
     } else if (status === apiStatus.error && isDelete) {
       toast.error(message);
+      setIsDelete(false);
       navigate("/product-list");
     } else if (status === apiStatus.success && isAction) {
       data.is_release
