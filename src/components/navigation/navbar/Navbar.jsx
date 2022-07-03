@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/images/logo.png";
+import logo from "../../../assets/images/logo-36-v.png";
 import userImg from "../../../assets//images/user.png";
 import iconSearch from "../../../assets/images/icon-search.png";
 import iconArrowLeft from "../../../assets/images/icon-arrow-left.png";
