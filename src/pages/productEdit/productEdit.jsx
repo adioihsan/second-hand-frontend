@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import apiStatus from "../../services/utils/apiStatus";
+import { Helmet } from "react-helmet-async";
 
 function ProductEdit(props) {
   const dispatch = useDispatch();
@@ -92,85 +93,90 @@ function ProductEdit(props) {
 
   if (Object.keys(values).length !== 0)
     return (
-      <div className="productAddWrapper">
-        <button className="btnBack" onClick={() => navigate(-1)}>
-          <img src={iconArrowLeft} alt="back" />
-        </button>
-        <div className="productAdd">
-          <form className="productAddForm">
-            <div className="inputWrapper">
-              <label htmlFor="name">Nama</label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={values.name}
-                placeholder="Nama Produk"
-                onChange={handleChange}
-              />
-              {errors.name && <span className="error">{errors.name}</span>}
-            </div>
-            <div className="inputWrapper">
-              <label htmlFor="price">Harga Produk</label>
-              <input
-                type="number"
-                name="price"
-                id="price"
-                value={values.price}
-                placeholder="Rp 100"
-                onChange={handleChange}
-              />
-              {errors.price && <span className="error">{errors.price}</span>}
-            </div>
-            <div className="inputWrapper">
-              <label htmlFor="categories">Kategori</label>
-              <select
-                name="categories"
-                id="categeories"
-                onChange={handleChange}
-                value={values.categories}
-              >
-                <option value="0" disabled>
-                  Pilih Kategori
-                </option>
-                {!catPending &&
-                  !catError &&
-                  categories.map((cat) => (
-                    <option value={cat.id} key={"catprod" + cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-            <div className="inputWrapper">
-              <label htmlFor="description">Deskripsi</label>
-              <textarea
-                id="description"
-                name="description"
-                value={values.description}
-                placeholder="Contoh warna,merek dan lain-lain"
-                onChange={handleChange}
-              />
-            </div>
+      <>
+        <Helmet>
+          <title>Seconhand. Edit-{values.name} </title>
+        </Helmet>
+        <div className="productAddWrapper">
+          <button className="btnBack" onClick={() => navigate(-1)}>
+            <img src={iconArrowLeft} alt="back" />
+          </button>
+          <div className="productAdd">
+            <form className="productAddForm">
+              <div className="inputWrapper">
+                <label htmlFor="name">Nama</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={values.name}
+                  placeholder="Nama Produk"
+                  onChange={handleChange}
+                />
+                {errors.name && <span className="error">{errors.name}</span>}
+              </div>
+              <div className="inputWrapper">
+                <label htmlFor="price">Harga Produk</label>
+                <input
+                  type="number"
+                  name="price"
+                  id="price"
+                  value={values.price}
+                  placeholder="Rp 100"
+                  onChange={handleChange}
+                />
+                {errors.price && <span className="error">{errors.price}</span>}
+              </div>
+              <div className="inputWrapper">
+                <label htmlFor="categories">Kategori</label>
+                <select
+                  name="categories"
+                  id="categeories"
+                  onChange={handleChange}
+                  value={values.categories}
+                >
+                  <option value="0" disabled>
+                    Pilih Kategori
+                  </option>
+                  {!catPending &&
+                    !catError &&
+                    categories.map((cat) => (
+                      <option value={cat.id} key={"catprod" + cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="inputWrapper">
+                <label htmlFor="description">Deskripsi</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={values.description}
+                  placeholder="Contoh warna,merek dan lain-lain"
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="inputWrapper">
-              <DropzoneImages
-                imagesUrl={imagesUrl}
-                setImagesUrl={setImagesUrl}
-                update
-              />
-            </div>
-            <div className="flex gap-3 mt-3 w-full ">
-              <ButtonPrimary className="w-full" type="outlined">
-                Preview
-              </ButtonPrimary>
-              <ButtonPrimary className="w-full" onClick={doUpdateProduct}>
-                Simpan
-              </ButtonPrimary>
-            </div>
-          </form>
+              <div className="inputWrapper">
+                <DropzoneImages
+                  imagesUrl={imagesUrl}
+                  setImagesUrl={setImagesUrl}
+                  update
+                />
+              </div>
+              <div className="flex gap-3 mt-3 w-full ">
+                <ButtonPrimary className="w-full" type="outlined">
+                  Preview
+                </ButtonPrimary>
+                <ButtonPrimary className="w-full" onClick={doUpdateProduct}>
+                  Simpan
+                </ButtonPrimary>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </>
     );
 }
 

@@ -18,7 +18,7 @@ import { getCategories } from "../../services/actions/categoryAction";
 import { getProductList } from "../../services/actions/productAction";
 import apiStatus from "../../services/utils/apiStatus";
 import "./home.css";
-import { Helmet } from "react-helmet";
+import { Helmet, helmet } from "react-helmet-async";
 function Home(props) {
   //hooks
   const dispatch = useDispatch();
@@ -84,6 +84,9 @@ function Home(props) {
   }, [params.page, params.search, params.categoryId]);
   return (
     <>
+      <Helmet>
+        <title>Secondhand. Jual beli barang second</title>
+      </Helmet>
       <main className="grid gap-10 md:mt-8">
         <div className="mt-[-5rem] md:mt-0">
           <JumboBanner />

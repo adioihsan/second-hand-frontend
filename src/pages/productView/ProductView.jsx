@@ -20,6 +20,7 @@ import user from "../../services/reducers/user";
 import apiStatus from "../../services/utils/apiStatus";
 import { useOutletContext } from "react-router-dom";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
+import { Helmet } from "react-helmet-async";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
@@ -129,59 +130,68 @@ const ProductView = () => {
   if (!data || data?.length === 0) return <LoadingFull />;
   if (data.name)
     return (
-      <div className="HalamanProduk">
-        <div className="halamanProdukWraper">
-          <div className="flex basis-1/2 flex-col">
-            <Carousel showArrows={true} className="carousel" showThumbs={false}>
-              {data?.images_url.split(",").map((url) => (
-                <div>
+      <>
+        <Helmet>
+          <title>Seconhand. {data.name}</title>
+        </Helmet>
+        <div className="HalamanProduk">
+          <div className="halamanProdukWraper">
+            <div className="flex basis-1/2 flex-col">
+              <Carousel
+                showArrows={true}
+                className="carousel"
+                showThumbs={false}
+              >
+                {data?.images_url.split(",").map((url) => (
+                  <div>
+                    <img
+                      src={process.env.REACT_APP_API_URL + "/images/" + url}
+                      className="imageProduct"
+                      key={"productImg" + url}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+
+              <div className=" border-2 border-gray rounded-xl mb-5">
+                <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
+                <p className="mx-5 mb-5 text-regular text-gray-400">
+                  {data?.description}
+                </p>
+              </div>
+            </div>
+            <div className="flex basis-1/4 flex-col">
+              <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
+                <h1 className=" font-bold">{data.name}</h1>
+                <h1 className=" py-3 text-regular text-gray-400">
+                  {data?.category}
+                </h1>
+                <h1 className=" pb-5 font-regular">
+                  {data?.price.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </h1>
+                {/* button herer */}
+                {params.userType === "seller" && renderSellerButton()}
+                {params.userType !== "seller" && renderUserButton()}
+              </div>
+              <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
+                <div className="">
                   <img
-                    src={process.env.REACT_APP_API_URL + "/images/" + url}
-                    className="imageProduct"
-                    key={"productImg" + url}
+                    src="/assets/images/profilepicture.jpg"
+                    className="profilePicture rounded-xl object-cover"
                   />
                 </div>
-              ))}
-            </Carousel>
-
-            <div className=" border-2 border-gray rounded-xl mb-5">
-              <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
-              <p className="mx-5 mb-5 text-regular text-gray-400">
-                {data?.description}
-              </p>
-            </div>
-          </div>
-          <div className="flex basis-1/4 flex-col">
-            <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
-              <h1 className=" font-bold">{data.name}</h1>
-              <h1 className=" py-3 text-regular text-gray-400">
-                {data?.category}
-              </h1>
-              <h1 className=" pb-5 font-regular">
-                {data?.price.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}
-              </h1>
-              {/* button herer */}
-              {params.userType === "seller" && renderSellerButton()}
-              {params.userType !== "seller" && renderUserButton()}
-            </div>
-            <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
-              <div className="">
-                <img
-                  src="/assets/images/profilepicture.jpg"
-                  className="profilePicture rounded-xl object-cover"
-                />
-              </div>
-              <div className="flex-col ml-5 ">
-                <h1 className="font-bold">{data?.user?.name}</h1>
-                <h1>{data?.user?.city}</h1>
+                <div className="flex-col ml-5 ">
+                  <h1 className="font-bold">{data?.user?.name}</h1>
+                  <h1>{data?.user?.city}</h1>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
 };
 

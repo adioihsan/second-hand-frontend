@@ -18,6 +18,7 @@ import { getMyProductList } from "../../services/actions/productAction";
 import apiStatus from "../../services/utils/apiStatus";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 function ProductList(props) {
   // hooks
   const dispatch = useDispatch();
@@ -43,46 +44,51 @@ function ProductList(props) {
     dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
   }, []);
   return (
-    <main className="productList">
-      {/* {pending && <LoadingFull />} */}
-      <article>
-        <section>
-          <h1 className="productPageTitle">Daftar Jual Saya</h1>
-          <SellerCard />
-        </section>
-        <section className="menuButtons">
-          <CategoryNav categories={menus} />
-        </section>
-        <div className="productListWrapper">
-          <section className="menuLeft">
-            <CategoryNav categories={menus} type="list" />
+    <>
+      <Helmet>
+        <title>Secondhand. Daftar Jual Saya</title>
+      </Helmet>
+      <main className="productList">
+        {/* {pending && <LoadingFull />} */}
+        <article>
+          <section>
+            <h1 className="productPageTitle">Daftar Jual Saya</h1>
+            <SellerCard />
           </section>
-          <section className="productListItem">
-            <Link to="/product-add">
-              <ProductCardAdd />{" "}
-            </Link>
-            {status === apiStatus.pending &&
-              Array(5)
-                .fill(0)
-                .map((dum, index) => (
-                  <ProductCardLoading key={"productDummy" + index} />
-                ))}
+          <section className="menuButtons">
+            <CategoryNav categories={menus} />
+          </section>
+          <div className="productListWrapper">
+            <section className="menuLeft">
+              <CategoryNav categories={menus} type="list" />
+            </section>
+            <section className="productListItem">
+              <Link to="/product-add">
+                <ProductCardAdd />{" "}
+              </Link>
+              {status === apiStatus.pending &&
+                Array(5)
+                  .fill(0)
+                  .map((dum, index) => (
+                    <ProductCardLoading key={"productDummy" + index} />
+                  ))}
+              {status === apiStatus.error && (
+                <h1>Terjadi kesalahan saat mengambil data</h1>
+              )}
+              {data?.map((product) => (
+                <ProductCard
+                  product={product}
+                  onClick={() => navigate("/product-view/seller/" + product.id)}
+                />
+              ))}
+            </section>
             {status === apiStatus.error && (
               <h1>Terjadi kesalahan saat mengambil data</h1>
             )}
-            {data?.map((product) => (
-              <ProductCard
-                product={product}
-                onClick={() => navigate("/product-view/seller/" + product.id)}
-              />
-            ))}
-          </section>
-          {status === apiStatus.error && (
-            <h1>Terjadi kesalahan saat mengambil data</h1>
-          )}
-        </div>
-      </article>
-    </main>
+          </div>
+        </article>
+      </main>
+    </>
   );
 }
 

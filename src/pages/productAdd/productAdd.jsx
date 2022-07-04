@@ -12,7 +12,7 @@ import { createProduct } from "../../services/actions/productAction";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiStatus from "../../services/utils/apiStatus";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 function ProductAdd(props) {
   const dispatch = useDispatch();
@@ -72,6 +72,9 @@ function ProductAdd(props) {
   }, [status]);
   return (
     <>
+      <Helmet>
+        <title>Secondhand. Tambahkan produk</title>
+      </Helmet>
       <div className="productAddWrapper">
         <button className="btnBack" onClick={() => navigate(-1)}>
           <img src={iconArrowLeft} alt="back" />
