@@ -13,7 +13,9 @@ function Pagination({ totalPages, currentPage, handleChange, ...others }) {
     }
     return (
       <>
-        {currentPage !== 1 && <li>Prev</li>}
+        {currentPage !== 1 && (
+          <li onClick={() => handleChange(currentPage - 1)}>Prev</li>
+        )}
         {arr.map((val, index) => (
           <li
             className={currentPage === val ? "active" : ""}
@@ -22,7 +24,9 @@ function Pagination({ totalPages, currentPage, handleChange, ...others }) {
             {val}
           </li>
         ))}
-        {currentPage !== totalPages && <li>Next</li>}
+        {currentPage !== totalPages && (
+          <li onClick={() => handleChange(currentPage + 1)}>Next</li>
+        )}
       </>
     );
   };
