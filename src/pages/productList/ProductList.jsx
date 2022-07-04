@@ -11,7 +11,6 @@ import SellerCard from "../../components/card/sellerCard/SellerCard";
 import CategoryNav from "../../components/navigation/categoryNav/CategoryNav";
 import "./productList.css";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getMyProductList } from "../../services/actions/productAction";

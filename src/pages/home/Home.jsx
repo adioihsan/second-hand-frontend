@@ -18,14 +18,13 @@ import { getCategories } from "../../services/actions/categoryAction";
 import { getProductList } from "../../services/actions/productAction";
 import apiStatus from "../../services/utils/apiStatus";
 import "./home.css";
-import { Helmet, helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 function Home(props) {
   //hooks
   const dispatch = useDispatch();
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { pageTitle, setPageTile } = useState("Jual beli barang second");
   const { categories } = useSelector((state) => state.categoryList);
   const { data, status, message } = useSelector((state) => state.productList);
 
@@ -43,7 +42,7 @@ function Home(props) {
         id: cat.id,
         name: cat.name,
         icon: faSearch,
-        isActive: params.categoryId == cat.id,
+        isActive: params.categoryId === cat.id,
         cb: changeCategory,
       };
     });
@@ -51,7 +50,7 @@ function Home(props) {
       id: 0,
       name: "All Categories",
       icon: faSearch,
-      isActive: !params.categoryId || params.categoryId == 0,
+      isActive: !params.categoryId || params.categoryId === 0,
       cb: changeCategory,
     });
     return catWithIcon;

@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import user from "../../services/reducers/user";
 import apiStatus from "../../services/utils/apiStatus";
 import { useOutletContext } from "react-router-dom";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
