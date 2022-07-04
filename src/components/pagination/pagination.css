@@ -1,0 +1,14 @@
+.paginationWrapper {
+  @apply w-full flex items-center justify-center my-5;
+}
+.pagination {
+  @apply inline-flex gap-1;
+}
+.pagination li {
+  min-width: 3rem;
+  @apply flex justify-center text-lg p-2 outline outline-1 outline-gray-300 rounded-md
+    leading-tight cursor-pointer hover:bg-purple-300 hover:text-white hover:scale-110;
+}
+.pagination li.active {
+  @apply bg-purple-400 text-white;
+}
