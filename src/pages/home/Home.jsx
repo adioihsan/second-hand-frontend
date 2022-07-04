@@ -25,6 +25,7 @@ function Home(props) {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { pageTitle, setPageTile } = useState("Jual beli barang second");
   const { categories } = useSelector((state) => state.categoryList);
   const { data, status, message } = useSelector((state) => state.productList);
 
