@@ -14,10 +14,10 @@
   @apply md:bg-gray-200;
 }
 .searchField > input {
-  @apply w-full rounded-lg bg-transparent outline-none placeholder-gray-500 p-3 focus:border-2 border-purple-300;
+  @apply w-full rounded-lg bg-transparent outline-none placeholder-gray-500 p-2 focus:border focus:border-purple-300;
 }
 .searchField > button {
-  @apply absolute right-3 top-3;
+  @apply absolute right-3 top-2;
 }
 .rightNav {
   @apply hidden;

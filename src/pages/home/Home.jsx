@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,20 +17,31 @@ import { getProductList } from "../../services/actions/productAction";
 import apiStatus from "../../services/utils/apiStatus";
 import "./home.css";
 import { Helmet } from "react-helmet-async";
+import Pagination from "../../components/pagination/Pagination";
+import { useOutletContext } from "react-router-dom";
 function Home(props) {
   //hooks
   const dispatch = useDispatch();
   const params = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
+  const outletContext = useOutletContext();
   const { categories } = useSelector((state) => state.categoryList);
-  const { data, status, message } = useSelector((state) => state.productList);
+  const { data, status, message, count, page, totalPage } = useSelector(
+    (state) => state.productList
+  );
 
   // actions
   const changeCategory = (id) => {
     console.log(id);
     if (id === 0) navigate("/");
-    else navigate("/category/" + id);
+    else navigate("/category/" + id + "/1");
+  };
+
+  const handlePageChange = (pageNumber) => {
+    if (params.search) navigate("/search/" + params.search + "/" + pageNumber);
+    else if (params.categoryId)
+      navigate("/category/" + params.categoryId + "/" + pageNumber);
+    else navigate("/" + pageNumber);
   };
 
   // helper
@@ -42,7 +51,7 @@ function Home(props) {
         id: cat.id,
         name: cat.name,
         icon: faSearch,
-        isActive: params.categoryId === cat.id,
+        isActive: params.categoryId == cat.id,
         cb: changeCategory,
       };
     });
@@ -57,11 +66,6 @@ function Home(props) {
   };
 
   useEffect(() => {
-    if (location.state)
-      toast.success(location.state.message, {
-        toastId: "toast_home",
-      });
-    window.history.replaceState({}, document.title);
     dispatch(getCategories());
     if (!params.categoryId && !params.search)
       dispatch(
@@ -82,6 +86,16 @@ function Home(props) {
       })
     );
   }, [params.page, params.search, params.categoryId]);
+
+  useEffect(() => {
+    if (status === apiStatus.pending) {
+      outletContext.setShowBar(true);
+    }
+    if (status !== apiStatus.pending) {
+      outletContext.setShowBar(false);
+    }
+  }, [status]);
+
   return (
     <>
       <Helmet>
@@ -118,19 +132,19 @@ function Home(props) {
                   onClick={() => navigate("/product-view/see/" + product.id)}
                 />
               ))}
-            {/* {Array(12)
-            .fill(0)
-            .map((item, index) => (
-              <Link to="/buyerproductpage">
-                <ProductCard key={"Card" + index} />
-              </Link>
-            ))} */}
           </section>
-          <Link to="/product-add">
+          {status === apiStatus.success && count > 12 && (
+            <Pagination
+              totalPages={totalPage}
+              currentPage={page}
+              handleChange={handlePageChange}
+            />
+          )}
+          {/* <Link to="/product-add">
             <ButtonPrimary className="fixed bottom-8 translate-x-[-50%] left-1/2 shadow-xl shadow-purple-300">
               + Jual
             </ButtonPrimary>
-          </Link>
+          </Link> */}
         </article>
       </main>
     </>

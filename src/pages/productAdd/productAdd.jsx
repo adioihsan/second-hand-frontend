@@ -47,6 +47,16 @@ function ProductAdd(props) {
     setImagesUrl(imagesUrl);
     if (Object.keys(values).length === 0) return false;
     if (Object.keys(errors).find((key) => errors[key] !== null)) return false;
+    if (
+      values.categories === undefined ||
+      values.name === undefined ||
+      values.price === undefined ||
+      values.categories === undefined ||
+      values.categories === 0 ||
+      values.description === undefined ||
+      imagesUrl.length < 1
+    )
+      return false;
     return true;
   };
   // effect
@@ -56,7 +66,6 @@ function ProductAdd(props) {
     dispatch(getCategories());
   }, []);
   useEffect(() => {
-    const toastStatus = toast;
     if (status === apiStatus.pending) {
       outletContext.setShowBar(true);
     } else if (status === apiStatus.success && isAction) {
@@ -113,10 +122,9 @@ function ProductAdd(props) {
                 name="categories"
                 id="categeories"
                 onChange={handleChange}
+                defaultValue={0}
               >
-                <option value="" disabled>
-                  Pilih Kategori
-                </option>
+                <option value="0">-Pilih Kategori-</option>
                 {!catPending &&
                   !catError &&
                   categories.map((cat) => (

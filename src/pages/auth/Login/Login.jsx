@@ -43,7 +43,8 @@ const Login = () => {
       saveLocalJWT(token);
       const user = parseJwt(token);
       dispatch(setUserData(user));
-      navigate("/", { state: { message: "Login berhasil" } });
+      toast.success("Login berhasil");
+      navigate("/");
     }
   }, [success]);
   useEffect(() => {
