@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { faBox } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar({ type, title, userData }) {
+  console.log(userData);
   //hooks
   const burgerRef = useRef();
   const userProfileMenuRef = useRef();
@@ -97,7 +98,9 @@ function Navbar({ type, title, userData }) {
             <img
               src={
                 userData.photo
-                  ? process.env.REACT_APP_API_URL + "/images/" + userData.photo
+                  ? process.env.REACT_APP_STORAGE_URL +
+                    "/images/" +
+                    userData.photo
                   : userImg
               }
               alt="x"
