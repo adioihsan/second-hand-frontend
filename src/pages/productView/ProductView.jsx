@@ -144,7 +144,7 @@ const ProductView = () => {
                 {data?.images_url.split(",").map((url) => (
                   <div>
                     <img
-                      src={process.env.REACT_APP_API_URL + "/images/" + url}
+                      src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
                       className="imageProduct"
                       key={"productImg" + url}
                     />

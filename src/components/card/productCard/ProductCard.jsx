@@ -9,7 +9,7 @@ function ProductCard({ product, ...others }) {
       <div className="cardHeader">
         <img
           src={
-            process.env.REACT_APP_API_URL +
+            process.env.REACT_APP_STORAGE_URL +
             "/images/" +
             product.images_url.split(",")[0]
           }

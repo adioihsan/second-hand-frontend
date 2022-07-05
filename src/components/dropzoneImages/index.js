@@ -102,7 +102,7 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
       <img
         src={
           file.isDownload
-            ? process.env.REACT_APP_API_URL + "/images/" + file.localUrl
+            ? process.env.REACT_APP_STORAGE_URL + "/images/" + file.localUrl
             : file.localUrl
         }
       />
