@@ -23,7 +23,7 @@ function ProfileInfo(props) {
   const navProps = useOutletContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [progress, setProgress] = useState({});
+  const [progress, setProgress] = useState(0);
   const { token } = useSelector((state) => state.user);
   const { values, errors, handleChange, setValues } = useForm();
   const { suggestions, showSuggestions, handleInput, handleSelected } =
@@ -36,7 +36,6 @@ function ProfileInfo(props) {
   const doUpdateProfile = (e) => {
     e.preventDefault();
     if (checkIsFormValid()) {
-      console.log("values before post", values);
       dispatch(updateUserDetail(values));
       if (!pending && !error) toast.success("Info profile berhasil di update");
       if (error) toast.error(message);
@@ -46,15 +45,13 @@ function ProfileInfo(props) {
   const setImagePreview = (source) => {
     const imgPrev = imgPrevRef.current;
     if (typeof source === "object") {
-      console.log("set image from object");
       const imgUrl = URL.createObjectURL(source);
       if (imgUrl) {
         imgPrev.src = `${imgUrl}`;
       }
       uploadImage(source);
     } else if (typeof source === "string") {
-      console.log("its a string: ", source);
-      imgPrev.src = `${process.env.REACT_APP_API_URL}/images/${source}`;
+      imgPrev.src = `${process.env.REACT_APP_STORAGE_URL}/images/${source}`;
     }
   };
 
@@ -64,12 +61,7 @@ function ProfileInfo(props) {
         var percentage = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         );
-        setProgress((prevProg) => {
-          return {
-            ...prevProg,
-            [file.name]: percentage,
-          };
-        });
+        setProgress(percentage);
       },
     };
     const formData = new FormData();
@@ -78,7 +70,7 @@ function ProfileInfo(props) {
       .post("/image", formData, uploadConfig)
       .then((response) => {
         const url = response.data.data.url;
-        setValues({ ...values, image: url });
+        setValues({ ...values, image_url: url });
       })
       .catch((err) => {
         console.log(err);
@@ -114,7 +106,9 @@ function ProfileInfo(props) {
   useEffect(() => {
     setValues({ ...userDetail });
   }, [userDetail]);
-  console.log(userDetail);
+  useEffect(() => {
+    if (values.image !== null) setImagePreview(values.image);
+  }, [values.image]);
   if (values.name !== undefined) {
     return (
       <div className="profileInfoWrapper">
@@ -141,6 +135,19 @@ function ProfileInfo(props) {
                     setImagePreview(e.target.files[0]);
                   }}
                 />
+                <div
+                  className="progress-user-image"
+                  style={
+                    progress > 1 && progress < 100
+                      ? { display: "block" }
+                      : { display: "none" }
+                  }
+                >
+                  <div
+                    className="progress-bar-user-image"
+                    style={{ width: progress + "%" }}
+                  ></div>
+                </div>
               </label>
               {errors.image && <span className="error">{errors.image}</span>}
             </div>

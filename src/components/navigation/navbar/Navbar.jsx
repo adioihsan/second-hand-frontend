@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { faBox } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar({ type, title, userData }) {
-  console.log(userData);
   //hooks
   const burgerRef = useRef();
   const userProfileMenuRef = useRef();
@@ -37,7 +36,6 @@ function Navbar({ type, title, userData }) {
     if (key == "Enter") {
       if (!value) navigate("/");
       else navigate("/search/" + value + "/1");
-      console.log("search");
     }
   };
   // components to render
