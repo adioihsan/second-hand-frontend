@@ -21,6 +21,9 @@ function Public(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //
+  const [navTitle, setNavTitle] = useState(null);
+  const [navType, setNavType] = useState(null);
+  //
   const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
@@ -47,13 +50,13 @@ function Public(props) {
       <>
         <div className="md:bg-white md:shadow-md sticky top-0 z-10">
           <div className="container mx-auto">
-            <Navbar userData={userData} />
+            <Navbar title={navTitle} type={navType} userData={userData} />
           </div>
           {showBar && (
             <LinearProgress indeterminate buffer={0.3} progress={0.9} />
           )}
         </div>
-        <Outlet context={{ setShowBar }} />
+        <Outlet context={{ setShowBar, setNavType, setNavTitle }} />
       </>
     );
 }
