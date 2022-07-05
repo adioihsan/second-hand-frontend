@@ -35,7 +35,6 @@ function Public(props) {
           setIsGuest(false);
         } else {
           setIsGuest(true);
-          console.log("else run");
         }
       }
     } catch (error) {
@@ -51,7 +50,7 @@ function Public(props) {
             <Navbar userData={userData} />
           </div>
           {showBar && (
-            <LinearProgress indeterminate buffer={0.9} progress={0.8} />
+            <LinearProgress indeterminate buffer={0.3} progress={0.9} />
           )}
         </div>
         <Outlet context={{ setShowBar }} />
