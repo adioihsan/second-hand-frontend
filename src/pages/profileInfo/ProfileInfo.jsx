@@ -43,6 +43,7 @@ function ProfileInfo(props) {
   };
 
   const setImagePreview = (source) => {
+    setValues({ ...values, image_url: null });
     const imgPrev = imgPrevRef.current;
     if (typeof source === "object") {
       const imgUrl = URL.createObjectURL(source);
@@ -87,7 +88,9 @@ function ProfileInfo(props) {
       values.city === null ||
       values.city === undefined ||
       values.phone === null ||
-      values.phone === undefined
+      values.phone === undefined ||
+      values.image_url === null ||
+      values.image_url === undefined
     )
       return false;
 

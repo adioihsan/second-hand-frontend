@@ -20,6 +20,7 @@ import apiStatus from "../../services/utils/apiStatus";
 import { useOutletContext } from "react-router-dom";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import { Helmet } from "react-helmet-async";
+import BuyerNegoModal from "../../components/modal/buyerNegoModal/BuyerNegoModal";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const ProductView = () => {
   const { data, status, message } = useSelector((state) => state.product);
   const [isAction, setIsAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   // const { userData } = useSelector((state) => state.user);
 
   // actions
@@ -84,7 +86,11 @@ const ProductView = () => {
       </button>
     </>
   );
-  const renderUserButton = () => <ButtonPrimary>Saya tertarik</ButtonPrimary>;
+  const renderUserButton = () => (
+    <ButtonPrimary onClick={() => setShowModal(true)}>
+      Saya tertarik
+    </ButtonPrimary>
+  );
 
   useEffect(() => {
     if (params.productId && params.userType === "seller")
@@ -126,8 +132,8 @@ const ProductView = () => {
     }
     if (status !== apiStatus.pending) outletContext.setShowBar(false);
   }, [status]);
-  if (!data || data?.length === 0) return <LoadingFull />;
-  if (data.name)
+  if (status === apiStatus.pending) return <LoadingFull />;
+  if (status === apiStatus.success && data !== null)
     return (
       <>
         <Helmet>
@@ -142,13 +148,11 @@ const ProductView = () => {
                 showThumbs={false}
               >
                 {data?.images_url.split(",").map((url) => (
-                  <div>
-                    <img
-                      src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
-                      className="imageProduct"
-                      key={"productImg" + url}
-                    />
-                  </div>
+                  <img
+                    src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
+                    className="imageProduct"
+                    key={"productImg" + url}
+                  />
                 ))}
               </Carousel>
 
@@ -162,8 +166,8 @@ const ProductView = () => {
             <div className="flex basis-1/4 flex-col">
               <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
                 <h1 className=" font-bold">{data.name}</h1>
-                <h1 className=" py-3 text-regular text-gray-400">
-                  {data?.category}
+                <h1 className=" pt-1 pb-2 text-regular text-gray-400">
+                  {data?.categories[0].name}
                 </h1>
                 <h1 className=" pb-5 font-regular">
                   {data?.price.toLocaleString("id-ID", {
@@ -178,7 +182,11 @@ const ProductView = () => {
               <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
                 <div className="">
                   <img
-                    src="/assets/images/profilepicture.jpg"
+                    src={
+                      process.env.REACT_APP_STORAGE_URL +
+                      "/images/" +
+                      data.user.image
+                    }
                     className="profilePicture rounded-xl object-cover"
                   />
                 </div>
@@ -190,6 +198,7 @@ const ProductView = () => {
             </div>
           </div>
         </div>
+        {showModal && <BuyerNegoModal onClick={() => setShowModal(false)} />}
       </>
     );
 };

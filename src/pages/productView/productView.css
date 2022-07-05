@@ -1,7 +1,9 @@
 .carousel {
-  max-height: 500px;
-  object-fit: cover;
-  @apply rounded-xl mb-5;
+  @apply rounded-xl  flex items-center bg-gray-600;
+}
+.carousel img {
+  height: 30rem;
+  @apply object-contain;
 }
 .halamanProdukWraper {
   @apply flex flex-col;
