@@ -14,43 +14,49 @@ import {
 } from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 function Public(props) {
-  const { token, userDetail, userData } = useSelector((state) => state.user);
+  const { token, userDetail, userData, error } = useSelector(
+    (state) => state.user
+  );
   const [showBar, setShowBar] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //
-  const [isGuest, setIsGuest] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
 
-  // useEffect(() => {
-  //   try {
-  //     if (!token) {
-  //       const localToken = getLocalJWT();
-  //       dispatch(setUserToken(localToken));
-  //       const user = parseJwt(localToken);
-  //       dispatch(setUserData(user));
-  //       dispatch(getUserDetail());
-  //       console.log(userDetail);
-  //     }
-  //     setIsGuest(false);
-  //   } catch (error) {
-  //     setIsGuest(true);
-  //   }
-  // }, []);
-  // if (!token || isGuest) return <LoadingFull />;
-  // else
-  return (
-    <>
-      <div className="md:bg-white md:shadow-md sticky top-0 z-10">
-        <div className="container mx-auto">
-          <Navbar userData={userData} />
+  useEffect(() => {
+    try {
+      if (!token) {
+        const localToken = getLocalJWT();
+        if (localToken) {
+          dispatch(setUserToken(localToken));
+          const user = parseJwt(localToken);
+          dispatch(setUserData(user));
+          dispatch(getUserDetail());
+          setIsGuest(false);
+        } else {
+          setIsGuest(true);
+          console.log("else run");
+        }
+      }
+    } catch (error) {
+      setIsGuest(true);
+    }
+  }, []);
+  if (!token && !isGuest) return <LoadingFull />;
+  else if (token || isGuest)
+    return (
+      <>
+        <div className="md:bg-white md:shadow-md sticky top-0 z-10">
+          <div className="container mx-auto">
+            <Navbar userData={userData} />
+          </div>
+          {showBar && (
+            <LinearProgress indeterminate buffer={0.9} progress={0.8} />
+          )}
         </div>
-        {showBar && (
-          <LinearProgress indeterminate buffer={0.9} progress={0.8} />
-        )}
-      </div>
-      <Outlet context={{ setShowBar }} />
-    </>
-  );
+        <Outlet context={{ setShowBar }} />
+      </>
+    );
 }
 
 export default Public;
