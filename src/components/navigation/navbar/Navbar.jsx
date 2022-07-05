@@ -36,7 +36,6 @@ function Navbar({ type, title, userData }) {
     if (key == "Enter") {
       if (!value) navigate("/");
       else navigate("/search/" + value + "/1");
-      console.log("search");
     }
   };
   // components to render
@@ -97,7 +96,9 @@ function Navbar({ type, title, userData }) {
             <img
               src={
                 userData.photo
-                  ? process.env.REACT_APP_API_URL + "/images/" + userData.photo
+                  ? process.env.REACT_APP_STORAGE_URL +
+                    "/images/" +
+                    userData.photo
                   : userImg
               }
               alt="x"

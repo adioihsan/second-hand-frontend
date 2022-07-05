@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import iconArrowLeft from "../../assets/images/icon-arrow-left.png";
 import userImg from "../../assets/images/user.png";
@@ -17,11 +17,14 @@ import useSuggestionInput from "../../hooks/useSuggestionInput";
 import cities from "../../cache/cities.json";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import privateAxios from "../../services/apis/config/privateAxios";
 
 function ProfileInfo(props) {
   const navProps = useOutletContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [progress, setProgress] = useState(0);
+  const { token } = useSelector((state) => state.user);
   const { values, errors, handleChange, setValues } = useForm();
   const { suggestions, showSuggestions, handleInput, handleSelected } =
     useSuggestionInput(cities);
@@ -32,33 +35,46 @@ function ProfileInfo(props) {
   // actions
   const doUpdateProfile = (e) => {
     e.preventDefault();
-    const formData = convertToFormData(values);
     if (checkIsFormValid()) {
-      dispatch(updateUserDetail(formData));
+      dispatch(updateUserDetail(values));
       if (!pending && !error) toast.success("Info profile berhasil di update");
       if (error) toast.error(message);
     } else toast.warn("Data belum lengkap");
   };
 
-  //helpers
-  const convertToFormData = (object) =>
-    Object.keys(object).reduce((formData, key) => {
-      formData.append(key, object[key]);
-      return formData;
-    }, new FormData());
-
   const setImagePreview = (source) => {
     const imgPrev = imgPrevRef.current;
     if (typeof source === "object") {
-      console.log("set image from object");
       const imgUrl = URL.createObjectURL(source);
       if (imgUrl) {
         imgPrev.src = `${imgUrl}`;
       }
+      uploadImage(source);
     } else if (typeof source === "string") {
-      console.log("its a string: ", source);
-      imgPrev.src = `${process.env.REACT_APP_API_URL}/images/${source}`;
+      imgPrev.src = `${process.env.REACT_APP_STORAGE_URL}/images/${source}`;
     }
+  };
+
+  const uploadImage = (file) => {
+    const uploadConfig = {
+      onUploadProgress: function (progressEvent) {
+        var percentage = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        setProgress(percentage);
+      },
+    };
+    const formData = new FormData();
+    formData.append("image", file);
+    privateAxios(token)
+      .post("/image", formData, uploadConfig)
+      .then((response) => {
+        const url = response.data.data.url;
+        setValues({ ...values, image_url: url });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const checkIsFormValid = () => {
@@ -90,7 +106,6 @@ function ProfileInfo(props) {
   useEffect(() => {
     setValues({ ...userDetail });
   }, [userDetail]);
-
   useEffect(() => {
     if (values.image !== null) setImagePreview(values.image);
   }, [values.image]);
@@ -101,12 +116,7 @@ function ProfileInfo(props) {
           <img src={iconArrowLeft} alt="back" />
         </button>
         <div className="profileInfo">
-          <form
-            className="profileInfoForm"
-            action="post"
-            onSubmit={doUpdateProfile}
-            autoComplete="off"
-          >
+          <form className="profileInfoForm" autoComplete="off">
             <div className="inputWrapperPhoto">
               <label htmlFor="image" className="labelPhoto">
                 <img
@@ -122,10 +132,22 @@ function ProfileInfo(props) {
                   accept="image/png, image/jpeg"
                   className="inputPhoto"
                   onChange={(e) => {
-                    handleChange(e);
                     setImagePreview(e.target.files[0]);
                   }}
                 />
+                <div
+                  className="progress-user-image"
+                  style={
+                    progress > 1 && progress < 100
+                      ? { display: "block" }
+                      : { display: "none" }
+                  }
+                >
+                  <div
+                    className="progress-bar-user-image"
+                    style={{ width: progress + "%" }}
+                  ></div>
+                </div>
               </label>
               {errors.image && <span className="error">{errors.image}</span>}
             </div>
@@ -189,7 +211,9 @@ function ProfileInfo(props) {
               />
               {errors.phone && <span className="error">{errors.phone}</span>}
             </div>
-            <ButtonPrimary className="w-full mt-3">Simpan</ButtonPrimary>
+            <ButtonPrimary className="w-full mt-3" onClick={doUpdateProfile}>
+              Simpan
+            </ButtonPrimary>
           </form>
         </div>
         {pending && <LoadingFull />}
