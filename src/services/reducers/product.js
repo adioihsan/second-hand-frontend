@@ -19,6 +19,7 @@ const initialState = {
 };
 
 const defaultPending = (state, action) => {
+  state.data = null;
   state.message = null;
   state.status = "pending";
 };

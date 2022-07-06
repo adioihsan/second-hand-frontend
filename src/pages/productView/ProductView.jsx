@@ -21,6 +21,7 @@ import { useOutletContext } from "react-router-dom";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import { Helmet } from "react-helmet-async";
 import BuyerNegoModal from "../../components/modal/buyerNegoModal/BuyerNegoModal";
+import { postBuyerNego } from "../../services/actions/negotiationAction";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
@@ -30,8 +31,14 @@ const ProductView = () => {
 
   //data
   const { data, status, message } = useSelector((state) => state.product);
+  const {
+    data: negoData,
+    status: negoStatus,
+    message: negoMessage,
+  } = useSelector((state) => state.negotiation);
   const [isAction, setIsAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [isNego, setIsNego] = useState(false);
   const [showModal, setShowModal] = useState(false);
   // const { userData } = useSelector((state) => state.user);
 
@@ -51,6 +58,13 @@ const ProductView = () => {
   const doDeleteProduct = () => {
     dispatch(deleteProduct(params.productId));
     setIsDelete(true);
+  };
+  const doNego = (negoPrice) => {
+    dispatch(
+      postBuyerNego({ product_id: params.productId, nego_price: negoPrice })
+    );
+    setShowModal(false);
+    setIsNego(true);
   };
 
   // render component
@@ -132,6 +146,21 @@ const ProductView = () => {
     }
     if (status !== apiStatus.pending) outletContext.setShowBar(false);
   }, [status]);
+
+  useEffect(() => {
+    if (negoStatus === apiStatus.pending) {
+      outletContext.setShowBar(true);
+    } else if (negoStatus === apiStatus.success && isNego) {
+      toast.success("Penawaran berhasil dikirim");
+    } else if (negoStatus === apiStatus.error && isNego) {
+      toast.error(negoMessage);
+    }
+    if (negoStatus !== apiStatus.pending) {
+      outletContext.setShowBar(false);
+      setIsNego(false);
+    }
+  }, [negoStatus]);
+
   if (status === apiStatus.success && data !== null && data !== undefined)
     return (
       <>
@@ -206,7 +235,13 @@ const ProductView = () => {
           </div>
         </div>
 
-        {showModal && <BuyerNegoModal onClick={() => setShowModal(false)} />}
+        {showModal && (
+          <BuyerNegoModal
+            onClick={() => setShowModal(false)}
+            cb={doNego}
+            product={data}
+          />
+        )}
       </>
     );
 };
