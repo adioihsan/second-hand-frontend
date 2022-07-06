@@ -3,8 +3,8 @@ function validateForm(name, value, result) {
   switch (name) {
     case "name":
       if (value.length < 5) error = "Nama minimal 5 karakter atau lebih !";
-      else if (value.length > 30)
-        error = "Nama tidak boleh melebihi 30 karakter";
+      else if (value.length > 50)
+        error = "Nama tidak boleh melebihi 50 karakter";
       else error = null;
       break;
     case "email":

@@ -60,7 +60,7 @@ function ProfileInfo(props) {
     const uploadConfig = {
       onUploadProgress: function (progressEvent) {
         var percentage = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
+          (progressEvent.loaded * 90) / progressEvent.total
         );
         setProgress(percentage);
       },
@@ -72,6 +72,7 @@ function ProfileInfo(props) {
       .then((response) => {
         const url = response.data.data.url;
         setValues({ ...values, image_url: url });
+        setProgress(100);
       })
       .catch((err) => {
         console.log(err);
@@ -110,7 +111,10 @@ function ProfileInfo(props) {
     setValues({ ...userDetail });
   }, [userDetail]);
   useEffect(() => {
-    if (values.image !== null) setImagePreview(values.image);
+    if (values.image !== null) {
+      setImagePreview(values.image);
+      setValues({ ...values, image_url: values.image });
+    }
   }, [values.image]);
   if (values.name !== undefined) {
     return (
