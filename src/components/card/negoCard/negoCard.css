@@ -1,0 +1,9 @@
+.negoCard {
+  @apply flex items-center  gap-3 min-w-fit bg-white p-3 shadow-md rounded-md cursor-pointer;
+}
+.cardNegoBody {
+  @apply grid gap-1;
+}
+.productNegoImage {
+  @apply w-48 h-36 object-cover rounded-md;
+}

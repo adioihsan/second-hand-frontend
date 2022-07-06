@@ -4,12 +4,14 @@ import user from "./reducers/user";
 import product from "./reducers/product";
 import productList from "./reducers/productList";
 import negotiation from "./reducers/negotiation";
+import negotiationList from "./reducers/negotiationList";
 const reducer = {
   categoryList,
   user,
   product,
   productList,
   negotiation,
+  negotiationList,
 };
 const ReduxStore = configureStore({ reducer });
 export default ReduxStore;

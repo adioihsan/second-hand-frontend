@@ -2,18 +2,19 @@ import React from "react";
 import ButtonPrimary from "../../button/buttonPrimary/ButtonPrimary";
 import "./sellerCard.css";
 
-function SellerCard(props) {
+function SellerCard({ children, seller }) {
+  console.log(seller);
   return (
     <div className="sellerCard">
       <div className="sellerInfo">
         <img
-          src="https://picsum.photos/200/300"
+          src={process.env.REACT_APP_STORAGE_URL + "/images/" + seller.photo}
           alt="user"
           className="sellerPhoto"
         />
         <div className="info">
-          <p className="sellerName">Nama Penjual</p>
-          <p className="sellerCity">Kota</p>
+          <p className="sellerName">{seller.name || "Nama pembeli"}</p>
+          <p className="sellerCity">{seller.city || "Kota Pembeli"}</p>
         </div>
       </div>
       <div className="sellerActions">
