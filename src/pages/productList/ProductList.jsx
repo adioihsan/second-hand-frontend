@@ -18,16 +18,46 @@ import apiStatus from "../../services/utils/apiStatus";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useParams } from "react-router-dom";
+import { faHandshake } from "@fortawesome/free-regular-svg-icons";
+import { getSellerNegoList } from "../../services/actions/negotiationAction";
+import NegoCard from "../../components/card/negoCard/NegoCard";
 function ProductList(props) {
   // hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
   const menus = [
-    { name: "Produk", icon: faCube, isActive: true },
-    { name: "Diminati", icon: faHeart, isActive: false },
-    { name: "Terjual", icon: faDollar, isActive: false },
+    {
+      name: "Produk",
+      icon: faCube,
+      isActive: params.category === "products",
+      cb: () => navigate("/product-list/products"),
+    },
+    {
+      name: "Diminati",
+      icon: faHeart,
+      isActive: params.category === "wish",
+      cb: () => navigate("/product-list/wish"),
+    },
+    {
+      name: "Ditawar",
+      icon: faHandshake,
+      isActive: params.category === "negotiation",
+      cb: () => navigate("/product-list/negotiation"),
+    },
+    {
+      name: "Terjual",
+      icon: faDollar,
+      isActive: params.category === "sold",
+      cb: () => navigate("/product-list/sold"),
+    },
   ];
   const { data, status, count } = useSelector((state) => state.productList);
+  const { userData } = useSelector((state) => state.user);
+  const { data: negoData, status: negoStatus } = useSelector(
+    (state) => state.negotiationList
+  );
   const renderNoProduct = () => {
     return (
       <div className="grid place-content-center place-items-center gap-5 w-full my-16">
@@ -40,8 +70,13 @@ function ProductList(props) {
   };
   // effect
   useEffect(() => {
-    dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
-  }, []);
+    if (params.category === "products")
+      dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
+    else if (params.category === "negotiation") {
+      dispatch(getSellerNegoList({ page: 1, limit: 12 }));
+    }
+    console.log(negoData);
+  }, [params.category]);
   return (
     <>
       <Helmet>
@@ -52,7 +87,7 @@ function ProductList(props) {
         <article>
           <section>
             <h1 className="productPageTitle">Daftar Jual Saya</h1>
-            <SellerCard />
+            {/* <SellerCard seller={userData} /> */}
           </section>
           <section className="menuButtons">
             <CategoryNav categories={menus} />
@@ -61,27 +96,54 @@ function ProductList(props) {
             <section className="menuLeft">
               <CategoryNav categories={menus} type="list" />
             </section>
-            <section className="productListItem">
-              <Link to="/product-add">
-                <ProductCardAdd />{" "}
-              </Link>
-              {status === apiStatus.pending &&
-                Array(5)
-                  .fill(0)
-                  .map((dum, index) => (
-                    <ProductCardLoading key={"productDummy" + index} />
-                  ))}
-              {status === apiStatus.error && (
-                <h1>Terjadi kesalahan saat mengambil data</h1>
-              )}
-              {data?.map((product, index) => (
-                <ProductCard
-                  product={product}
-                  onClick={() => navigate("/product-view/seller/" + product.id)}
-                  key={"productList" + index}
-                />
-              ))}
-            </section>
+            {params.category === "products" && (
+              <section className="productListItem">
+                <Link to="/product-add">
+                  <ProductCardAdd />{" "}
+                </Link>
+                {status === apiStatus.pending &&
+                  Array(5)
+                    .fill(0)
+                    .map((dum, index) => (
+                      <ProductCardLoading key={"productDummy" + index} />
+                    ))}
+                {status === apiStatus.error && (
+                  <h1>Terjadi kesalahan saat mengambil data</h1>
+                )}
+                {data?.map((product, index) => (
+                  <ProductCard
+                    product={product}
+                    onClick={() =>
+                      navigate("/product-view/seller/" + product.id)
+                    }
+                    key={"productList" + index}
+                  />
+                ))}
+              </section>
+            )}
+            {params.category === "negotiation" && (
+              <section className="negoListItem">
+                {negoStatus === apiStatus.pending &&
+                  Array(5)
+                    .fill(0)
+                    .map((dum, index) => (
+                      <ProductCardLoading key={"productDummy" + index} />
+                    ))}
+                {negoStatus === apiStatus.error && (
+                  <h1>Terjadi kesalahan saat mengambil data</h1>
+                )}
+                {negoData?.map((nego, index) => (
+                  <NegoCard
+                    product={nego.product}
+                    negoPrice={nego.price}
+                    buyer={nego.user_buyer.user_detail}
+                    key={"productNego" + index}
+                    onClick={() => navigate("/negotiation-info")}
+                  />
+                ))}
+              </section>
+            )}
+
             {status === apiStatus.error && (
               <h1>Terjadi kesalahan saat mengambil data</h1>
             )}

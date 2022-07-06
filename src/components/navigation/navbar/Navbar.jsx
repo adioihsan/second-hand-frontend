@@ -115,7 +115,7 @@ function Navbar({ type, title, userData }) {
                 <FontAwesomeIcon icon={faUser} /> Info Profile
               </button>
             </Link>
-            <Link to="/product-list">
+            <Link to="/product-list/products">
               <button>
                 <FontAwesomeIcon icon={faBox} /> Daftar jual saya
               </button>

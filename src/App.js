@@ -34,12 +34,9 @@ function App() {
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
             <Route path="/product-add" element={<ProductAdd />} />
-            <Route path="/product-list" element={<ProductList />} />
+            <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
-            {/* <Route
-              path="/product-view/:userType/:productId"
-              element={<ProductView />}
-            /> */}
+            <Route path="/negotiation-info" element={<Negotiationinfo />} />
             <Route path="/buyerproductpage" element={<BuyerProductPage />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>

@@ -13,6 +13,9 @@ function CategoryNav({ categories, type }) {
                 ? "categoryListItem text-purple-500"
                 : "categoryListItem text-gray-900"
             }
+            onClick={() => {
+              cat.cb(cat.id);
+            }}
           >
             <FontAwesomeIcon icon={cat.icon} width={"32px"} />
             {cat.name}

@@ -46,11 +46,15 @@ function ProfileInfo(props) {
     setValues({ ...values, image_url: null });
     const imgPrev = imgPrevRef.current;
     if (typeof source === "object") {
-      const imgUrl = URL.createObjectURL(source);
-      if (imgUrl) {
-        imgPrev.src = `${imgUrl}`;
+      if (source.size > 1048576)
+        toast.error("Ukuran " + source.name + " terlalu besar (max:1MB)");
+      else {
+        const imgUrl = URL.createObjectURL(source);
+        if (imgUrl) {
+          imgPrev.src = `${imgUrl}`;
+        }
+        uploadImage(source);
       }
-      uploadImage(source);
     } else if (typeof source === "string") {
       imgPrev.src = `${process.env.REACT_APP_STORAGE_URL}/images/${source}`;
     }
@@ -75,7 +79,7 @@ function ProfileInfo(props) {
         setProgress(100);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.response.data.message);
       });
   };
 

@@ -18,3 +18,19 @@ export const postBuyerNego = createAsyncThunk(
     }
   }
 );
+export const getSellerNegoList = createAsyncThunk(
+  "negotiation/seller/list",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await negotiationApi.getSellerNegoList({
+        data,
+        authToken,
+      });
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
