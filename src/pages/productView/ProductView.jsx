@@ -132,34 +132,38 @@ const ProductView = () => {
     }
     if (status !== apiStatus.pending) outletContext.setShowBar(false);
   }, [status]);
-  if (status === apiStatus.pending) return <LoadingFull />;
-  if (status === apiStatus.success && data !== null)
+  if (status === apiStatus.success && data !== null && data !== undefined)
     return (
       <>
-        <Helmet>
-          <title>Seconhand. {data.name}</title>
-        </Helmet>
+        {data.name && (
+          <Helmet>
+            <title>Seconhand. {data.name}</title>
+          </Helmet>
+        )}
+
         <div className="HalamanProduk">
           <div className="halamanProdukWraper">
             <div className="flex basis-1/2 flex-col">
-              <Carousel
-                showArrows={true}
-                className="carousel"
-                showThumbs={false}
-              >
-                {data?.images_url.split(",").map((url) => (
-                  <img
-                    src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
-                    className="imageProduct"
-                    key={"productImg" + url}
-                  />
-                ))}
-              </Carousel>
+              {data.images_url && (
+                <Carousel
+                  showArrows={true}
+                  className="carousel"
+                  showThumbs={false}
+                >
+                  {data.images_url.split(",").map((url) => (
+                    <img
+                      src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
+                      className="imageProduct"
+                      key={"productImg" + url}
+                    />
+                  ))}
+                </Carousel>
+              )}
 
               <div className=" border-2 border-gray rounded-xl mb-5">
                 <h1 className="my-5 mx-5 font-medium">Deskripsi</h1>
                 <p className="mx-5 mb-5 text-regular text-gray-400">
-                  {data?.description}
+                  {data.description && data?.description}
                 </p>
               </div>
             </div>
@@ -167,13 +171,14 @@ const ProductView = () => {
               <div className=" shadow-xl flex flex-col rounded-xl w-full p-5">
                 <h1 className=" font-bold">{data.name}</h1>
                 <h1 className=" pt-1 pb-2 text-regular text-gray-400">
-                  {data?.categories[0].name}
+                  {data.categories && data.categories[0].name}
                 </h1>
                 <h1 className=" pb-5 font-regular">
-                  {data?.price.toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  })}
+                  {data.price &&
+                    data?.price.toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                 </h1>
                 {/* button herer */}
                 {params.userType === "seller" && renderSellerButton()}
@@ -181,23 +186,26 @@ const ProductView = () => {
               </div>
               <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
                 <div className="">
-                  <img
-                    src={
-                      process.env.REACT_APP_STORAGE_URL +
-                      "/images/" +
-                      data.user.image
-                    }
-                    className="profilePicture rounded-xl object-cover"
-                  />
+                  {data.user && data.user && (
+                    <img
+                      src={
+                        process.env.REACT_APP_STORAGE_URL +
+                        "/images/" +
+                        data.user.image
+                      }
+                      className="profilePicture rounded-xl object-cover"
+                    />
+                  )}
                 </div>
                 <div className="flex-col ml-5 ">
-                  <h1 className="font-bold">{data?.user?.name}</h1>
-                  <h1>{data?.user?.city}</h1>
+                  <h1 className="font-bold">{data.user && data?.user?.name}</h1>
+                  <h1>{data.user && data?.user?.city}</h1>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         {showModal && <BuyerNegoModal onClick={() => setShowModal(false)} />}
       </>
     );
