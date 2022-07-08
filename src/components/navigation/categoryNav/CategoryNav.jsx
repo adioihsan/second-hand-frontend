@@ -16,6 +16,7 @@ function CategoryNav({ categories, type }) {
             onClick={() => {
               cat.cb(cat.id);
             }}
+            key={"catList" + index + cat.name}
           >
             <FontAwesomeIcon icon={cat.icon} width={"32px"} />
             {cat.name}

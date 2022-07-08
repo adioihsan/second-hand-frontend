@@ -23,7 +23,9 @@ const productApi = {
       is_release: false,
     }),
   soldProduct: ({ productId, authToken }) =>
-    privateAxios(authToken).patch("/product/" + productId + "/sold"),
+    privateAxios(authToken).patch("/product/" + productId + "/sold", {
+      status: false,
+    }),
   deleteProduct: ({ productId, authToken }) =>
     privateAxios(authToken).delete("/product/" + productId),
   //

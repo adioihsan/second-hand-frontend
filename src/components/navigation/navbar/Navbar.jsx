@@ -55,7 +55,9 @@ function Navbar({ type, title, userData }) {
         <FontAwesomeIcon icon={faBars} size="lg" width="24px" height="24px" />
       </div>
       <div className="burgerItems" ref={burgerRef}>
-        {true ? renderLoginButton() : renderUserMenu("userMenuList", userData)}
+        {userData
+          ? renderUserMenu("userMenuList", userData)
+          : renderLoginButton()}
       </div>
     </div>
   );
@@ -91,6 +93,23 @@ function Navbar({ type, title, userData }) {
           <FontAwesomeIcon icon={faBell} size="lg" width="18px" />{" "}
           {isList && " Notification"}
         </button>
+        {isList && (
+          <>
+            {" "}
+            <button
+              className="whistlist"
+              onClick={() => navigate("/profile-info")}
+            >
+              <FontAwesomeIcon icon={faUser} /> Info Profile
+            </button>
+            <button
+              className="whistlist"
+              onClick={() => navigate("/product-list/products")}
+            >
+              <FontAwesomeIcon icon={faBox} /> Daftar jual
+            </button>
+          </>
+        )}
         <div className="userProfile">
           <button className="userProfileHeader" onClick={showUserProfileMenu}>
             <img

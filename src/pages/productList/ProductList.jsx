@@ -78,10 +78,12 @@ function ProductList(props) {
   useEffect(() => {
     if (params.category === "products")
       dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
-    else if (params.category === "negotiation") {
+    else if (params.category === "negotiation")
       dispatch(getSellerNegoList({ page: 1, limit: 12 }));
-    }
-    console.log(negoData);
+    else if (params.category === "sold")
+      dispatch(getMyProductList({ page: 1, limit: 12, filter: 2 }));
+    else if (params.category === "wish")
+      dispatch(getMyProductList({ page: 1, limit: 12, filter: 4 }));
   }, [params.category]);
   return (
     <>
@@ -102,7 +104,7 @@ function ProductList(props) {
             <section className="menuLeft">
               <CategoryNav categories={menus} type="list" />
             </section>
-            {params.category === "products" && (
+            {params.category !== "negotiation" && (
               <section className="productListItem">
                 <Link to="/product-add">
                   <ProductCardAdd />{" "}
