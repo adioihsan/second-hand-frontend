@@ -6,7 +6,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import LinearProgress from "@material/react-linear-progress";
 import LoadingFull from "../components/loading/lodingFull/LoadingFull";
-import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
+import {
+  getLocalJWT,
+  isJwtValid,
+  parseJwt,
+} from "../services/utils/jwtHandler";
 import {
   getUserDetail,
   setUserData,
@@ -29,6 +33,7 @@ function Public(props) {
   useEffect(() => {
     try {
       if (!token) {
+        console.log("if run run");
         const localToken = getLocalJWT();
         if (localToken) {
           dispatch(setUserToken(localToken));
@@ -38,6 +43,17 @@ function Public(props) {
           setIsGuest(false);
         } else {
           setIsGuest(true);
+        }
+      } else {
+        if (!isJwtValid) {
+          navigate("/login", {
+            state: {
+              page: {
+                message: "Sesi telah berakhir, silahkan login",
+                domain: "/",
+              },
+            },
+          });
         }
       }
     } catch (error) {

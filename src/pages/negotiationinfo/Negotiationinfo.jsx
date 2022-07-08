@@ -19,15 +19,23 @@ import {
 import apiStatus from "../../services/utils/apiStatus";
 import "./negotiationinfo.css";
 import iconWhatsapp from "../../assets/images/icon-whatsapp-16.png";
+import UpdateStatusModal from "../../components/modal/updateStatusModal/UpdateStatusModal";
+import { soldProduct } from "../../services/actions/productAction";
 
 const Negotiationinfo = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, status, message } = useSelector((state) => state.negotiation);
+  const {
+    data: product,
+    status: productStatus,
+    message: productMessage,
+  } = useSelector((state) => state.product);
   const [isAction, setIsAction] = useState(false);
+  const [isProductAction, setIsProductAction] = useState(false);
   const outletContext = useOutletContext();
-  const [showNegoModal, setShowNegoModal] = useState();
+  const [showStatusModal, setShowStatusModal] = useState(false);
   const [showAcceptModal, setShowAcceptModal] = useState(false);
   const [negoData, setNegoData] = useState(location.state);
 
@@ -54,6 +62,11 @@ const Negotiationinfo = () => {
     );
   };
 
+  const doSoldProduct = (productId) => {
+    setShowStatusModal(false);
+    dispatch(soldProduct(productId));
+    setIsProductAction(true);
+  };
   useEffect(() => {
     outletContext.setNavType("back");
     outletContext.setNavTitle("Info Penawar");
@@ -71,12 +84,20 @@ const Negotiationinfo = () => {
       setIsAction(false);
     }
   }, [status]);
+  useEffect(() => {
+    if (productStatus === apiStatus.pending) outletContext.setShowBar(true);
+    else if (productStatus === apiStatus.success && isProductAction) {
+      toast.success(productMessage);
+    } else if (productStatus === apiStatus.error && isProductAction) {
+      toast.error(productMessage);
+    }
+    if (productStatus !== apiStatus.pending) outletContext.setShowBar(false);
+  }, [productStatus]);
   return (
     <>
       <div className="w-full flex justify-center">
         <div className="negotiationInfo">
           <SellerCard seller={negoData.user_buyer.user_detail} noEdit />
-
           <NegoCard
             product={negoData.product}
             negoPrice={negoData.price}
@@ -105,7 +126,7 @@ const Negotiationinfo = () => {
               <ButtonPrimary
                 className="w-full md:w-1/4"
                 type="outlined"
-                onClick={() => doReject(negoData.id)}
+                onClick={() => setShowStatusModal(true)}
               >
                 Status
               </ButtonPrimary>
@@ -125,6 +146,14 @@ const Negotiationinfo = () => {
           negoData={negoData}
           cb={{ doCallBuyer }}
           onClick={() => setShowAcceptModal(false)}
+        />
+      )}
+      {showStatusModal && (
+        <UpdateStatusModal
+          cb={{ doSoldProduct, doReject }}
+          productId={negoData.product.id}
+          negoId={negoData.id}
+          onClick={() => setShowStatusModal(false)}
         />
       )}
     </>

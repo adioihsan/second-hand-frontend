@@ -4,6 +4,12 @@
   @apply md:items-center;
 }
 .updateStatusModal {
-  @apply bg-white p-5  grid gap-3 rounded-xl;
+  @apply bg-white p-5 rounded-xl grid gap-5;
   @apply md:max-w-md;
+}
+.statusInputWrapper p {
+  @apply text-gray-500 pl-6;
+}
+.statusInputWrapper label {
+  @apply pl-3;
 }

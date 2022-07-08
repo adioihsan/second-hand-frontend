@@ -1,6 +1,12 @@
 .productCard {
   @apply grid gap-2 min-w-fit bg-white p-3 shadow-md rounded-md cursor-pointer;
 }
+.cardHeader {
+  background-image: url("../../../assets/images/default-product-image.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .productImage {
   @apply w-full h-36 object-contain;
   @apply rounded-md;
