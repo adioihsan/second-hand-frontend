@@ -22,10 +22,12 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const emailRef = useRef();
+  const [isAction, setIsAction] = useState(false);
   const { values, errors, handleChange } = useForm();
   const { token, message, success, pending, error } = useSelector(
     (state) => state.user
   );
+
   const isAllValid = () => {
     if (Object.keys(values).length === 0) return false;
     return errors.email === null && errors.password === null;
@@ -33,30 +35,41 @@ const Login = () => {
   const doLogin = (e) => {
     e.preventDefault();
     if (isAllValid()) {
+      setIsAction(true);
       dispatch(authUser(values));
     } else {
       toast.warn("Data belum lengkap");
     }
   };
   useEffect(() => {
-    if (success && token) {
+    if (success && token && isAction) {
       saveLocalJWT(token);
       const user = parseJwt(token);
       dispatch(setUserData(user));
       toast.success("Login berhasil");
+      setIsAction(false);
       navigate("/");
     }
   }, [success]);
   useEffect(() => {
     if (location.state) {
-      dispatch(
-        setUserMessage({ message: location.state.message, error: false })
-      );
-      emailRef.current.value = location.state.email;
-      const e = {
-        target: { name: emailRef.current.name, value: emailRef.current.value },
-      };
-      handleChange(e);
+      if (location.state.page)
+        dispatch(
+          setUserMessage({ message: location.state.page.message, error: true })
+        );
+      else {
+        dispatch(
+          setUserMessage({ message: location.state.message, error: false })
+        );
+        emailRef.current.value = location.state.email;
+        const e = {
+          target: {
+            name: emailRef.current.name,
+            value: emailRef.current.value,
+          },
+        };
+        handleChange(e);
+      }
     }
   }, [location]);
   return (
