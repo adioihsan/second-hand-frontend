@@ -1,72 +1,133 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
+import NegoCard from "../../components/card/negoCard/NegoCard";
+import SellerCard from "../../components/card/sellerCard/SellerCard";
+import NegoAcceptedModal from "../../components/modal/nengoAcceptedModal/NegoAcceptedModal";
+import {
+  acceptNego,
+  rejectNego,
+} from "../../services/actions/negotiationAction";
+import apiStatus from "../../services/utils/apiStatus";
 import "./negotiationinfo.css";
+import iconWhatsapp from "../../assets/images/icon-whatsapp-16.png";
 
 const Negotiationinfo = () => {
-  const isAgreed = true;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { data, status, message } = useSelector((state) => state.negotiation);
+  const [isAction, setIsAction] = useState(false);
+  const outletContext = useOutletContext();
+  const [showNegoModal, setShowNegoModal] = useState();
+  const [showAcceptModal, setShowAcceptModal] = useState(false);
+  const [negoData, setNegoData] = useState(location.state);
+
+  const doAccept = (negoId) => {
+    dispatch(acceptNego(negoId));
+    setIsAction(true);
+  };
+  const doReject = (negoId) => {
+    dispatch(rejectNego(negoId));
+    setIsAction(true);
+  };
+
+  const doCallBuyer = () => {
+    const buyer = negoData.user_buyer.user_detail;
+    window.open(
+      `https://wa.me/${buyer.phone}?text=Hallo ${
+        buyer.name
+      } , saya setuju untuk menjual *${
+        negoData.product.name
+      }* dengan harga ${negoData.price.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      })}`
+    );
+  };
+
+  useEffect(() => {
+    outletContext.setNavType("back");
+    outletContext.setNavTitle("Info Penawar");
+    if (negoData === null) navigate("/");
+  }, []);
+  useEffect(() => {
+    if (status === apiStatus.pending) outletContext.setShowBar(true);
+    else if (status === apiStatus.success && isAction) {
+      setNegoData(data);
+      if (data.status === "accepted") setShowAcceptModal(true);
+      if (data.status === "rejected") toast.warning("Tawaran telah di tolak");
+    } else if (status === apiStatus.error && isAction) toast.error(message);
+    if (status !== apiStatus.pending) {
+      outletContext.setShowBar(false);
+      setIsAction(false);
+    }
+  }, [status]);
   return (
-    <div className="Negotationinfo">
-      <div className="negotiationWraper">
-        <div className="left">
-          <img
-            src="/assets/images/fi_arrow-left.svg"
-            className="backButton rounded-xl object-cover"
+    <>
+      <div className="w-full flex justify-center">
+        <div className="negotiationInfo">
+          <SellerCard seller={negoData.user_buyer.user_detail} noEdit />
+
+          <NegoCard
+            product={negoData.product}
+            negoPrice={negoData.price}
+            negoDate={negoData.updatedAt}
+            negoStatus={negoData.status}
           />
-        </div>
-        <div className="right">
-          <div className="description">
-            <div className="">
-              <img
-                src="/assets/images/profilepicture.jpg"
-                className="profilePicture rounded-xl object-cover"
-              />
+          {negoData.status === "pending" && (
+            <div className="btnsAction">
+              <ButtonPrimary
+                className="w-full md:w-1/4"
+                onClick={() => doAccept(negoData.id)}
+              >
+                Terima{" "}
+              </ButtonPrimary>
+              <ButtonPrimary
+                className="w-full md:w-1/4"
+                type="outlined"
+                onClick={() => doReject(negoData.id)}
+              >
+                Tolak
+              </ButtonPrimary>
             </div>
-            <div className="flex-col ml-5 ">
-              <h1 className="font-medium">Nama Penjual</h1>
-              <h1>Kota</h1>
-            </div>
-          </div>
-          <h1 className="headingList">Daftar produkmu yang ditawar</h1>
+          )}
+          {negoData.status === "accepted" && (
+            <div className="btnsAction">
+              <ButtonPrimary
+                className="w-full md:w-1/4"
+                type="outlined"
+                onClick={() => doReject(negoData.id)}
+              >
+                Status
+              </ButtonPrimary>
 
-          <div className="negotiatedproduct">
-            <div>
-              <img
-                src="/assets/images/product.png.png"
-                className="profilePicture rounded-xl object-cover"
-              />
+              <ButtonPrimary
+                className="w-full md:w-1/4"
+                onClick={() => doCallBuyer()}
+              >
+                Hubungi di <img src={iconWhatsapp} alt="whatsapp" />
+              </ButtonPrimary>
             </div>
-            <div className="ml-5">
-              <h1 className=" font-bold">Jam Tangan Casio</h1>
-              <h1 className=" py-3 text-regular text-gray-400">Aksesoris</h1>
-              <h1 className=" pb-5 font-regular">Rp. 250.000</h1>
-
-              {isAgreed ? (
-                <div className="buttons flex">
-                  <button className="buttonTwo button button-primary">
-                    Status
-                  </button>
-                  <button className="buttonOne button button-primary">
-                    Hubungi{" "}
-                    <img
-                      src="/assets/images/fi_whatsapp.svg"
-                      className="whatsapp rounded-xl object-cover"
-                    />
-                  </button>
-                </div>
-              ) : (
-                <div className="buttons flex">
-                  <button className="buttonTwo button button-primary">
-                    Tolak
-                  </button>
-                  <button className="buttonOne button button-primary">
-                    Terima
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </div>
-    </div>
+      {showAcceptModal && (
+        <NegoAcceptedModal
+          negoData={negoData}
+          cb={{ doCallBuyer }}
+          onClick={() => setShowAcceptModal(false)}
+        />
+      )}
+    </>
   );
 };
 

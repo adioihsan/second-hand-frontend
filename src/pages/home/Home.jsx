@@ -32,7 +32,6 @@ function Home(props) {
 
   // actions
   const changeCategory = (id) => {
-    console.log(id);
     if (id === 0) navigate("/");
     else navigate("/category/" + id + "/1");
   };

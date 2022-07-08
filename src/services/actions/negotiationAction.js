@@ -34,3 +34,30 @@ export const getSellerNegoList = createAsyncThunk(
     }
   }
 );
+export const acceptNego = createAsyncThunk(
+  "negotiation/seller/accept",
+  async (negoId, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await negotiationApi.acceptNego({ negoId, authToken });
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const rejectNego = createAsyncThunk(
+  "negotiation/seller/reject",
+  async (negoId, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await negotiationApi.rejectNego({ negoId, authToken });
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
