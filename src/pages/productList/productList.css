@@ -24,7 +24,7 @@
 .negoListItem {
   @apply grid grid-cols-1 gap-3;
   @apply md:grid-cols-2;
-  @apply lg:grid-cols-3 basis-3/4;
+  @apply lg:grid-cols-2 basis-3/4;
   @apply xl:grid-cols-3 basis-5/6;
 }
 .menuLeft {

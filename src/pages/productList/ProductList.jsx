@@ -22,11 +22,13 @@ import { useParams } from "react-router-dom";
 import { faHandshake } from "@fortawesome/free-regular-svg-icons";
 import { getSellerNegoList } from "../../services/actions/negotiationAction";
 import NegoCard from "../../components/card/negoCard/NegoCard";
+import { useOutletContext } from "react-router-dom";
 function ProductList(props) {
   // hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const outletContext = useOutletContext();
   const menus = [
     {
       name: "Produk",
@@ -69,6 +71,10 @@ function ProductList(props) {
     );
   };
   // effect
+  useEffect(() => {
+    outletContext.setNavType(null);
+    outletContext.setNavTitle(null);
+  }, []);
   useEffect(() => {
     if (params.category === "products")
       dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
@@ -136,9 +142,13 @@ function ProductList(props) {
                   <NegoCard
                     product={nego.product}
                     negoPrice={nego.price}
+                    negoDate={nego.updatedAt}
+                    negoStatus={nego.status}
                     buyer={nego.user_buyer.user_detail}
                     key={"productNego" + index}
-                    onClick={() => navigate("/negotiation-info")}
+                    onClick={() =>
+                      navigate("/negotiation-info", { state: nego })
+                    }
                   />
                 ))}
               </section>

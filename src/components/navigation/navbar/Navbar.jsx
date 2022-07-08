@@ -55,7 +55,7 @@ function Navbar({ type, title, userData }) {
         <FontAwesomeIcon icon={faBars} size="lg" width="24px" height="24px" />
       </div>
       <div className="burgerItems" ref={burgerRef}>
-        {/* {true ? renderLoginButton() : renderUserMenu("userMenuList")} */}
+        {true ? renderLoginButton() : renderUserMenu("userMenuList", userData)}
       </div>
     </div>
   );

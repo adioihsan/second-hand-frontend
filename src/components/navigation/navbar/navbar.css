@@ -10,7 +10,7 @@
 }
 
 .searchField {
-  @apply relative w-full rounded-lg bg-white;
+  @apply relative w-full rounded-lg bg-white border border-gray-300;
   @apply md:bg-gray-200;
 }
 .searchField > input {
@@ -38,7 +38,7 @@
   @apply relative;
 }
 .burgerIcon {
-  @apply bg-white flex-shrink-0 p-3 rounded-xl;
+  @apply bg-white flex-shrink-0 p-3 rounded-xl border border-gray-300;
   @apply md:hidden;
 }
 .burgerItems {

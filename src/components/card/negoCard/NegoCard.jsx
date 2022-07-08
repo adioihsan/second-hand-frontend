@@ -4,10 +4,17 @@ import ContentLoader from "react-content-loader";
 import React from "react";
 import "./negoCard.css";
 import userEvent from "@testing-library/user-event";
-function NegoCard({ product, negoPrice, buyer, ...others }) {
+function NegoCard({
+  product,
+  negoPrice,
+  negoDate,
+  negoStatus,
+  buyer,
+  ...others
+}) {
   return (
     <div className="negoCard" {...others}>
-      <div className="cardHeader">
+      <div className="cardNegoHeader">
         <img
           src={
             process.env.REACT_APP_STORAGE_URL +
@@ -19,6 +26,18 @@ function NegoCard({ product, negoPrice, buyer, ...others }) {
         />
       </div>
       <div className="cardNegoBody">
+        <div className="w-full flex justify-between">
+          <p className="text-xs text-gray-500">Penawaran</p>
+          <p className="text-xs text-gray-500">
+            {new Date(negoDate).toLocaleString("id-ID", {
+              day: "2-digit",
+              month: "long",
+              year: "2-digit",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+          </p>
+        </div>
         <div className="productName">{product.name}</div>
         <div className="font-light text-sm">
           {" "}
@@ -27,15 +46,20 @@ function NegoCard({ product, negoPrice, buyer, ...others }) {
             currency: "IDR",
           })}
         </div>
+
         <div className="negoPrice">
-          {" "}
           Ditawar{" "}
           {negoPrice.toLocaleString("id-ID", {
             style: "currency",
             currency: "IDR",
           })}
         </div>
-        <div className="negoBuyer">oleh {buyer.name}</div>
+        {buyer && <div className="negoBuyer">oleh {buyer.name}</div>}
+      </div>
+      <div className="negoCardFooter">
+        <div className={"negoStatus " + negoStatus}>
+          <span>{negoStatus}</span>{" "}
+        </div>
       </div>
     </div>
   );

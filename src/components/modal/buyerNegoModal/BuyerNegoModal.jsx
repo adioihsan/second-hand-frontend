@@ -42,7 +42,10 @@ function BuyerNegoModal({ children, product, cb, ...others }) {
             id="nego_price"
             ref={inputNegoRef}
           />
-          <ButtonPrimary onClick={() => cb(inputNegoRef.current.value)}>
+          <ButtonPrimary
+            className="mt-2"
+            onClick={() => cb(inputNegoRef.current.value)}
+          >
             Kirim
           </ButtonPrimary>
         </div>

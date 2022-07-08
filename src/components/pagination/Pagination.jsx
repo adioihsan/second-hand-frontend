@@ -1,13 +1,10 @@
 import React from "react";
 import "./pagination.css";
 function Pagination({ totalPages, currentPage, handleChange, ...others }) {
-  console.log(totalPages);
   const renderItem = () => {
     let start = 0;
     let end = totalPages;
     const arr = [];
-    console.log("start", start);
-    console.log("end:", end);
     for (start; start < end; start++) {
       arr.push(start + 1);
     }
@@ -20,6 +17,7 @@ function Pagination({ totalPages, currentPage, handleChange, ...others }) {
           <li
             className={currentPage === val ? "active" : ""}
             onClick={() => handleChange(val)}
+            key={"pagination" + index}
           >
             {val}
           </li>
