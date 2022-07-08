@@ -14,6 +14,7 @@ import Private from "./layouts/Private";
 import BuyerProductPage from "./pages/BuyerProductPage/BuyerProductPage";
 import ProductEdit from "./pages/productEdit/productEdit";
 import ProductView from "./pages/productView/ProductView";
+import WhishlistBuyer from "./pages/whishlistBuyer/WhishlistBuyer";
 function App() {
   return (
     <div className="App">
@@ -42,6 +43,7 @@ function App() {
             /> */}
             <Route path="/buyerproductpage" element={<BuyerProductPage />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
+            <Route path="/whishlist" element={<WhishlistBuyer />} />
           </Route>
         </Routes>
       </BrowserRouter>
