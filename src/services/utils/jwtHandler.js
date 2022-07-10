@@ -29,8 +29,9 @@ export const parseJwt = (token) => {
 };
 export const isJwtValid = (token) => {
   const { exp } = parseJwt(token);
+  const now = new Date().getTime() / 1000;
   try {
-    if (exp < new Date().getTime() + 1 / 1000) return false;
+    if (exp < now) return false;
   } catch (error) {
     return false;
   }
