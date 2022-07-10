@@ -36,7 +36,7 @@ function Private(props) {
         dispatch(setUserData(user));
         dispatch(getUserDetail());
       } else {
-        if (!isJwtValid) {
+        if (!isJwtValid(token)) {
           navigate("/login", {
             state: {
               page: {

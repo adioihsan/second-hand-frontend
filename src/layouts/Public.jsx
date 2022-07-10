@@ -45,7 +45,7 @@ function Public(props) {
           setIsGuest(true);
         }
       } else {
-        if (!isJwtValid) {
+        if (!isJwtValid(token)) {
           navigate("/login", {
             state: {
               page: {
