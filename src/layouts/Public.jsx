@@ -17,6 +17,7 @@ import {
   setUserToken,
 } from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
+import MobileNav from "../components/navigation/mobileNav/MobileNav";
 function Public(props) {
   const { token, userDetail, userData, error } = useSelector(
     (state) => state.user
@@ -64,7 +65,7 @@ function Public(props) {
   else if (token || isGuest)
     return (
       <>
-        <div className="bg-white md:shadow-md sticky top-0 z-10">
+        <div className=" md:shadow-md sticky top-0 z-10">
           <div className="container mx-auto">
             <Navbar title={navTitle} type={navType} userData={userData} />
           </div>
@@ -73,6 +74,7 @@ function Public(props) {
           )}
         </div>
         <Outlet context={{ setShowBar, setNavType, setNavTitle }} />
+        <MobileNav />
       </>
     );
 }
