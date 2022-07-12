@@ -1,5 +1,10 @@
 .navbar {
   @apply w-full flex items-center justify-between gap-5 px-4 py-2 overflow-y-scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.navbar::-webkit-scrollbar {
+  display: none;
 }
 
 .logo .imgMobile {

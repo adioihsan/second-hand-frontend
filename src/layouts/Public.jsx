@@ -65,7 +65,7 @@ function Public(props) {
   else if (token || isGuest)
     return (
       <>
-        <div className=" md:shadow-md sticky top-0 z-10">
+        <div className=" md:shadow-md sticky top-0 z-10 md:bg-white">
           <div className="container mx-auto">
             <Navbar title={navTitle} type={navType} userData={userData} />
           </div>
