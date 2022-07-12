@@ -21,6 +21,8 @@ import { useOutletContext } from "react-router-dom";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import { Helmet } from "react-helmet-async";
 import BuyerNegoModal from "../../components/modal/buyerNegoModal/BuyerNegoModal";
+import axios from "axios";
+import { postWhishList } from "../../services/actions/whishlistAction";
 import { postBuyerNego } from "../../services/actions/negotiationAction";
 const ProductView = () => {
   // hooks
@@ -32,11 +34,17 @@ const ProductView = () => {
   //data
   const { data, status, message } = useSelector((state) => state.product);
   const {
+    data: wishData,
+    status: wishStatus,
+    message: wishMessage,
+  } = useSelector((state) => state.whishlist);
+  const {
     data: negoData,
     status: negoStatus,
     message: negoMessage,
   } = useSelector((state) => state.negotiation);
   const [isAction, setIsAction] = useState(false);
+  const [isActionWish, setIsActionWish] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isNego, setIsNego] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -67,6 +75,14 @@ const ProductView = () => {
     setIsNego(true);
   };
 
+  const doWish = () => {
+    dispatch(
+      postWhishList({
+        product_id: params.productId,
+      })
+    );
+    setIsActionWish(true);
+  };
   // render component
 
   const renderSellerButton = () => (
@@ -101,11 +117,28 @@ const ProductView = () => {
     </>
   );
   const renderUserButton = () => (
-    <ButtonPrimary onClick={() => setShowModal(true)}>
-      Saya tertarik
-    </ButtonPrimary>
+    <>
+      <ButtonPrimary onClick={() => setShowModal(true)}>
+        Saya tertarik
+      </ButtonPrimary>
+      <ButtonPrimary className={"mt-5"} type={"outlined"} onClick={doWish}>
+        tambah ke wishlist
+      </ButtonPrimary>
+    </>
   );
-
+  useEffect(() => {
+    if (wishStatus === "pending") {
+      outletContext.setShowBar(true);
+    } else if (wishStatus === "success" && isActionWish) {
+      toast.success("Produk ini masuk whishlist anda");
+      outletContext.setShowBar(false);
+      setIsActionWish(false);
+    } else if (wishStatus === "error" && isActionWish) {
+      toast.error("Programmer kami sedang healing");
+      outletContext.setShowBar(false);
+      setIsActionWish(false);
+    }
+  }, [wishStatus]);
   useEffect(() => {
     if (params.productId && params.userType === "seller")
       dispatch(getMyProduct(params.productId));
