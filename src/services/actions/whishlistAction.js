@@ -16,3 +16,17 @@ export const postWhishList = createAsyncThunk(
     }
   }
 );
+
+export const getWishes = createAsyncThunk(
+  "/wish/get",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await whishlistApi.getWishes(authToken);
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

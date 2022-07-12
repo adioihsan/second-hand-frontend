@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "./whishlistBuyer.css";
-import { getProductList } from "../../services/actions/productAction";
+import { getProduct } from "../../services/actions/productAction";
 import apiStatus from "../../services/utils/apiStatus";
 import { useSelector } from "react-redux";
 import ProductCard, {
@@ -11,46 +11,81 @@ import ProductCard, {
 } from "../../components/card/productCard/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { getWishes } from "../../services/actions/whishlistAction";
+import { useState } from "react";
 const WhishlistBuyer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, status } = useSelector((state) => state.productList);
+  // const { data, status } = useSelector((state) => state.productList);
+  const { data: dataProduct, status: statusProduct } = useSelector(
+    (state) => state.product
+  );
+  const { data: wishesData, status: wishesStatus } = useSelector(
+    (state) => state.whishlist
+  );
+  const [productList, setProductList] = useState([]);
   useEffect(() => {
-    dispatch(
-      getProductList({
-        page: 1,
-        limit: 12,
-        search: "",
-        categoryId: "",
-      })
-    );
+    // dispatch(
+    //   getProductList({
+    //     page: 1,
+    //     limit: 12,
+    //     search: "",
+    //     categoryId: "",
+    //   })
+    // );
+    dispatch(getWishes());
   }, []);
+  useEffect(() => {
+    if (wishesData === null) {
+      console.log("anda tidak menarik");
+    } else {
+      if (wishesData.length === 0) {
+        console.log("anda tidak menarik");
+      } else {
+        wishesData.forEach((element) => {
+          dispatch(getProduct(element.product_id));
+        });
+      }
+    }
+  }, [wishesData]);
 
+  useEffect(() => {
+    if (dataProduct !== null) {
+      setProductList((previousValue) => {
+        if (wishesData.length <= previousValue.length) return previousValue;
+        return [...previousValue, { ...dataProduct }];
+      });
+    } else {
+      console.log("data tidak terpanggil");
+    }
+  }, [dataProduct]);
   return (
-    <>
+    <div className="WhishlistBuyer">
       <Helmet>
         <title>Secondhand. Daftar Jual Saya</title>
       </Helmet>
-      <section className="products mt-6 px-3 ">
-        {status === apiStatus.pending &&
+      <h1 className="font-bold mx-auto">Your Whishlist</h1>
+      <section className="products">
+        {wishesStatus === apiStatus.pending &&
           Array(12)
             .fill(0)
             .map((dum, index) => (
               <ProductCardLoading key={"cardDummy" + index} />
             ))}
-        {status === apiStatus.error && (
+        {wishesStatus === apiStatus.error && (
           <h1>Terjadi kesalahan saat mengambil data</h1>
         )}
-        {status === apiStatus.success &&
-          data.map((product, index) => (
+        {productList.map((product) => (
+          <>
             <ProductCard
               product={product}
               key={"productHome" + product.name + product.id}
               onClick={() => navigate("/product-view/see/" + product.id)}
             />
-          ))}
+          </>
+        ))}
       </section>
-    </>
+    </div>
   );
 };
 
