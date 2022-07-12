@@ -14,7 +14,7 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
     const uploadConfig = {
       onUploadProgress: function (progressEvent) {
         var percentage = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
+          (progressEvent.loaded * 95) / progressEvent.total
         );
         setProgress((prevProg) => {
           return {
@@ -34,6 +34,12 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
         setImagesUrl((prevImages) => {
           const newImages = prevImages.concat([url]);
           return newImages;
+        });
+        setProgress((prevProg) => {
+          return {
+            ...prevProg,
+            [file.name]: 100,
+          };
         });
       })
       .catch((err) => {
@@ -106,7 +112,7 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
             : file.localUrl
         }
       />
-      {!file.isDownload && (
+      {!file.isDownload && progress[file.name] !== 100 && (
         <div className={styles.progress}>
           <div
             className={styles.bar}

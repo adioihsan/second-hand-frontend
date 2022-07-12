@@ -74,10 +74,11 @@ function ProductList(props) {
               {status === apiStatus.error && (
                 <h1>Terjadi kesalahan saat mengambil data</h1>
               )}
-              {data?.map((product) => (
+              {data?.map((product, index) => (
                 <ProductCard
                   product={product}
                   onClick={() => navigate("/product-view/seller/" + product.id)}
+                  key={"productList" + index}
                 />
               ))}
             </section>
