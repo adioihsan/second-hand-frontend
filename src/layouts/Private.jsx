@@ -4,7 +4,11 @@ import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
+import {
+  getLocalJWT,
+  isJwtValid,
+  parseJwt,
+} from "../services/utils/jwtHandler";
 import {
   getUserDetail,
   setUserData,
@@ -25,12 +29,23 @@ function Private(props) {
   useEffect(() => {
     try {
       if (!token) {
-        const localToken = getLocalJWT();
         dispatch(setUserToken(localToken));
         const user = parseJwt(localToken);
+        const localToken = getLocalJWT();
         console.log(user);
         dispatch(setUserData(user));
         dispatch(getUserDetail());
+      } else {
+        if (!isJwtValid(token)) {
+          navigate("/login", {
+            state: {
+              page: {
+                message: "Sesi telah berakhir, silahkan login",
+                domain: "/",
+              },
+            },
+          });
+        }
       }
     } catch (error) {
       navigate("/login");

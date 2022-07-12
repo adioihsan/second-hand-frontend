@@ -5,11 +5,11 @@
   @apply flex gap-3;
 }
 .sellerName {
-  @apply font-medium;
+  @apply font-medium text-lg;
 }
 .sellerCity {
-  @apply font-light text-sm;
+  @apply text-gray-500 text-sm mt-1;
 }
 .sellerPhoto {
-  @apply w-12 h-12 object-cover rounded-md;
+  @apply w-16 h-16 object-cover rounded-xl;
 }

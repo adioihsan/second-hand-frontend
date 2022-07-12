@@ -1,176 +1,156 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/images/logo-36-v.png";
-import userImg from "../../../assets//images/user.png";
+import logoIcon from "../../../assets/images/logo-icon.png";
+import logoLong from "../../../assets/images/logo-36-v.png";
 import iconSearch from "../../../assets/images/icon-search.png";
-import iconArrowLeft from "../../../assets/images/icon-arrow-left.png";
 import "./navbar.css";
 import ButtonPrimary from "../../button/buttonPrimary/ButtonPrimary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { useEffect } from "react";
+import { faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { faGripLines } from "@fortawesome/free-solid-svg-icons";
+import { faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faKey } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBoxes } from "@fortawesome/free-solid-svg-icons";
+import { faHandshakeAlt } from "@fortawesome/free-solid-svg-icons";
+import userImg from "../../../assets/images/user.png";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { faBox } from "@fortawesome/free-solid-svg-icons";
-
 function Navbar({ type, title, userData }) {
-  //hooks
-  const burgerRef = useRef();
-  const userProfileMenuRef = useRef();
+  const navbarRef = useRef();
+  const mainMenuRef = useRef();
   const navigate = useNavigate();
-  // events
-  const showBurger = (e) => {
-    burgerRef.current.classList.toggle("burgerItemActive");
+  useEffect(() => {
+    // change bg to white when scrolled
+    window.addEventListener("scroll", (event) => {
+      if (navbarRef.current !== null)
+        window.scrollY > 50
+          ? (navbarRef.current.style.backgroundColor = "white")
+          : (navbarRef.current.style.backgroundColor = "unset");
+    });
+    //
+  }, []);
+  const openMainMenu = () => {
+    const mainMenu = mainMenuRef.current;
+    mainMenu.classList.toggle("active");
   };
-  const showUserProfileMenu = (e) => {
-    userProfileMenuRef.current.classList.toggle("userProfileMenuActive");
+  const closeMainMenu = () => {
+    const mainMenu = mainMenuRef.current;
+    mainMenu.classList.remove("active");
   };
-  // actions
-  const doSearch = (e) => {
-    const key = e.key;
-    const value = e.target.value;
-    if (key == "Enter") {
-      if (!value) navigate("/");
-      else navigate("/search/" + value + "/1");
-    }
-  };
-  // components to render
-  const renderLogo = () => (
-    <div className="logo" onClick={() => navigate("/")}>
-      <img src={logo} alt="SecondHand" />
-    </div>
-  );
-  const renderTitle = () => (
-    <div className="pageTitle absolute  left-1/2 translate-x-[-50%]">
-      {title}
-    </div>
-  );
-  const renderBurger = () => (
-    <div className="menuBurger">
-      <div className="burgerIcon" onClick={showBurger}>
-        <FontAwesomeIcon icon={faBars} size="lg" width="24px" height="24px" />
+  const mainMenu = () => (
+    <div className="mainMenu" ref={mainMenuRef}>
+      <div className="closeGrip" onClick={closeMainMenu}>
+        <FontAwesomeIcon icon={faGripLines} size="lg" color="gray" />
       </div>
-      <div className="burgerItems" ref={burgerRef}>
-        {/* {true ? renderLoginButton() : renderUserMenu("userMenuList")} */}
-      </div>
-    </div>
-  );
-  const renderSearch = () => (
-    <label className="searchField">
-      <input placeholder="Cari di sini..." onKeyUp={doSearch} />
-      <button>
-        <img src={iconSearch} alt="search" />
-      </button>
-    </label>
-  );
-  const renderLoginButton = () => (
-    <Link to="/login">
-      <ButtonPrimary size="small">
-        {<FontAwesomeIcon icon={faArrowRightToBracket} />}Masuk
-      </ButtonPrimary>
-    </Link>
-  );
-  const renderLogoutButton = () => (
-    <ButtonPrimary size="small" onClick={doLogOut}>
-      {<FontAwesomeIcon icon={faArrowRightFromBracket} />}Keluar
-    </ButtonPrimary>
-  );
-  const renderUserMenu = (type, userData) => {
-    const isList = type === "userMenuList";
-    return (
-      <div className={type}>
-        <button className="whistlist">
-          <FontAwesomeIcon icon={faHeart} size="lg" width="18px" />{" "}
-          {isList && " WhistList"}
-        </button>
-        <button className="notification">
-          <FontAwesomeIcon icon={faBell} size="lg" width="18px" />{" "}
-          {isList && " Notification"}
-        </button>
-        <div className="userProfile">
-          <button className="userProfileHeader" onClick={showUserProfileMenu}>
-            <img
-              src={
-                userData.photo
-                  ? process.env.REACT_APP_STORAGE_URL +
-                    "/images/" +
-                    userData.photo
-                  : userImg
-              }
-              alt="x"
-              className="userPhoto"
-            />{" "}
-            {userData.name.length > 10
-              ? userData.name.substr(0, 9) + "..."
-              : userData.name}
-            <FontAwesomeIcon icon={faChevronDown} />
-          </button>
-          <div className="userProfileMenu" ref={userProfileMenuRef}>
-            <Link to="/profile-info">
-              <button>
-                <FontAwesomeIcon icon={faUser} /> Info Profile
-              </button>
-            </Link>
-            <Link to="/product-list">
-              <button>
-                <FontAwesomeIcon icon={faBox} /> Daftar jual saya
-              </button>
-            </Link>
-            {renderLogoutButton()}
+      {userData ? (
+        <div className="loggedUser">
+          <img
+            src={
+              userData.photo
+                ? process.env.REACT_APP_STORAGE_URL +
+                  "/images/" +
+                  userData.photo
+                : userImg
+            }
+            alt="x"
+          />
+          <div>
+            <p>{userData.name}</p>
+            <p className="text-purple-400 text-sm cursor-pointer">
+              Keluar <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            </p>
           </div>
         </div>
-      </div>
-    );
-  };
-  //actions
-  const backToPage = () => {
-    navigate(-1);
-  };
-  const doLogOut = () => {
-    localStorage.removeItem("enc_token");
-    window.location.reload();
-  };
+      ) : (
+        <div className="btnsAction">
+          <ButtonPrimary className="w-full">Masuk</ButtonPrimary>
+          <ButtonPrimary className="w-full" type="outlined">
+            Daftar
+          </ButtonPrimary>
+        </div>
+      )}
 
-  //check nav type
-  if (type === "back" && title)
-    return (
-      <nav className="navbar relative">
-        {renderLogo()}
-        <button className="md:hidden" onClick={backToPage}>
-          <img src={iconArrowLeft} alt="back" />
-        </button>
-        {renderTitle()}
-      </nav>
-    );
-  else if (type === "burger" && title) {
-    <nav className="navbar relative">
-      <div className="logo">
-        <img src={logo} alt="SecondHand" />
+      <div className="menuList" onClick={closeMainMenu}>
+        <h2 className="font-semibold">Aktifitas Saya</h2>
+        <Link to="/" className="menuListItem">
+          <FontAwesomeIcon icon={faHandHoldingDollar} />
+          Penawaran
+        </Link>
+        <Link to="/" className="menuListItem">
+          <FontAwesomeIcon icon={faHeartCircleCheck} />
+          Wishlist
+        </Link>
+
+        <Link to="/" className="menuListItem">
+          <FontAwesomeIcon icon={faEnvelope} />
+          Pesan
+        </Link>
+        <Link to="/" className="menuListItem">
+          <FontAwesomeIcon icon={faBell} />
+          Notifikasi
+        </Link>
+        <h2 className="font-semibold mt-5">Produk Saya</h2>
+        <Link to="/product-add" className="menuListItem">
+          <FontAwesomeIcon icon={faPlus} />
+          Tambah Produk
+        </Link>
+        <Link to="/product-list/products" className="menuListItem">
+          <FontAwesomeIcon icon={faBoxes} />
+          Kelola Produk
+        </Link>
+        <Link to="/product-list/negotiation" className="menuListItem">
+          <FontAwesomeIcon icon={faHandshakeAlt} />
+          Produk ditawar
+        </Link>
+        <h2 className="font-semibold mt-5">Pengaturan Akun</h2>
+        <Link to="/profile-info" className="menuListItem">
+          <FontAwesomeIcon icon={faUserAlt} />
+          Ubah Profil
+        </Link>
+        <Link to="/" className="menuListItem mb-5">
+          <FontAwesomeIcon icon={faKey} />
+          Ganti Password
+        </Link>
       </div>
-      <button className="md:hidden" onClick={backToPage}>
-        <img src={iconArrowLeft} alt="back" />
-      </button>
-      {renderTitle()}
-    </nav>;
-  } else
-    return (
-      <nav className="navbar">
-        <div className="leftNav">
-          {renderLogo()}
-          {renderBurger()}
-          {renderSearch()}
+    </div>
+  );
+  return (
+    <>
+      <nav className="navbar" ref={navbarRef}>
+        <div className="logo cursor-pointer" onClick={() => navigate("/")}>
+          <img src={logoIcon} alt="secondhand." className="imgMobile" />
+          <img src={logoLong} alt="secondhand." className="imgDesktop" />
         </div>
-        <div className="rightNav">
-          {userData
-            ? renderUserMenu("userMenu", userData)
-            : renderLoginButton()}
+        <div className="searchField">
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Cari di sini"
+          />
+          <button>
+            <img src={iconSearch} alt="search" />
+          </button>
         </div>
+        <div className="iconNav">
+          <div className="notification cursor-pointer">
+            <FontAwesomeIcon icon={faBell} size="lg" width="18px" />
+          </div>
+          <div className="burger" onClick={openMainMenu}>
+            <FontAwesomeIcon icon={faBars} size="lg" />
+          </div>
+        </div>
+        {mainMenu()}
       </nav>
-    );
+    </>
+  );
 }
 
 export default Navbar;

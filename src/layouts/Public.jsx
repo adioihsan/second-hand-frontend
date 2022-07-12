@@ -6,13 +6,18 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import LinearProgress from "@material/react-linear-progress";
 import LoadingFull from "../components/loading/lodingFull/LoadingFull";
-import { getLocalJWT, parseJwt } from "../services/utils/jwtHandler";
+import {
+  getLocalJWT,
+  isJwtValid,
+  parseJwt,
+} from "../services/utils/jwtHandler";
 import {
   getUserDetail,
   setUserData,
   setUserToken,
 } from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
+import MobileNav from "../components/navigation/mobileNav/MobileNav";
 function Public(props) {
   const { token, userDetail, userData, error } = useSelector(
     (state) => state.user
@@ -29,6 +34,7 @@ function Public(props) {
   useEffect(() => {
     try {
       if (!token) {
+        console.log("if run run");
         const localToken = getLocalJWT();
         if (localToken) {
           dispatch(setUserToken(localToken));
@@ -39,6 +45,17 @@ function Public(props) {
         } else {
           setIsGuest(true);
         }
+      } else {
+        if (!isJwtValid(token)) {
+          navigate("/login", {
+            state: {
+              page: {
+                message: "Sesi telah berakhir, silahkan login",
+                domain: "/",
+              },
+            },
+          });
+        }
       }
     } catch (error) {
       setIsGuest(true);
@@ -48,7 +65,7 @@ function Public(props) {
   else if (token || isGuest)
     return (
       <>
-        <div className="md:bg-white md:shadow-md sticky top-0 z-10">
+        <div className=" md:shadow-md sticky top-0 z-10">
           <div className="container mx-auto">
             <Navbar title={navTitle} type={navType} userData={userData} />
           </div>
@@ -57,6 +74,8 @@ function Public(props) {
           )}
         </div>
         <Outlet context={{ setShowBar, setNavType, setNavTitle }} />
+        <div className="mt-20"></div>
+        <MobileNav />
       </>
     );
 }

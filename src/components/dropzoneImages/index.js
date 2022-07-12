@@ -43,7 +43,7 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
         });
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.response.data.message);
       });
   };
   const removeImage = (e, file, index) => {

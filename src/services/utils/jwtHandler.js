@@ -27,3 +27,13 @@ export const parseJwt = (token) => {
   const decoded = jwtdecode(token);
   return decoded;
 };
+export const isJwtValid = (token) => {
+  const { exp } = parseJwt(token);
+  const now = new Date().getTime() / 1000;
+  try {
+    if (exp < now) return false;
+  } catch (error) {
+    return false;
+  }
+  return true;
+};

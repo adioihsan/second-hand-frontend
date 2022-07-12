@@ -11,7 +11,6 @@ import ProductAdd from "./pages/productAdd/productAdd";
 import Negotiationinfo from "./pages/negotiationinfo/Negotiationinfo";
 import ProductList from "./pages/productList/ProductList";
 import Private from "./layouts/Private";
-import BuyerProductPage from "./pages/BuyerProductPage/BuyerProductPage";
 import ProductEdit from "./pages/productEdit/productEdit";
 import ProductView from "./pages/productView/ProductView";
 function App() {
@@ -30,17 +29,13 @@ function App() {
               path="/product-view/:userType/:productId"
               element={<ProductView />}
             />
+            <Route path="/test" element={<Home />} />
           </Route>
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
             <Route path="/product-add" element={<ProductAdd />} />
-            <Route path="/product-list" element={<ProductList />} />
+            <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
-            {/* <Route
-              path="/product-view/:userType/:productId"
-              element={<ProductView />}
-            /> */}
-            <Route path="/buyerproductpage" element={<BuyerProductPage />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
           </Route>
         </Routes>

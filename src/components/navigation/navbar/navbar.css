@@ -1,16 +1,16 @@
 .navbar {
-  @apply flex w-full items-center p-3 gap-10;
-}
-.logo {
-  @apply hidden cursor-pointer;
-  @apply md:block;
-}
-.leftNav {
-  @apply flex items-center  flex-1 gap-3;
+  @apply w-full flex items-center justify-between gap-5 px-4 py-2 overflow-y-scroll;
 }
 
+.logo .imgMobile {
+  @apply md:hidden h-[48px] object-contain;
+}
+.logo .imgDesktop {
+  @apply hidden h-[36px] object-contain;
+  @apply md:block;
+}
 .searchField {
-  @apply relative w-full rounded-lg bg-white;
+  @apply relative w-full rounded-lg bg-white border border-gray-300;
   @apply md:bg-gray-200;
 }
 .searchField > input {
@@ -19,57 +19,40 @@
 .searchField > button {
   @apply absolute right-3 top-2;
 }
-.rightNav {
-  @apply hidden;
-  @apply md:flex items-center;
-}
-.pageTitle {
-  @apply mx-3 absolute text-base font-semibold translate-x-[-50%];
-  @apply md:text-xl;
-}
-.userMenu {
+.iconNav {
   @apply flex gap-5;
 }
-.userPhoto {
-  border-radius: 50%;
-  @apply h-6 w-6 object-cover outline-1 outline outline-gray-700;
+.burger {
+  @apply cursor-pointer;
 }
-.menuBurger {
-  @apply relative;
+.mainMenu {
+  @apply z-50 fixed bottom-0 right-0 flex flex-col gap-5 w-full h-[90vh] bg-white p-5 transition-all duration-1000 rounded-lg shadow-inner
+  overflow-y-scroll;
+  @apply translate-y-[110%];
+  @apply md:translate-y-[220%] md:w-fit md:h-fit md:top-12  shadow-md md:transition-none;
+  @apply lg:right-5;
+  @apply xl:right-10;
 }
-.burgerIcon {
-  @apply bg-white flex-shrink-0 p-3 rounded-xl;
+.mainMenu .btnsAction {
+  @apply flex gap-10;
+}
+.menuList {
+  @apply grid gap-3 text-lg font-light;
+}
+.menuList .menuListItem {
+  @apply flex gap-3 items-center hover:text-purple-400;
+}
+.mainMenu.active {
+  @apply translate-y-5;
+  @apply md:translate-y-1.5;
+}
+.closeGrip {
+  @apply flex justify-center cursor-pointer;
   @apply md:hidden;
 }
-.burgerItems {
-  @apply hidden bg-white  p-5 rounded-lg;
+.loggedUser {
+  @apply flex gap-3 border-b-2 p-2 items-center;
 }
-.burgerItemActive {
-  @apply block absolute top-12;
-  @apply md:hidden;
-}
-.userMenuList {
-  @apply grid place-content-center gap-3;
-}
-.userMenuList > .whistlist,
-.userMenuList > .notification {
-  @apply flex gap-5;
-}
-.userProfile {
-  @apply relative;
-}
-.userProfileMenu {
-  @apply hidden  flex-col gap-3 absolute top-10 right-0 translate-x-3 bg-white p-5 shadow-md w-52 rounded-md;
-}
-.userProfileMenuActive {
-  @apply flex;
-}
-.userProfileHeader {
-  @apply flex gap-2 items-center text-sm text-gray-500;
-}
-.userMenuList .userProfileHeader {
-  @apply gap-4;
-}
-.userProfileMenu button {
-  @apply flex gap-3 items-center border-b-2 border-gray-200;
+.loggedUser img {
+  @apply w-10 h-10 rounded-full border-2;
 }

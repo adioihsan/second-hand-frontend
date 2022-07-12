@@ -1,0 +1,37 @@
+.negoCard {
+  @apply flex flex-wrap  min-w-fit bg-white p-3 shadow-md rounded-md cursor-pointer;
+}
+.cardNegoHeader {
+  @apply basis-1/3;
+}
+.cardNegoBody {
+  @apply flex basis-2/3 px-5 flex-col gap-1 w-full;
+}
+.productNegoImage {
+  @apply w-full h-36 object-cover rounded-md;
+}
+.negoPrice {
+  @apply font-medium;
+}
+.negoBuyer {
+  @apply text-gray-600 text-sm;
+}
+.negoStatus {
+  @apply text-xs flex justify-end justify-items-end;
+}
+.negoCardFooter {
+  @apply basis-full mt-2;
+  @apply md:mt-0;
+}
+.negoStatus span {
+  @apply rounded-md py-1 px-2;
+}
+.negoStatus.pending span {
+  @apply bg-gray-500 text-white;
+}
+.negoStatus.rejected span {
+  @apply border border-red-400;
+}
+.negoStatus.accepted span {
+  @apply bg-green-600 text-white;
+}
