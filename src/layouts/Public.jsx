@@ -74,6 +74,7 @@ function Public(props) {
           )}
         </div>
         <Outlet context={{ setShowBar, setNavType, setNavTitle }} />
+        <div className="mt-20"></div>
         <MobileNav />
       </>
     );

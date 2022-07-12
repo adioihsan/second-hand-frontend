@@ -1,5 +1,5 @@
 .mobileNav {
-  @apply fixed bottom-0 bg-white w-full flex justify-around px-3 bottom-0 shadow-inner;
+  @apply fixed bg-white w-full flex justify-around px-3 bottom-0 shadow-inner;
   @apply md:hidden;
 }
 .mobileNav .navItem {
