@@ -18,7 +18,7 @@ function MobileNav(props) {
         <FontAwesomeIcon icon={faHeart} />
         Wishlist
       </Link>
-      <Link to="/" className="navItem">
+      <Link to="/whishlist" className="navItem">
         <FontAwesomeIcon icon={faHandHoldingDollar} />
         Penawaran
       </Link>

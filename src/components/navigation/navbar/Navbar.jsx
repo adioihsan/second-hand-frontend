@@ -36,6 +36,20 @@ function Navbar({ type, title, userData }) {
     });
     //
   }, []);
+  // actions
+  const doSearch = (e) => {
+    const key = e.key;
+    const value = e.target.value;
+    if (key == "Enter") {
+      if (!value) navigate("/");
+      else navigate("/search/" + value + "/1");
+    }
+  };
+  const doLogOut = () => {
+    localStorage.removeItem("enc_token");
+    window.location.reload();
+  };
+
   const openMainMenu = () => {
     const mainMenu = mainMenuRef.current;
     mainMenu.classList.toggle("active");
@@ -63,15 +77,24 @@ function Navbar({ type, title, userData }) {
           />
           <div>
             <p>{userData.name}</p>
-            <p className="text-purple-400 text-sm cursor-pointer">
+            <p
+              className="text-purple-400 text-sm cursor-pointer"
+              onClick={doLogOut}
+            >
               Keluar <FontAwesomeIcon icon={faArrowRightFromBracket} />
             </p>
           </div>
         </div>
       ) : (
         <div className="btnsAction">
-          <ButtonPrimary className="w-full">Masuk</ButtonPrimary>
-          <ButtonPrimary className="w-full" type="outlined">
+          <ButtonPrimary className="w-full" onClick={() => navigate("/login")}>
+            Masuk
+          </ButtonPrimary>
+          <ButtonPrimary
+            className="w-full"
+            onClick={() => navigate("/register")}
+            type="outlined"
+          >
             Daftar
           </ButtonPrimary>
         </div>
@@ -83,7 +106,7 @@ function Navbar({ type, title, userData }) {
           <FontAwesomeIcon icon={faHandHoldingDollar} />
           Penawaran
         </Link>
-        <Link to="/" className="menuListItem">
+        <Link to="/whishlist" className="menuListItem">
           <FontAwesomeIcon icon={faHeartCircleCheck} />
           Wishlist
         </Link>
@@ -134,6 +157,7 @@ function Navbar({ type, title, userData }) {
             name="search"
             id="search"
             placeholder="Cari di sini"
+            onKeyUp={doSearch}
           />
           <button>
             <img src={iconSearch} alt="search" />
