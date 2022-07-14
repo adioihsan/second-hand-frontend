@@ -25,32 +25,19 @@ const WhishlistBuyer = () => {
   );
   const [productList, setProductList] = useState([]);
   useEffect(() => {
-    // dispatch(
-    //   getProductList({
-    //     page: 1,
-    //     limit: 12,
-    //     search: "",
-    //     categoryId: "",
-    //   })
-    // );
     dispatch(getWishes());
   }, []);
   useEffect(() => {
-    if (wishesData === null) {
-      console.log("anda tidak menarik");
-    } else {
-      if (wishesData.length === 0) {
-        console.log("anda tidak menarik");
-      } else {
-        wishesData.forEach((element) => {
-          dispatch(getProduct(element.product_id));
-        });
-      }
+    if (wishesData !== null && wishesData.length !== 0) {
+      console.log(wishesData);
+      wishesData.forEach((element) => {
+        dispatch(getProduct(element.product_id));
+      });
     }
   }, [wishesData]);
 
   useEffect(() => {
-    if (dataProduct !== null) {
+    if (dataProduct !== null && wishesData !== null) {
       setProductList((previousValue) => {
         if (wishesData.length <= previousValue.length) return previousValue;
         return [...previousValue, { ...dataProduct }];
