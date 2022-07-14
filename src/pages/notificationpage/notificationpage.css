@@ -1,0 +1,11 @@
+.notificationCard {
+  @apply flex p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md align-middle;
+}
+
+.notificationpage {
+  @apply flex justify-center mt-5;
+}
+
+.profilePicture {
+  @apply mr-5;
+}

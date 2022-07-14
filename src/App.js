@@ -14,6 +14,7 @@ import Private from "./layouts/Private";
 import ProductEdit from "./pages/productEdit/productEdit";
 import ProductView from "./pages/productView/ProductView";
 import WhishlistBuyer from "./pages/whishlistBuyer/WhishlistBuyer";
+import NotificationPage from "./pages/notificationpage/NotificationPage";
 function App() {
   return (
     <div className="App">
@@ -31,6 +32,7 @@ function App() {
               element={<ProductView />}
             />
             <Route path="/test" element={<Home />} />
+            <Route path="/notification" element={<NotificationPage />} />
           </Route>
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
