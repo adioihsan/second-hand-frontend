@@ -22,6 +22,18 @@ export const authUser = createAsyncThunk(
     }
   }
 );
+export const getUserProflie = createAsyncThunk(
+  "/user/profile/read",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await userApi.getUserProfile(authToken);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const getUserDetail = createAsyncThunk(
   "/user/detail/read",
   async (data, { rejectWithValue, getState }) => {
@@ -49,5 +61,5 @@ export const updateUserDetail = createAsyncThunk(
 );
 
 export const setUserToken = createAction("user/token");
-export const setUserData = createAction("/user/data");
+export const setUserProfile = createAction("/user/profile/set");
 export const setUserMessage = createAction("/user/message");

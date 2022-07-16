@@ -13,15 +13,14 @@ import {
 } from "../services/utils/jwtHandler";
 import {
   getUserDetail,
-  setUserData,
+  getUserProflie,
+  setUserProfile,
   setUserToken,
 } from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import MobileNav from "../components/navigation/mobileNav/MobileNav";
 function Public(props) {
-  const { token, userDetail, userData, error } = useSelector(
-    (state) => state.user
-  );
+  const { token, userProfile, status } = useSelector((state) => state.user);
   const [showBar, setShowBar] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,13 +33,11 @@ function Public(props) {
   useEffect(() => {
     try {
       if (!token) {
-        console.log("if run run");
         const localToken = getLocalJWT();
         if (localToken) {
           dispatch(setUserToken(localToken));
           const user = parseJwt(localToken);
-          dispatch(setUserData(user));
-          dispatch(getUserDetail());
+          dispatch(setUserProfile(user));
           setIsGuest(false);
         } else {
           setIsGuest(true);
@@ -67,7 +64,7 @@ function Public(props) {
       <>
         <div className=" md:shadow-md sticky top-0 z-10 md:bg-white">
           <div className="container mx-auto">
-            <Navbar title={navTitle} type={navType} userData={userData} />
+            <Navbar title={navTitle} type={navType} userData={userProfile} />
           </div>
           {showBar && (
             <LinearProgress indeterminate buffer={0.3} progress={0.9} />

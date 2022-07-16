@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./register.css";
 import useForm from "../../../hooks/useForm";
@@ -10,15 +10,19 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
 import { toast } from "react-toastify";
+import apiStatus from "../../../services/utils/apiStatus";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { faEye } from "@fortawesome/free-regular-svg-icons";
 
 const Register = () => {
   // hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { message, pending, error, success } = useSelector(
-    (state) => state.user
-  );
+  const { message, status } = useSelector((state) => state.user);
   const { values, errors, handleChange } = useForm();
+  const [showPass, setShowPass] = useState(false);
   // actions
   const doRegister = (e) => {
     e.persist();
@@ -33,14 +37,14 @@ const Register = () => {
     );
   };
   useEffect(() => {
-    if (success)
+    if (status === apiStatus.success)
       navigate("/login", {
         state: {
           email: values.email,
           message: "Registrasi berhasil, silahkan login",
         },
       });
-  }, [success]);
+  }, [status]);
   return (
     <div className="Register">
       <div className="registerWraper">
@@ -59,7 +63,9 @@ const Register = () => {
             {message && (
               <div
                 className={
-                  error ? "message bg-red-500" : "message bg-green-600"
+                  status === apiStatus.error
+                    ? "message bg-red-500"
+                    : "message bg-green-600"
                 }
               >
                 {message}
@@ -71,6 +77,7 @@ const Register = () => {
               name="name"
               placeholder="Nama Lengkap"
               onChange={handleChange}
+              autoComplete="off"
             />
             {errors.name && <span className="error">{errors.name}</span>}
             <label>Email</label>
@@ -82,12 +89,20 @@ const Register = () => {
             />
             {errors.email && <span className="error">{errors.email}</span>}
             <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                placeholder="Password"
+                name="password"
+                onChange={handleChange}
+              />
+              <div
+                className="absolute right-3 top-5"
+                onClick={() => setShowPass((prev) => !prev)}
+              >
+                <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
+              </div>
+            </div>
             {errors.password && (
               <span className="error">{errors.password}</span>
             )}
@@ -101,7 +116,7 @@ const Register = () => {
           </form>
         </div>
       </div>
-      {pending && <LoadingFull />}
+      {status === apiStatus.pending && <LoadingFull />}
     </div>
   );
 };

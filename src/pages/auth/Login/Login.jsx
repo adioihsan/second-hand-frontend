@@ -1,3 +1,7 @@
+import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { faEye } from "@fortawesome/free-regular-svg-icons";
+import { faEyeDropperEmpty } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useState } from "react";
 import { useRef } from "react";
@@ -12,9 +16,10 @@ import LoadingFull from "../../../components/loading/lodingFull/LoadingFull";
 import useForm from "../../../hooks/useForm";
 import {
   authUser,
-  setUserData,
+  setUserProfile,
   setUserMessage,
 } from "../../../services/actions/userAction";
+import apiStatus from "../../../services/utils/apiStatus";
 import { parseJwt, saveLocalJWT } from "../../../services/utils/jwtHandler";
 import "./login.css";
 const Login = () => {
@@ -24,9 +29,8 @@ const Login = () => {
   const emailRef = useRef();
   const [isAction, setIsAction] = useState(false);
   const { values, errors, handleChange } = useForm();
-  const { token, message, success, pending, error } = useSelector(
-    (state) => state.user
-  );
+  const { token, message, status } = useSelector((state) => state.user);
+  const [showPass, setShowPass] = useState(false);
 
   const isAllValid = () => {
     if (Object.keys(values).length === 0) return false;
@@ -42,24 +46,30 @@ const Login = () => {
     }
   };
   useEffect(() => {
-    if (success && token && isAction) {
+    if (status === apiStatus.success && token && isAction) {
       saveLocalJWT(token);
       const user = parseJwt(token);
-      dispatch(setUserData(user));
+      dispatch(setUserProfile(user));
       toast.success("Login berhasil");
       setIsAction(false);
       navigate("/");
     }
-  }, [success]);
+  }, [status]);
   useEffect(() => {
     if (location.state) {
       if (location.state.page)
         dispatch(
-          setUserMessage({ message: location.state.page.message, error: true })
+          setUserMessage({
+            message: location.state.page.message,
+            status: apiStatus.success,
+          })
         );
       else {
         dispatch(
-          setUserMessage({ message: location.state.message, error: false })
+          setUserMessage({
+            message: location.state.message,
+            status: apiStatus.error,
+          })
         );
         emailRef.current.value = location.state.email;
         const e = {
@@ -86,13 +96,15 @@ const Login = () => {
             {message && (
               <div
                 className={
-                  error ? "message bg-red-500" : "message bg-green-600"
+                  status === apiStatus.error
+                    ? "message bg-red-500"
+                    : "message bg-green-600"
                 }
               >
                 {message}
               </div>
             )}
-            <label className="block font-regular mt-5 text-xs">Email</label>
+            <label className="block font-regular mt-5 text-sm">Email</label>
             <input
               type="text"
               placeholder="Email"
@@ -101,13 +113,21 @@ const Login = () => {
               ref={emailRef}
             />
             {errors.email && <span className="error">{errors.email}</span>}
-            <label className="block mt-3 font-regular text-xs">Password</label>
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={handleChange}
-            />
+            <label className="block mt-3 font-regular text-sm">Password</label>
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                placeholder="Password"
+                name="password"
+                onChange={handleChange}
+              />
+              <div
+                className="absolute right-3 top-5"
+                onClick={() => setShowPass((prev) => !prev)}
+              >
+                <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
+              </div>
+            </div>
             {errors.password && (
               <span className="error">{errors.password}</span>
             )}
@@ -123,7 +143,7 @@ const Login = () => {
           </form>
         </div>
       </div>
-      {pending && <LoadingFull />}
+      {status === apiStatus.pending && <LoadingFull />}
     </div>
   );
 };

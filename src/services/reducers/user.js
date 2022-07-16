@@ -3,20 +3,35 @@ import {
   authUser,
   createUser,
   getUserDetail,
-  setUserData,
-  setUserMessage,
+  getUserProflie,
+  setUserProfile,
   setUserToken,
+  setUserMessage,
   updateUserDetail,
 } from "../actions/userAction";
+import apiStatus from "../utils/apiStatus";
 
 const initialState = {
-  success: false,
   message: null,
-  pending: false,
-  error: false,
+  status: apiStatus.idle,
   token: null,
-  userData: null,
+  userProfile: null,
   userDetail: null,
+};
+
+const defaultFulfilled = (state, action) => {
+  state.message = action.payload.message;
+  state.status = apiStatus.success;
+};
+const defaultRejected = (state, action) => {
+  state.status = apiStatus.error;
+  state.message = action.payload
+    ? action.payload.message
+    : "Tidak dapat menghubungi server";
+};
+const defaultPending = (state, action) => {
+  state.status = apiStatus.pending;
+  state.message = null;
 };
 
 const userSlice = createSlice({
@@ -24,122 +39,75 @@ const userSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
-      state.message = action.payload.message;
-      state.pending = false;
-      state.error = false;
-      state.success = true;
+      defaultFulfilled(state, action);
     });
     builder.addCase(createUser.pending, (state, action) => {
-      state.pending = true;
-      state.error = false;
-      state.success = false;
-      state.message = null;
+      defaultPending(state, action);
     });
     builder.addCase(createUser.rejected, (state, action) => {
-      state.error = true;
-      state.pending = false;
-      state.message = action.payload
-        ? action.payload.message
-        : "Tidak dapat menghubungi server";
-      state.success = false;
+      defaultRejected(state, action);
     });
     //
     builder.addCase(authUser.fulfilled, (state, action) => {
-      state.message = action.payload.message;
       state.token = action.payload.data.token;
-      state.pending = false;
-      state.error = false;
-      state.success = true;
+      defaultFulfilled(state, action);
     });
     builder.addCase(authUser.pending, (state, action) => {
-      state.token = null;
-      state.pending = true;
-      state.error = false;
-      state.success = false;
-      state.message = null;
+      defaultPending(state, action);
     });
     builder.addCase(authUser.rejected, (state, action) => {
-      state.token = null;
-      state.error = true;
-      state.pending = false;
-      state.message = action.payload
-        ? action.payload.message
-        : "Tidak dapat menghubungi server";
-      state.success = false;
+      defaultRejected(state, action);
     });
     //
     builder.addCase(setUserToken, (state, action) => {
       state.token = action.payload;
     });
     //
-    builder.addCase(setUserData, (state, action) => {
-      state.userData = action.payload;
+    builder.addCase(setUserProfile, (state, action) => {
+      state.userProfile = action.payload;
     });
     //
     builder.addCase(setUserMessage, (state, action) => {
       state.message = action.payload.message;
-      state.error = action.payload.error;
+      state.status = action.payload.status;
+    });
+    //
+    builder.addCase(getUserProflie.fulfilled, (state, action) => {
+      state.userProfile = action.payload.data;
+    });
+    builder.addCase(getUserProflie.pending, (state, action) => {
+      state.userProfile = null;
+      defaultPending(state, action);
+    });
+    builder.addCase(getUserProflie.rejected, (state, action) => {
+      state.userProfile = null;
+      defaultRejected(state, action);
     });
     //
     builder.addCase(getUserDetail.fulfilled, (state, action) => {
-      const dataResult = action.payload.data;
-      state.message = action.payload.message;
       state.userDetail = action.payload.data;
-      state.pending = false;
-      state.error = false;
-      state.success = true;
-      // harom
-      state.userData = {
-        id: dataResult.id,
-        name: dataResult.name,
-        photo: dataResult.image,
-      };
+      defaultFulfilled(state, action);
     });
     builder.addCase(getUserDetail.pending, (state, action) => {
       state.userDetail = null;
-      state.pending = true;
-      state.error = false;
-      state.success = false;
-      state.message = null;
+      defaultPending(state, action);
     });
     builder.addCase(getUserDetail.rejected, (state, action) => {
       state.userDetail = null;
-      state.error = true;
-      state.pending = false;
-      state.message = action.payload
-        ? action.payload.message
-        : "Tidak dapat menghubungi server";
-      state.success = false;
+      defaultRejected(state, action);
     });
     //
     builder.addCase(updateUserDetail.fulfilled, (state, action) => {
-      const dataResult = action.payload.data;
-      state.message = action.payload.message;
       state.userDetail = action.payload.data;
-      state.pending = false;
-      state.error = false;
-      state.success = true;
-      // harom
-      state.userData = {
-        id: dataResult.id,
-        name: dataResult.name,
-        photo: dataResult.image,
-      };
+      defaultFulfilled(state, action);
     });
     builder.addCase(updateUserDetail.pending, (state, action) => {
-      state.pending = true;
-      state.error = false;
-      state.success = false;
-      state.message = null;
+      defaultPending(state, action);
     });
     builder.addCase(updateUserDetail.rejected, (state, action) => {
-      state.error = true;
-      state.pending = false;
-      state.success = false;
-      state.message = action.payload
-        ? action.payload.message
-        : "Tidak dapat menghubungi server";
+      defaultRejected(state, action);
     });
+    //
   },
 });
 export default userSlice.reducer;
