@@ -18,6 +18,8 @@ import cities from "../../cache/cities.json";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import privateAxios from "../../services/apis/config/privateAxios";
+import { Helmet } from "react-helmet-async";
+import apiStatus from "../../services/utils/apiStatus";
 
 function ProfileInfo(props) {
   const navProps = useOutletContext();
@@ -28,17 +30,16 @@ function ProfileInfo(props) {
   const { values, errors, handleChange, setValues } = useForm();
   const { suggestions, showSuggestions, handleInput, handleSelected } =
     useSuggestionInput(cities);
-  const { userDetail, pending, error, success, message } = useSelector(
-    (state) => state.user
-  );
+  const { userDetail, status, message } = useSelector((state) => state.user);
+  const [isAction, setIsAction] = useState(false);
+  const [imageUpErr, setImageUpErr] = useState(true);
   const imgPrevRef = useRef();
   // actions
   const doUpdateProfile = (e) => {
     e.preventDefault();
     if (checkIsFormValid()) {
       dispatch(updateUserDetail(values));
-      if (!pending && !error) toast.success("Info profile berhasil di update");
-      if (error) toast.error(message);
+      setIsAction(true);
     } else toast.warn("Data belum lengkap");
   };
 
@@ -46,8 +47,8 @@ function ProfileInfo(props) {
     setValues({ ...values, image_url: null });
     const imgPrev = imgPrevRef.current;
     if (typeof source === "object") {
-      if (source.size > 1048576)
-        toast.error("Ukuran " + source.name + " terlalu besar (max:1MB)");
+      if (source.size > 2097152)
+        toast.error("Ukuran foto terlalu besar (max:2MB)");
       else {
         const imgUrl = URL.createObjectURL(source);
         if (imgUrl) {
@@ -79,25 +80,18 @@ function ProfileInfo(props) {
         setProgress(100);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        if (err.response.data) toast.error(err.response.data.message);
+        else toast.error("Upload foto gagal !, silahkan ulangi");
+        setProgress(0);
       });
   };
 
   const checkIsFormValid = () => {
     if (Object.keys(values).length === 0) return false;
     if (Object.keys(errors).find((key) => errors[key] !== null)) return false;
+    console.log("error", errors);
+    console.log("error", errors);
     // if (Object.values(values).includes(null)) return false;
-    if (
-      values.name === null ||
-      values.name === undefined ||
-      values.city === null ||
-      values.city === undefined ||
-      values.phone === null ||
-      values.phone === undefined ||
-      values.image_url === null ||
-      values.image_url === undefined
-    )
-      return false;
 
     return true;
   };
@@ -120,9 +114,21 @@ function ProfileInfo(props) {
       setValues({ ...values, image_url: values.image });
     }
   }, [values.image]);
+
+  useEffect(() => {
+    if (isAction && status === apiStatus.success)
+      toast.success("Profile berhasil di update");
+    else if (isAction && status === apiStatus.error) {
+      toast.error(message);
+    }
+  }, [status]);
+
   if (values.name !== undefined) {
     return (
       <div className="profileInfoWrapper">
+        <Helmet>
+          <title>Seconhand. Lengkapi Profile</title>
+        </Helmet>
         <button className="btnBack py-5" onClick={() => navigate(-1)}>
           <img src={iconArrowLeft} alt="back" />
         </button>
@@ -215,9 +221,10 @@ function ProfileInfo(props) {
             <div className="inputWrapper">
               <label htmlFor="phone">No Handphone</label>
               <input
-                type="number"
+                type="tel"
                 name="phone"
                 value={values.phone}
+                placeholder="+628111222333"
                 onChange={handleChange}
               />
               {errors.phone && <span className="error">{errors.phone}</span>}
@@ -227,10 +234,10 @@ function ProfileInfo(props) {
             </ButtonPrimary>
           </form>
         </div>
-        {pending && <LoadingFull />}
+        {status === apiStatus.pending && <LoadingFull />}
       </div>
     );
-  } else if (pending) {
+  } else if (status === apiStatus.pending) {
     return <LoadingFull />;
   }
 }
