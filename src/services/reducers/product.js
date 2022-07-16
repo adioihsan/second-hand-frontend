@@ -11,6 +11,7 @@ import {
   getProduct,
 } from "../actions/productAction";
 import { setUserMessage } from "../actions/userAction";
+import apiStatus from "../utils/apiStatus";
 
 const initialState = {
   data: null,
@@ -25,7 +26,7 @@ const defaultPending = (state, action) => {
 };
 const defaultRejected = (state, action) => {
   state.pending = false;
-  state.status = "error";
+  state.status = apiStatus.error;
   if (action.payload) {
     state.message = action.payload.message;
   }
