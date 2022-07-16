@@ -39,6 +39,7 @@ const ProductView = () => {
   const { status: negoStatus, message: negoMessage } = useSelector(
     (state) => state.negotiation
   );
+  const { userProfile } = useSelector((state) => state.user);
   const [isAction, setIsAction] = useState(false);
   const [isActionWish, setIsActionWish] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -137,6 +138,8 @@ const ProductView = () => {
   }, [wishStatus]);
 
   useEffect(() => {
+    if (userProfile !== null && userProfile.id == params.userId)
+      navigate("/product-view/seller/" + params.productId);
     if (params.productId && params.userType === "seller")
       dispatch(getMyProduct(params.productId));
     else dispatch(getProduct(params.productId));
@@ -150,11 +153,11 @@ const ProductView = () => {
     } else if (status === apiStatus.success && isDelete) {
       toast.success("Produk telah di hapus");
       setIsDelete(false);
-      navigate("/product-list");
+      navigate("/product-list/products");
     } else if (status === apiStatus.error && isDelete) {
       toast.error(message);
+      navigate("/product-list/products");
       setIsDelete(false);
-      navigate("/product-list");
     } else if (status === apiStatus.success && isAction) {
       data.is_release
         ? toast.success("Produk berhasil di rilis", {
@@ -164,15 +167,9 @@ const ProductView = () => {
             toastId: "releaseToast",
           });
       setIsAction(false);
-    } else if (status === apiStatus.error) {
-      if (message === "You are not authorized to see this product") {
-        toast.error(message, { toastId: "productViewToast" });
-        navigate("/");
-      }
-      if (message === "Product not found") {
-        toast.error("Produk tidak tersedia", { toastId: "productViewToast" });
-        navigate("/");
-      }
+    } else if (status === apiStatus.error && !isDelete && !isAction) {
+      toast.error("Produk tidak tersedia", { toastId: "productViewToast" });
+      navigate("/");
     }
     if (status !== apiStatus.pending) outletContext.setShowBar(false);
   }, [status]);

@@ -128,7 +128,11 @@ function Home(props) {
                 <ProductCard
                   product={product}
                   key={"productHome" + product.name + product.id}
-                  onClick={() => navigate("/product-view/see/" + product.id)}
+                  onClick={() =>
+                    navigate(
+                      "/product-view/see/" + product.user_id + "/" + product.id
+                    )
+                  }
                 />
               ))}
           </section>

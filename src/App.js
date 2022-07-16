@@ -28,7 +28,7 @@ function App() {
             <Route path="/category/:categoryId/:page" element={<Home />} />
             <Route path="/search/:search/:page" element={<Home />} />
             <Route
-              path="/product-view/:userType/:productId"
+              path="/product-view/:userType/:userId/:productId"
               element={<ProductView />}
             />
             <Route path="/test" element={<Home />} />
@@ -37,6 +37,10 @@ function App() {
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
             <Route path="/product-add" element={<ProductAdd />} />
+            <Route
+              path="/product-view/:userType/:productId"
+              element={<ProductView />}
+            />
             <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
