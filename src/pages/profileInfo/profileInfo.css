@@ -12,6 +12,7 @@
 }
 .profileInfo input[type="text"],
 .profileInfo input[type="number"],
+.profileInfo input[type="tel"],
 .profileInfo textarea,
 .profileInfo select {
   @apply w-full p-3 outline outline-1 outline-gray-300 rounded-xl focus:outline-purple-300;

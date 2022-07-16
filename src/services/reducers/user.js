@@ -86,6 +86,12 @@ const userSlice = createSlice({
     //
     builder.addCase(getUserDetail.fulfilled, (state, action) => {
       state.userDetail = action.payload.data;
+      const userDetail = state.userDetail;
+      state.userProfile = {
+        ...state.userProfile,
+        name: userDetail.name,
+        photo: userDetail.image,
+      };
       defaultFulfilled(state, action);
     });
     builder.addCase(getUserDetail.pending, (state, action) => {
@@ -99,6 +105,12 @@ const userSlice = createSlice({
     //
     builder.addCase(updateUserDetail.fulfilled, (state, action) => {
       state.userDetail = action.payload.data;
+      const userDetail = action.payload.data;
+      state.userProfile = {
+        ...state.userProfile,
+        name: userDetail.name,
+        photo: userDetail.image,
+      };
       defaultFulfilled(state, action);
     });
     builder.addCase(updateUserDetail.pending, (state, action) => {
