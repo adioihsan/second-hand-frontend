@@ -43,7 +43,10 @@ function App() {
             />
             <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
-            <Route path="/negotiation-info" element={<Negotiationinfo />} />
+            <Route
+              path="/negotiation-info/:negoId"
+              element={<Negotiationinfo />}
+            />
             <Route path="/whishlist" element={<WhishlistBuyer />} />
           </Route>
         </Routes>

@@ -37,3 +37,6 @@
 .negoTextStatus_pending {
   @apply border-2 border-gray-400 p-2 rounded-md my-2;
 }
+.negoTextStatus_done {
+  @apply border-2 border-gray-400 p-2 rounded-md my-2;
+}

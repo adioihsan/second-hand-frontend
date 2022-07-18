@@ -158,6 +158,7 @@ const ProductView = () => {
     accepted:
       "Yeay Penjual menyetujui penawaran mu. Kamu akan segera dihubungi penjual",
     rejected: "Penawaran mu belum di setujui penjual,Yuk tawar lagi",
+    done: "Sudah terjual",
   };
   // condtitional comp
   const renderSellerButton = () => (
@@ -202,7 +203,7 @@ const ProductView = () => {
         </ButtonPrimary>
       )}
       {nego !== null && (
-        <div className="grid">
+        <div className="grid gap-2">
           <p className={"negoTextStatus_" + nego.status}>
             {negoTextStatus[nego.status] +
               ". Kamu menawar produk ini seharga " +
@@ -211,8 +212,11 @@ const ProductView = () => {
                 currency: "IDR",
               })}
           </p>
-          {nego.status !== "rejected" && (
+          {nego.status !== "done" && (
             <ButtonPrimary type="disabled">Sudah ditawar</ButtonPrimary>
+          )}
+          {nego.status === "done" && (
+            <ButtonPrimary type="disabled">Produk sudah terjual</ButtonPrimary>
           )}
           {nego.status === "rejected" && (
             <ButtonPrimary onClick={() => setShowModal(true)}>
