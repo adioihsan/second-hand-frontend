@@ -22,9 +22,12 @@ import userImg from "../../../assets/images/user.png";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import TopNotification from "../../notification/topNotification/TopNotification";
+import { useState } from "react";
 function Navbar({ type, title, userData }) {
   const navbarRef = useRef();
   const mainMenuRef = useRef();
+  const [openNotification, setOpenNotification] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     // change bg to white when scrolled
@@ -53,6 +56,7 @@ function Navbar({ type, title, userData }) {
   const openMainMenu = () => {
     const mainMenu = mainMenuRef.current;
     mainMenu.classList.toggle("active");
+    setOpenNotification(false);
   };
   const closeMainMenu = () => {
     const mainMenu = mainMenuRef.current;
@@ -165,7 +169,16 @@ function Navbar({ type, title, userData }) {
         </div>
         <div className="iconNav">
           <div className="notification cursor-pointer">
-            <FontAwesomeIcon icon={faBell} size="lg" width="18px" />
+            <FontAwesomeIcon
+              icon={faBell}
+              size="lg"
+              width="18px"
+              onClick={() => {
+                setOpenNotification((open) => !open);
+                closeMainMenu();
+              }}
+            />
+            {openNotification && <TopNotification />}
           </div>
           <div className="burger" onClick={openMainMenu}>
             <FontAwesomeIcon icon={faBars} size="lg" />
