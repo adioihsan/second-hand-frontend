@@ -32,7 +32,6 @@ function App() {
               element={<ProductView />}
             />
             <Route path="/test" element={<Home />} />
-            <Route path="/notification" element={<NotificationPage />} />
           </Route>
           <Route element={<Private />}>
             <Route path="/profile-info" element={<ProfileInfo />} />
@@ -41,6 +40,7 @@ function App() {
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
             <Route path="/negotiation-info" element={<Negotiationinfo />} />
             <Route path="/whishlist" element={<WhishlistBuyer />} />
+            <Route path="/notification" element={<NotificationPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
