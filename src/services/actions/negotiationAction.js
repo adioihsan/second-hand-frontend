@@ -35,6 +35,23 @@ export const getSellerNegoList = createAsyncThunk(
   }
 );
 
+export const getBuyerNegoList = createAsyncThunk(
+  "negotiation/buyer/list",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await negotiationApi.getBuyerNegoList({
+        data,
+        authToken,
+      });
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const getNego = createAsyncThunk(
   "negotiation/seller/get",
   async (negoId, { rejectWithValue, getState }) => {

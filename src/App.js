@@ -15,6 +15,7 @@ import ProductEdit from "./pages/productEdit/productEdit";
 import ProductView from "./pages/productView/ProductView";
 import WhishlistBuyer from "./pages/whishlistBuyer/WhishlistBuyer";
 import NotificationPage from "./pages/notificationpage/NotificationPage";
+import NegotiationBuyer from "./pages/negotiationBuyer/NegotiationBuyer";
 function App() {
   return (
     <div className="App">
@@ -46,6 +47,10 @@ function App() {
             <Route
               path="/negotiation-info/:negoId"
               element={<Negotiationinfo />}
+            />
+            <Route
+              path="/negotiation/:category"
+              element={<NegotiationBuyer />}
             />
             <Route path="/whishlist" element={<WhishlistBuyer />} />
           </Route>

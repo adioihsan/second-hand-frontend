@@ -7,6 +7,12 @@ const negotiationApi = {
     privateAxios(authToken).get(
       `/negotiations/me?page=${data.page || 1}&limit=${data.limit || 12}`
     ),
+  getBuyerNegoList: ({ data, authToken }) =>
+    privateAxios(authToken).get(
+      `/negotiations?page=${data.page || 1}&limit=${data.limit || 12}&filter=${
+        data.filter || " "
+      }`
+    ),
   getNego: ({ negoId, authToken }) =>
     privateAxios(authToken).get("/negotiation/" + negoId),
   // rejectNego: ({ negoId, authToken }) =>
