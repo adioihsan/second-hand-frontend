@@ -106,7 +106,7 @@ function Navbar({ type, title, userData }) {
 
       <div className="menuList" onClick={closeMainMenu}>
         <h2 className="font-semibold">Aktifitas Saya</h2>
-        <Link to="/" className="menuListItem">
+        <Link to="/negotiation/all" className="menuListItem">
           <FontAwesomeIcon icon={faHandHoldingDollar} />
           Penawaran
         </Link>

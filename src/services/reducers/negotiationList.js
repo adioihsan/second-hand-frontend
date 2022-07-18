@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSellerNegoList } from "../actions/negotiationAction";
+import {
+  getSellerNegoList,
+  getBuyerNegoList,
+} from "../actions/negotiationAction";
 import apiStatus from "../utils/apiStatus";
 
 const initialState = {
@@ -58,6 +61,15 @@ const negotiationListSlice = createSlice({
       defaultFulfilled(state, action);
     });
     builder.addCase(getSellerNegoList.rejected, (state, action) => {
+      defaultRejected(state, action);
+    });
+    builder.addCase(getBuyerNegoList.pending, (state, action) => {
+      defaultPending(state, action);
+    });
+    builder.addCase(getBuyerNegoList.fulfilled, (state, action) => {
+      defaultFulfilled(state, action);
+    });
+    builder.addCase(getBuyerNegoList.rejected, (state, action) => {
       defaultRejected(state, action);
     });
   },
