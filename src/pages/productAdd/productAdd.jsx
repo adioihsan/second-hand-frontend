@@ -85,9 +85,9 @@ function ProductAdd(props) {
         <title>Secondhand. Tambahkan produk</title>
       </Helmet>
       <div className="productAddWrapper">
-        <button className="btnBack" onClick={() => navigate(-1)}>
+        {/* <button className="btnBack" onClick={() => navigate(-1)}>
           <img src={iconArrowLeft} alt="back" />
-        </button>
+        </button> */}
         <div className="productAdd">
           <form
             className="productAddForm"

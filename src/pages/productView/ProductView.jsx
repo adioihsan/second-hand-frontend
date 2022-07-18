@@ -75,6 +75,7 @@ const ProductView = () => {
   };
 
   const doWish = () => {
+    if (userProfile === null) navigate("/login");
     dispatch(
       postWhishList({
         product_id: params.productId,
@@ -198,7 +199,12 @@ const ProductView = () => {
         <ButtonPrimary>Loading...</ButtonPrimary>
       )}
       {nego === null && checkNegoStatus !== apiStatus.pending && (
-        <ButtonPrimary onClick={() => setShowModal(true)}>
+        <ButtonPrimary
+          onClick={() => {
+            if (userProfile === null) navigate("/login");
+            setShowModal(true);
+          }}
+        >
           Saya tertarik
         </ButtonPrimary>
       )}

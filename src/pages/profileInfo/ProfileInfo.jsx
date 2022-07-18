@@ -129,9 +129,6 @@ function ProfileInfo(props) {
         <Helmet>
           <title>Seconhand. Lengkapi Profile</title>
         </Helmet>
-        <button className="btnBack py-5" onClick={() => navigate(-1)}>
-          <img src={iconArrowLeft} alt="back" />
-        </button>
         <div className="profileInfo">
           <form className="profileInfoForm" autoComplete="off">
             <div className="inputWrapperPhoto">
