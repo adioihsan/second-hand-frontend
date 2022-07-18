@@ -6,6 +6,7 @@ import productList from "./reducers/productList";
 import whishlist from "./reducers/whishlist";
 import negotiation from "./reducers/negotiation";
 import negotiationList from "./reducers/negotiationList";
+import notificationList from "./reducers/notificationList";
 const reducer = {
   categoryList,
   user,
@@ -14,6 +15,7 @@ const reducer = {
   whishlist,
   negotiation,
   negotiationList,
+  notificationList,
 };
 const ReduxStore = configureStore({ reducer });
 export default ReduxStore;

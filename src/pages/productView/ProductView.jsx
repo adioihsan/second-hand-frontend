@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
+  checkIsProductNego,
   deleteProduct,
   getMyProduct,
   getProduct,
@@ -30,7 +31,9 @@ const ProductView = () => {
   const outletContext = useOutletContext();
 
   //data
-  const { data, status, message } = useSelector((state) => state.product);
+  const { data, status, nego, checkNegoStatus, message } = useSelector(
+    (state) => state.product
+  );
   const {
     data: wishData,
     status: wishStatus,
@@ -80,7 +83,83 @@ const ProductView = () => {
     setIsActionWish(true);
   };
 
-  // render component
+  // effects
+  useEffect(() => {
+    if (userProfile !== null && userProfile.id == params.userId)
+      navigate("/product-view/seller/" + params.productId);
+    if (params.productId && params.userType === "seller")
+      dispatch(getMyProduct(params.productId));
+    else {
+      dispatch(getProduct(params.productId));
+      dispatch(checkIsProductNego(params.productId));
+    }
+    outletContext.setNavType(null);
+    outletContext.setNavTitle(null);
+  }, [params.productId]);
+
+  useEffect(() => {
+    if (status === apiStatus.pending) {
+      outletContext.setShowBar(true);
+    } else if (status === apiStatus.success && isDelete) {
+      toast.success("Produk telah di hapus");
+      setIsDelete(false);
+      navigate("/product-list/products");
+    } else if (status === apiStatus.error && isDelete) {
+      toast.error(message);
+      navigate("/product-list/products");
+      setIsDelete(false);
+    } else if (status === apiStatus.success && isAction) {
+      data.is_release
+        ? toast.success("Produk berhasil di rilis", {
+            toastId: "hideToast",
+          })
+        : toast.success("Produk berhasil di sembunyikan", {
+            toastId: "releaseToast",
+          });
+      setIsAction(false);
+    } else if (status === apiStatus.error && !isDelete && !isAction) {
+      toast.error("Produk tidak tersedia", { toastId: "productViewToast" });
+      navigate("/");
+    }
+    if (status !== apiStatus.pending) outletContext.setShowBar(false);
+  }, [status]);
+
+  useEffect(() => {
+    if (wishStatus === "pending") {
+      outletContext.setShowBar(true);
+    } else if (wishStatus === "success" && isActionWish) {
+      toast.success("Produk ini masuk whishlist anda");
+      outletContext.setShowBar(false);
+      setIsActionWish(false);
+    } else if (wishStatus === "error" && isActionWish) {
+      toast.error(wishMessage);
+      outletContext.setShowBar(false);
+      setIsActionWish(false);
+    }
+  }, [wishStatus]);
+
+  useEffect(() => {
+    if (negoStatus === apiStatus.pending) {
+      outletContext.setShowBar(true);
+    } else if (negoStatus === apiStatus.success && isNego) {
+      toast.success("Penawaran berhasil dikirim");
+    } else if (negoStatus === apiStatus.error && isNego) {
+      toast.error(negoMessage);
+    }
+    if (negoStatus !== apiStatus.pending) {
+      outletContext.setShowBar(false);
+      setIsNego(false);
+    }
+  }, [negoStatus]);
+
+  // helpers
+  const negoTextStatus = {
+    pending: "Penjual belum merespon penawaran mu",
+    accepted:
+      "Yeay Penjual menyetujui penawaran mu. Kamu akan segera dihubungi penjual",
+    rejected: "Penawaran mu belum di setujui penjual,Yuk tawar lagi",
+  };
+  // condtitional comp
   const renderSellerButton = () => (
     <>
       {data?.is_release ? (
@@ -114,80 +193,41 @@ const ProductView = () => {
   );
   const renderUserButton = () => (
     <>
-      <ButtonPrimary onClick={() => setShowModal(true)}>
-        Saya tertarik
-      </ButtonPrimary>
+      {checkNegoStatus === apiStatus.pending && (
+        <ButtonPrimary>Loading...</ButtonPrimary>
+      )}
+      {nego === null && checkNegoStatus !== apiStatus.pending && (
+        <ButtonPrimary onClick={() => setShowModal(true)}>
+          Saya tertarik
+        </ButtonPrimary>
+      )}
+      {nego !== null && (
+        <div className="grid">
+          <p className={"negoTextStatus_" + nego.status}>
+            {negoTextStatus[nego.status] +
+              ". Kamu menawar produk ini seharga " +
+              nego.price.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              })}
+          </p>
+          {nego.status !== "rejected" && (
+            <ButtonPrimary type="disabled">Sudah ditawar</ButtonPrimary>
+          )}
+          {nego.status === "rejected" && (
+            <ButtonPrimary onClick={() => setShowModal(true)}>
+              Tawar Lagi !
+            </ButtonPrimary>
+          )}
+        </div>
+      )}
       <ButtonPrimary className={"mt-5"} type={"outlined"} onClick={doWish}>
         tambah ke wishlist
       </ButtonPrimary>
     </>
   );
 
-  useEffect(() => {
-    if (wishStatus === "pending") {
-      outletContext.setShowBar(true);
-    } else if (wishStatus === "success" && isActionWish) {
-      toast.success("Produk ini masuk whishlist anda");
-      outletContext.setShowBar(false);
-      setIsActionWish(false);
-    } else if (wishStatus === "error" && isActionWish) {
-      toast.error(wishMessage);
-      outletContext.setShowBar(false);
-      setIsActionWish(false);
-    }
-  }, [wishStatus]);
-
-  useEffect(() => {
-    if (userProfile !== null && userProfile.id == params.userId)
-      navigate("/product-view/seller/" + params.productId);
-    if (params.productId && params.userType === "seller")
-      dispatch(getMyProduct(params.productId));
-    else dispatch(getProduct(params.productId));
-    outletContext.setNavType(null);
-    outletContext.setNavTitle(null);
-  }, [params.productId]);
-
-  useEffect(() => {
-    if (status === apiStatus.pending) {
-      outletContext.setShowBar(true);
-    } else if (status === apiStatus.success && isDelete) {
-      toast.success("Produk telah di hapus");
-      setIsDelete(false);
-      navigate("/product-list/products");
-    } else if (status === apiStatus.error && isDelete) {
-      toast.error(message);
-      navigate("/product-list/products");
-      setIsDelete(false);
-    } else if (status === apiStatus.success && isAction) {
-      data.is_release
-        ? toast.success("Produk berhasil di rilis", {
-            toastId: "hideToast",
-          })
-        : toast.success("Produk berhasil di sembunyikan", {
-            toastId: "releaseToast",
-          });
-      setIsAction(false);
-    } else if (status === apiStatus.error && !isDelete && !isAction) {
-      toast.error("Produk tidak tersedia", { toastId: "productViewToast" });
-      navigate("/");
-    }
-    if (status !== apiStatus.pending) outletContext.setShowBar(false);
-  }, [status]);
-
-  useEffect(() => {
-    if (negoStatus === apiStatus.pending) {
-      outletContext.setShowBar(true);
-    } else if (negoStatus === apiStatus.success && isNego) {
-      toast.success("Penawaran berhasil dikirim");
-    } else if (negoStatus === apiStatus.error && isNego) {
-      toast.error(negoMessage);
-    }
-    if (negoStatus !== apiStatus.pending) {
-      outletContext.setShowBar(false);
-      setIsNego(false);
-    }
-  }, [negoStatus]);
-
+  console.log(nego);
   if (status === apiStatus.success && data !== null && data !== undefined)
     return (
       <>
