@@ -7,10 +7,22 @@ const negotiationApi = {
     privateAxios(authToken).get(
       `/negotiations/me?page=${data.page || 1}&limit=${data.limit || 12}`
     ),
+  getBuyerNegoList: ({ data, authToken }) =>
+    privateAxios(authToken).get(
+      `/negotiations?page=${data.page || 1}&limit=${data.limit || 12}&filter=${
+        data.filter || " "
+      }`
+    ),
+  getNego: ({ negoId, authToken }) =>
+    privateAxios(authToken).get("/negotiation/" + negoId),
+  // rejectNego: ({ negoId, authToken }) =>
+  //   privateAxios(authToken).patch(`/negotiation/${negoId}/reject`),
   rejectNego: ({ negoId, authToken }) =>
-    privateAxios(authToken).patch(`/negotiation/${negoId}/reject`),
+    privateAxios(authToken).patch(`/negotiation/${negoId}`, { status: false }),
   acceptNego: ({ negoId, authToken }) =>
     privateAxios(authToken).patch(`/negotiation/${negoId}/confirm`),
+  doneNego: ({ negoId, authToken }) =>
+    privateAxios(authToken).patch(`/negotiation/${negoId}`, { status: true }),
 };
 
 export default negotiationApi;

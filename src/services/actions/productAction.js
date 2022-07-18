@@ -143,5 +143,22 @@ export const getProductList = createAsyncThunk(
     }
   }
 );
+export const checkIsProductNego = createAsyncThunk(
+  "/product/check/nego",
+  async (productId, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await productApi.checkIsProductNego({
+        productId,
+        authToken,
+      });
+
+      return response.data;
+    } catch (error) {
+      if (!error.response) return defaultError;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const setProductMessage = createAction("/product/message");
 export const resetProductStatus = createAction("/product/status/reset");

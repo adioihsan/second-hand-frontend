@@ -1,0 +1,4 @@
+.topNotification {
+  @apply bg-white p-3 shadow-md  rounded-md absolute top-16 right-0 w-full max-w-md;
+  @apply md:right-5;
+}

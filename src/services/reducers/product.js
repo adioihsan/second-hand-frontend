@@ -9,23 +9,27 @@ import {
   soldProduct,
   resetProductStatus,
   getProduct,
+  checkIsProductNego,
 } from "../actions/productAction";
-import { setUserMessage } from "../actions/userAction";
+import apiStatus from "../utils/apiStatus";
 
 const initialState = {
   data: null,
   status: "idle",
   message: null,
+  nego: null,
+  checkNegoStatus: apiStatus.idle,
 };
 
 const defaultPending = (state, action) => {
   state.data = null;
   state.message = null;
+  state.nego = null;
   state.status = "pending";
 };
 const defaultRejected = (state, action) => {
   state.pending = false;
-  state.status = "error";
+  state.status = apiStatus.error;
   if (action.payload) {
     state.message = action.payload.message;
   }
@@ -123,6 +127,17 @@ const productSlice = createSlice({
     });
     builder.addCase(getProduct.rejected, (state, action) => {
       defaultRejected(state, action);
+    });
+    //
+    builder.addCase(checkIsProductNego.fulfilled, (state, action) => {
+      state.nego = action.payload.data;
+      state.checkNegoStatus = apiStatus.success;
+    });
+    builder.addCase(checkIsProductNego.pending, (state, action) => {
+      state.checkNegoStatus = apiStatus.pending;
+    });
+    builder.addCase(checkIsProductNego.rejected, (state, action) => {
+      state.checkNegoStatus = apiStatus.rejected;
     });
   },
 });

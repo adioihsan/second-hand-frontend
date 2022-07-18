@@ -38,6 +38,8 @@ const productApi = {
       }`
     ),
   getProduct: (productId) => publicAxios.get("/product/" + productId),
+  checkIsProductNego: ({ productId, authToken }) =>
+    privateAxios(authToken).get("/product/" + productId + "/negotiation"),
 };
 
 export default productApi;

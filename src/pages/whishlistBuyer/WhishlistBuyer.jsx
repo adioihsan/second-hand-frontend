@@ -25,6 +25,7 @@ const WhishlistBuyer = () => {
   );
   const [productList, setProductList] = useState([]);
   useEffect(() => {
+    setProductList([]);
     dispatch(getWishes());
   }, []);
   useEffect(() => {

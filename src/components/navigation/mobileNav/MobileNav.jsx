@@ -14,11 +14,11 @@ function MobileNav(props) {
         <FontAwesomeIcon icon={faHome} />
         Home
       </Link>
-      <Link to="/" className="navItem">
+      <Link to="/whishlist" className="navItem">
         <FontAwesomeIcon icon={faHeart} />
         Wishlist
       </Link>
-      <Link to="/whishlist" className="navItem">
+      <Link to="/negotiation/all" className="navItem">
         <FontAwesomeIcon icon={faHandHoldingDollar} />
         Penawaran
       </Link>

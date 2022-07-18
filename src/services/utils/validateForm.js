@@ -32,6 +32,8 @@ function validateForm(name, value, result) {
       break;
     case "phone":
       if (value.length < 10) error = "Minimal 10 digit !";
+      else if (!/\+([ -]?\d+)+|\(\d+\)([ -]\d+)/.test(value))
+        error = "format nomer telpon salah";
       else error = null;
       break;
     case "price":

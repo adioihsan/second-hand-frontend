@@ -148,9 +148,7 @@ function ProductList(props) {
                     negoStatus={nego.status}
                     buyer={nego.user_buyer.user_detail}
                     key={"productNego" + index}
-                    onClick={() =>
-                      navigate("/negotiation-info", { state: nego })
-                    }
+                    onClick={() => navigate("/negotiation-info/" + nego.id)}
                   />
                 ))}
               </section>

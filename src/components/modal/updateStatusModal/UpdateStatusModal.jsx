@@ -2,11 +2,11 @@ import React from "react";
 import { useState } from "react";
 import ButtonPrimary from "../../button/buttonPrimary/ButtonPrimary";
 import "./updateStatusModal.css";
-function UpdateStatusModal({ children, productId, cb, ...others }) {
+function UpdateStatusModal({ children, productId, negoId, cb, ...others }) {
   const [isSold, setIsSold] = useState(true);
   const sendStatus = () => {
-    if (isSold) cb.doSoldProduct(productId);
-    else cb.doReject(productId);
+    if (isSold) cb.doSoldProduct(negoId);
+    else cb.doReject(negoId);
   };
   const handleChange = (e, sold) => {
     if (e.target.checked) {

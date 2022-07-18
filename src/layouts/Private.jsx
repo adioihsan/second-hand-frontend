@@ -9,17 +9,13 @@ import {
   isJwtValid,
   parseJwt,
 } from "../services/utils/jwtHandler";
-import {
-  getUserDetail,
-  setUserData,
-  setUserToken,
-} from "../services/actions/userAction";
+import { setUserProfile, setUserToken } from "../services/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import LoadingFull from "../components/loading/lodingFull/LoadingFull";
 import LinearProgress from "@material/react-linear-progress";
 function Private(props) {
   // hooks
-  const { token, userDetail, userData } = useSelector((state) => state.user);
+  const { token, userProfile } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //
@@ -29,12 +25,10 @@ function Private(props) {
   useEffect(() => {
     try {
       if (!token) {
+        const localToken = getLocalJWT();
         dispatch(setUserToken(localToken));
         const user = parseJwt(localToken);
-        const localToken = getLocalJWT();
-        console.log(user);
-        dispatch(setUserData(user));
-        dispatch(getUserDetail());
+        dispatch(setUserProfile(user));
       } else {
         if (!isJwtValid(token)) {
           navigate("/login", {
@@ -57,7 +51,7 @@ function Private(props) {
       <>
         <div className="md:bg-white md:shadow-md md:mb-5 mb-10">
           <div className="container mx-auto">
-            <Navbar title={navTitle} type={navType} userData={userData} />
+            <Navbar title={navTitle} type={navType} userData={userProfile} />
           </div>
           {showBar && (
             <LinearProgress indeterminate buffer={0.9} progress={0.8} />

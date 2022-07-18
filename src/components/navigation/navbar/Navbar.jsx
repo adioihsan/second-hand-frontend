@@ -22,9 +22,13 @@ import userImg from "../../../assets/images/user.png";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import TopNotification from "../../notification/topNotification/TopNotification";
+import { useState } from "react";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 function Navbar({ type, title, userData }) {
   const navbarRef = useRef();
   const mainMenuRef = useRef();
+  const [openNotification, setOpenNotification] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     // change bg to white when scrolled
@@ -53,6 +57,7 @@ function Navbar({ type, title, userData }) {
   const openMainMenu = () => {
     const mainMenu = mainMenuRef.current;
     mainMenu.classList.toggle("active");
+    setOpenNotification(false);
   };
   const closeMainMenu = () => {
     const mainMenu = mainMenuRef.current;
@@ -102,7 +107,7 @@ function Navbar({ type, title, userData }) {
 
       <div className="menuList" onClick={closeMainMenu}>
         <h2 className="font-semibold">Aktifitas Saya</h2>
-        <Link to="/" className="menuListItem">
+        <Link to="/negotiation/all" className="menuListItem">
           <FontAwesomeIcon icon={faHandHoldingDollar} />
           Penawaran
         </Link>
@@ -144,37 +149,57 @@ function Navbar({ type, title, userData }) {
       </div>
     </div>
   );
-  return (
-    <>
-      <nav className="navbar" ref={navbarRef}>
-        <div className="logo cursor-pointer" onClick={() => navigate("/")}>
-          <img src={logoIcon} alt="secondhand." className="imgMobile" />
-          <img src={logoLong} alt="secondhand." className="imgDesktop" />
-        </div>
-        <div className="searchField">
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Cari di sini"
-            onKeyUp={doSearch}
-          />
-          <button>
-            <img src={iconSearch} alt="search" />
-          </button>
-        </div>
-        <div className="iconNav">
-          <div className="notification cursor-pointer">
-            <FontAwesomeIcon icon={faBell} size="lg" width="18px" />
-          </div>
-          <div className="burger" onClick={openMainMenu}>
-            <FontAwesomeIcon icon={faBars} size="lg" />
-          </div>
-        </div>
-        {mainMenu()}
+  if (type === "back")
+    return (
+      <nav className="navbarBack">
+        <button onClick={() => navigate(-1)}>
+          <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+        </button>
+        <p className="text-lg font-medium">{title}</p>
+        <div> </div>
       </nav>
-    </>
-  );
+    );
+  else
+    return (
+      <>
+        <nav className="navbar" ref={navbarRef}>
+          <div className="logo cursor-pointer" onClick={() => navigate("/")}>
+            <img src={logoIcon} alt="secondhand." className="imgMobile" />
+            <img src={logoLong} alt="secondhand." className="imgDesktop" />
+          </div>
+          <div className="searchField">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Cari di sini"
+              onKeyUp={doSearch}
+            />
+            <button>
+              <img src={iconSearch} alt="search" />
+            </button>
+          </div>
+          <div className="iconNav">
+            <div className="notification cursor-pointer">
+              <FontAwesomeIcon
+                icon={faBell}
+                size="lg"
+                width="18px"
+                onClick={() => {
+                  setOpenNotification((open) => !open);
+                  closeMainMenu();
+                }}
+              />
+              {openNotification && <TopNotification />}
+            </div>
+            <div className="burger" onClick={openMainMenu}>
+              <FontAwesomeIcon icon={faBars} size="lg" />
+            </div>
+          </div>
+          {mainMenu()}
+        </nav>
+      </>
+    );
 }
 
 export default Navbar;

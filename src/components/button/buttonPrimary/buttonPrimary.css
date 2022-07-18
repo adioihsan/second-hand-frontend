@@ -7,3 +7,6 @@
 .buttonPrimary_small {
   @apply py-2 px-3 text-sm;
 }
+.buttonPrimary_disabled {
+  @apply bg-gray-300 text-gray-600;
+}

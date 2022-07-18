@@ -1,0 +1,6 @@
+.notificationItem {
+  @apply flex gap-3 border-b-2 pb-2 mb-3 border-b-gray-300;
+}
+.notificationItem img {
+  @apply w-16 h-16 rounded-xl object-cover;
+}
