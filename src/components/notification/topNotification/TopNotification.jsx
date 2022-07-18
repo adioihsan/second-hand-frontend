@@ -14,7 +14,6 @@ function TopNotification({ children, className, ...others }) {
   useEffect(() => {
     dispatch(getAllNotifications());
   }, []);
-  console.log(data);
   return (
     <div className={"topNotification " + className} {...others}>
       {data.length === 0 && (

@@ -230,8 +230,6 @@ const ProductView = () => {
       </ButtonPrimary>
     </>
   );
-
-  console.log(nego);
   if (status === apiStatus.success && data !== null && data !== undefined)
     return (
       <>
