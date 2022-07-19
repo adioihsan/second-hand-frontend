@@ -1,6 +1,9 @@
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
-import { faEyeDropperEmpty } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faEyeDropperEmpty,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useState } from "react";
@@ -92,6 +95,13 @@ const Login = () => {
         </div>
         <div className="form-login flex-1 flex items-center justify-center">
           <form className="form-form-login" onSubmit={doLogin} method="post">
+            <Link to="/" className="menuListItem ">
+              <FontAwesomeIcon icon={faArrowLeft} size="lg" className="mb-5" />
+            </Link>
+            {/* <button onClick={() => navigate(-1)} className="mb-5">
+              <FontAwesomeIcon icon={faArrowLeft} size="lg"  />
+            </button> */}
+
             <h1 className="text-2xl font-bold">Masuk</h1>
             {message && (
               <div

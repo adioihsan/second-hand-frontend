@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import TopNotification from "../../notification/topNotification/TopNotification";
 import { useState } from "react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 function Navbar({ type, title, userData }) {
   const navbarRef = useRef();
   const mainMenuRef = useRef();
@@ -120,7 +121,7 @@ function Navbar({ type, title, userData }) {
           <FontAwesomeIcon icon={faEnvelope} />
           Pesan
         </Link>
-        <Link to="/" className="menuListItem">
+        <Link to="/notification" className="menuListItem">
           <FontAwesomeIcon icon={faBell} />
           Notifikasi
         </Link>

@@ -11,3 +11,14 @@ export const getAllNotifications = createAsyncThunk(
     } catch (error) {}
   }
 );
+
+export const deleteNotificationAll = createAsyncThunk(
+  "notifications/delete",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await notificationApi.deleteNotificationAll(authToken);
+      return response.data;
+    } catch (error) {}
+  }
+);
