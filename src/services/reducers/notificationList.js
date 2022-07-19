@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllNotifications } from "../actions/notificationAction";
+import {
+  deleteNotification,
+  deleteNotificationAll,
+  getAllNotifications,
+} from "../actions/notificationAction";
 import apiStatus from "../utils/apiStatus";
 
 const initialState = {
@@ -18,7 +22,7 @@ const notificationListSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllNotifications.fulfilled, (state, action) => {
       const result = action.payload.data;
-      state.data = result.rows.reverse();
+      state.data = result.rows;
       state.count = result.count;
       state.limit = result.limit;
       state.nextPage = result.nextPage;
@@ -30,6 +34,16 @@ const notificationListSlice = createSlice({
       state.status = apiStatus.pending;
     });
     builder.addCase(getAllNotifications.rejected, (state, action) => {
+      state.status = apiStatus.error;
+    });
+    builder.addCase(deleteNotificationAll.fulfilled, (state, action) => {
+      state.status = apiStatus.success;
+      state.data = [];
+    });
+    builder.addCase(deleteNotificationAll.pending, (state, action) => {
+      state.status = apiStatus.pending;
+    });
+    builder.addCase(deleteNotificationAll.rejected, (state, action) => {
       state.status = apiStatus.error;
     });
   },
