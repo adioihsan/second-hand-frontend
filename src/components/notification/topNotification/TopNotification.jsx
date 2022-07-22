@@ -23,7 +23,7 @@ function TopNotification({ children, className, ...others }) {
         <NotificationItem notif={notif} />
       ))}
       {data.length > 3 && (
-        <Link to="/" className="flex justify-center">
+        <Link to="/notification" className="flex justify-center">
           Lihat semua notifikasi
         </Link>
       )}
