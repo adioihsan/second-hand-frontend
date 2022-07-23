@@ -42,6 +42,10 @@ function App() {
               element={<ProductView />}
             />
             <Route path="/product-list/:category" element={<ProductList />} />
+            <Route
+              path="/product-list/:category/:filter"
+              element={<ProductList />}
+            />
             <Route path="/product-edit/:productId" element={<ProductEdit />} />
             <Route
               path="/negotiation-info/:negoId"

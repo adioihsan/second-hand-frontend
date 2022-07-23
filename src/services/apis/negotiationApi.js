@@ -5,7 +5,9 @@ const negotiationApi = {
     privateAxios(authToken).post("/negotiation", data),
   getSellerNegoList: ({ data, authToken }) =>
     privateAxios(authToken).get(
-      `/negotiations/me?page=${data.page || 1}&limit=${data.limit || 12}`
+      `/negotiations/me?page=${data.page || 1}&limit=${
+        data.limit || 12
+      }&filter=${data.filter || ""}`
     ),
   getBuyerNegoList: ({ data, authToken }) =>
     privateAxios(authToken).get(

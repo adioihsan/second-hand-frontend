@@ -36,12 +36,12 @@ function ProductList(props) {
       isActive: params.category === "products",
       cb: () => navigate("/product-list/products"),
     },
-    {
-      name: "Diminati",
-      icon: faHeart,
-      isActive: params.category === "wish",
-      cb: () => navigate("/product-list/wish"),
-    },
+    // {
+    //   name: "Diminati",
+    //   icon: faHeart,
+    //   isActive: params.category === "wish",
+    //   cb: () => navigate("/product-list/wish"),
+    // },
     {
       name: "Ditawar",
       icon: faHandshake,
@@ -70,6 +70,11 @@ function ProductList(props) {
       </div>
     );
   };
+  // actions
+  const doFilterNego = (e) => {
+    navigate("/product-list/negotiation/" + e.target.value);
+  };
+
   // effect
   useEffect(() => {
     outletContext.setNavType(null);
@@ -79,12 +84,14 @@ function ProductList(props) {
     if (params.category === "products")
       dispatch(getMyProductList({ page: 1, limit: 12, filter: 1 }));
     else if (params.category === "negotiation")
-      dispatch(getSellerNegoList({ page: 1, limit: 12 }));
+      dispatch(
+        getSellerNegoList({ page: 1, limit: 12, filter: params.filter })
+      );
     else if (params.category === "sold")
       dispatch(getMyProductList({ page: 1, limit: 12, filter: 2 }));
-    else if (params.category === "wish")
-      dispatch(getMyProductList({ page: 1, limit: 12, filter: 4 }));
-  }, [params.category]);
+    // else if (params.category === "wish")
+    //   dispatch(getMyProductList({ page: 1, limit: 12, filter: 4 }));
+  }, [params.category, params.filter]);
   return (
     <>
       <Helmet>
@@ -130,28 +137,41 @@ function ProductList(props) {
               </section>
             )}
             {params.category === "negotiation" && (
-              <section className="negoListItem">
-                {negoStatus === apiStatus.pending &&
-                  Array(5)
-                    .fill(0)
-                    .map((dum, index) => (
-                      <ProductCardLoading key={"productDummy" + index} />
-                    ))}
-                {negoStatus === apiStatus.error && (
-                  <h1>Terjadi kesalahan saat mengambil data</h1>
-                )}
-                {negoData?.map((nego, index) => (
-                  <NegoCard
-                    product={nego.product}
-                    negoPrice={nego.price}
-                    negoDate={nego.updatedAt}
-                    negoStatus={nego.status}
-                    buyer={nego.user_buyer.user_detail}
-                    key={"productNego" + index}
-                    onClick={() => navigate("/negotiation-info/" + nego.id)}
-                  />
-                ))}
-              </section>
+              <div className="flex flex-col gap-3">
+                <select className="p-2 rounded-md" onChange={doFilterNego}>
+                  <option value="">Semua Penawaran</option>
+                  <option value="pending">Penawaran baru</option>
+                  <option value="rejected">Penawaran ditolak</option>
+                  <option value="accepted">Penawaran diterima</option>
+                </select>
+                <section className="negoListItem">
+                  {negoStatus === apiStatus.pending &&
+                    Array(5)
+                      .fill(0)
+                      .map((dum, index) => (
+                        <ProductCardLoading key={"productDummy" + index} />
+                      ))}
+                  {negoStatus === apiStatus.error && (
+                    <h1>Terjadi kesalahan saat mengambil data</h1>
+                  )}
+                  {negoData?.map((nego, index) => {
+                    if (nego.status !== "done")
+                      return (
+                        <NegoCard
+                          product={nego.product}
+                          negoPrice={nego.price}
+                          negoDate={nego.updatedAt}
+                          negoStatus={nego.status}
+                          buyer={nego.user_buyer.user_detail}
+                          key={"productNego" + index}
+                          onClick={() =>
+                            navigate("/negotiation-info/" + nego.id)
+                          }
+                        />
+                      );
+                  })}
+                </section>
+              </div>
             )}
 
             {status === apiStatus.error && (
