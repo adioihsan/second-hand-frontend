@@ -4,6 +4,7 @@ import ContentLoader from "react-content-loader";
 import React from "react";
 import "./productCard.css";
 function ProductCard({ product, ...others }) {
+  console.log(product);
   return (
     <div className="productCard" {...others}>
       <div className="cardHeader">
@@ -30,6 +31,17 @@ function ProductCard({ product, ...others }) {
             currency: "IDR",
           })}
         </div>
+      </div>
+      <div className="cardFooter flex justify-end">
+        {product.is_release !== null && (
+          <div className="productStatus  p-1 bg-gray-300 text-xs rounded-md">
+            {product.status === false && "Terjual"}
+            {product.status === true && product.is_release === true && "Terbit"}
+            {product.status === true &&
+              product.is_release === false &&
+              "Sembunyi"}
+          </div>
+        )}
       </div>
     </div>
   );
