@@ -76,9 +76,8 @@ function ProductEdit(props) {
       navigate(-1);
     } else if ((status === apiStatus.error) & isAction) {
       toast.error(message);
-    } else if (status === apiStatus.success) {
+    } else if (status === apiStatus.success && data.categories) {
       setValues({ ...data, categories: data.categories[0].id + "" });
-      console.log("first data", data);
       setImagesUrl(data.images_url.split(","));
       outletContex.setShowBar(false);
     } else if (status === apiStatus.error) {
@@ -98,9 +97,6 @@ function ProductEdit(props) {
           <title>Seconhand. Edit-{values.name} </title>
         </Helmet>
         <div className="productAddWrapper">
-          {/* <button className="btnBack" onClick={() => navigate(-1)}>
-            <img src={iconArrowLeft} alt="back" />
-          </button> */}
           <div className="productAdd">
             <form className="productAddForm">
               <div className="inputWrapper">

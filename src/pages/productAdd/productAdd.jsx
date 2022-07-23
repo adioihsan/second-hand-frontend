@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import iconArrowLeft from "../../assets/images/icon-arrow-left.png";
 import { useOutletContext } from "react-router-dom";
@@ -71,7 +71,7 @@ function ProductAdd(props) {
     } else if (status === apiStatus.success && isAction) {
       toast.success("produk berhasil di tambahkan");
       setIsAction(false);
-      navigate("/product-list");
+      navigate("/product-list/products");
     } else if (status === apiStatus.error && isAction) {
       if (!message) toast.error("Tidak dapat terhubung ke server");
       toast.error(message);
@@ -143,7 +143,6 @@ function ProductAdd(props) {
                 onChange={handleChange}
               />
             </div>
-
             <div className="inputWrapper">
               <DropzoneImages
                 imagesUrl={imagesUrl}
@@ -154,7 +153,7 @@ function ProductAdd(props) {
               <ButtonPrimary className="w-full" type="outlined">
                 Preview
               </ButtonPrimary>
-              <ButtonPrimary className="w-full">Terbitkan</ButtonPrimary>
+              <ButtonPrimary className="w-full">Simpan</ButtonPrimary>
             </div>
           </form>
         </div>
