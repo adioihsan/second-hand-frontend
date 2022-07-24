@@ -12,7 +12,7 @@ const data = {
   createdAt: "2022-07-05T04:40:44.200Z",
   updatedAt: "2022-07-16T09:32:06.256Z",
 };
-it("Testing seller Card", () => {
+test("Testing seller Card", () => {
   render(<SellerCard seller={data.user_id} noEdit />);
   screen.debug();
 });

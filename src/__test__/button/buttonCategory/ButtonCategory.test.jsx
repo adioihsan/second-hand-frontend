@@ -35,7 +35,7 @@ const data = [
   },
 ];
 
-it("testing button category", () => {
+test("testing button category", () => {
   render(
     <ButtonCategory
       icon={data.icon}

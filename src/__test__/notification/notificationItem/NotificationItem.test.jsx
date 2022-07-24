@@ -25,7 +25,7 @@ const notif = {
   },
 };
 
-it("test notificationItem", () => {
+test("test notificationItem", () => {
   render(
     <BrowserRouter>
       <Routes>

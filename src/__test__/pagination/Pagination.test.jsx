@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import Pagination from "../../components/pagination/Pagination";
 
-it("test PreviewModal", () => {
+test("test PreviewModal", () => {
   render(
     <Pagination
       totalPages="12"

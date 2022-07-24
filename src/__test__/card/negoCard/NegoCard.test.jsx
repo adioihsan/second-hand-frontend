@@ -27,7 +27,7 @@ const nego = {
   },
 };
 
-it("test Nego Card", () => {
+test("test Nego Card", () => {
   render(
     <NegoCard
       product={nego.product}

@@ -5,7 +5,7 @@ import TopNotification from "../../../components/notification/topNotification/To
 import { Provider as ReduxProvider } from "react-redux";
 import ReduxStore from "../../../services/ReduxStore";
 
-it("test topNotification", () => {
+test("test topNotification", () => {
   render(
     <ReduxProvider store={ReduxStore}>
       <BrowserRouter>
