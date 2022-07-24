@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { changePassword } from "../../services/actions/userAction";
 import { useOutletContext } from "react-router-dom";
 import apiStatus from "../../services/utils/apiStatus";
+import { Helmet } from "react-helmet-async";
 function ChangePassword(props) {
   const dispatch = useDispatch();
   const [showPass, setShowPass] = useState(false);
@@ -47,53 +48,61 @@ function ChangePassword(props) {
     navProps.setNavTitle("Ganti Password");
   });
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <form className="form-form-login max-w-xl" method="post">
-        <label className="block mt-3 font-regular text-sm">Password Lama</label>
-        <div className="relative">
-          <input
-            type={showPass ? "text" : "password"}
-            placeholder="Password Lama"
-            name="password"
-            onChange={handleChange}
-          />
-          <div
-            className="absolute right-3 top-5"
-            onClick={() => setShowPass((prev) => !prev)}
-          >
-            <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
+    <>
+      {" "}
+      <Helmet>
+        <title>Seconhand. Ganti Password</title>
+      </Helmet>
+      <div className="flex flex-col items-center justify-center ">
+        <form className="form-form-login max-w-xl" method="post">
+          <label className="block mt-3 font-regular text-sm">
+            Password Lama
+          </label>
+          <div className="relative">
+            <input
+              type={showPass ? "text" : "password"}
+              placeholder="Password Lama"
+              name="password"
+              onChange={handleChange}
+            />
+            <div
+              className="absolute right-3 top-5"
+              onClick={() => setShowPass((prev) => !prev)}
+            >
+              <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
+            </div>
           </div>
-        </div>
-        {errors.password && <span className="error">{errors.password}</span>}
-        {/*  */}
-        <label className="block mt-3 font-regular text-sm">
-          Buat password Baru
-        </label>
-        <div className="relative">
-          <input
-            type={showNewPass ? "text" : "password"}
-            placeholder="Password Baru"
-            name="new_password"
-            onChange={handleChange}
-          />
-          <div
-            className="absolute right-3 top-5"
-            onClick={() => setShowNewPass((prev) => !prev)}
-          >
-            <FontAwesomeIcon icon={showNewPass ? faEye : faEyeSlash} />
+          {errors.password && <span className="error">{errors.password}</span>}
+          {/*  */}
+          <label className="block mt-3 font-regular text-sm">
+            Buat password Baru
+          </label>
+          <div className="relative">
+            <input
+              type={showNewPass ? "text" : "password"}
+              placeholder="Password Baru"
+              name="new_password"
+              onChange={handleChange}
+            />
+            <div
+              className="absolute right-3 top-5"
+              onClick={() => setShowNewPass((prev) => !prev)}
+            >
+              <FontAwesomeIcon icon={showNewPass ? faEye : faEyeSlash} />
+            </div>
           </div>
-        </div>
-        {errors.new_password && (
-          <span className="error">{errors.new_password}</span>
-        )}
-        <button
-          onClick={doChangePassword}
-          className="button button-primary bg-purple-400 text-white w-full py-3 rounded-xl mt-7"
-        >
-          Ganti Password
-        </button>
-      </form>
-    </div>
+          {errors.new_password && (
+            <span className="error">{errors.new_password}</span>
+          )}
+          <button
+            onClick={doChangePassword}
+            className="button button-primary bg-purple-400 text-white w-full py-3 rounded-xl mt-7"
+          >
+            Ganti Password
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 

@@ -5,8 +5,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useOutletContext } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import NegoCard from "../../components/card/negoCard/NegoCard";
@@ -22,9 +20,8 @@ import apiStatus from "../../services/utils/apiStatus";
 import "./negotiationinfo.css";
 import iconWhatsapp from "../../assets/images/icon-whatsapp-16.png";
 import UpdateStatusModal from "../../components/modal/updateStatusModal/UpdateStatusModal";
-import { soldProduct } from "../../services/actions/productAction";
 import { useParams } from "react-router-dom";
-import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
+import { Helmet } from "react-helmet-async";
 
 const Negotiationinfo = () => {
   const dispatch = useDispatch();
@@ -98,6 +95,9 @@ const Negotiationinfo = () => {
   if (negoData)
     return (
       <>
+        <Helmet>
+          <title>Seconhand. Info Penawaran</title>
+        </Helmet>
         <div className="w-full flex justify-center">
           <div className="negotiationInfo">
             <SellerCard seller={buyer.user_detail} noEdit />

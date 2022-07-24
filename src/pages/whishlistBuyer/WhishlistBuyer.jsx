@@ -50,7 +50,7 @@ const WhishlistBuyer = () => {
   return (
     <div className="WhishlistBuyer">
       <Helmet>
-        <title>Secondhand. Daftar Jual Saya</title>
+        <title>Secondhand. Whislist</title>
       </Helmet>
       <h1 className="font-bold mx-auto">Your Whishlist</h1>
       <section className="products">
