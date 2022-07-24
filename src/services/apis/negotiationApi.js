@@ -17,10 +17,8 @@ const negotiationApi = {
     ),
   getNego: ({ negoId, authToken }) =>
     privateAxios(authToken).get("/negotiation/" + negoId),
-  // rejectNego: ({ negoId, authToken }) =>
-  //   privateAxios(authToken).patch(`/negotiation/${negoId}/reject`),
   rejectNego: ({ negoId, authToken }) =>
-    privateAxios(authToken).patch(`/negotiation/${negoId}`, { status: false }),
+    privateAxios(authToken).patch(`/negotiation/${negoId}/reject`),
   acceptNego: ({ negoId, authToken }) =>
     privateAxios(authToken).patch(`/negotiation/${negoId}/confirm`),
   doneNego: ({ negoId, authToken }) =>
