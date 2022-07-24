@@ -43,7 +43,7 @@ function ProductList(props) {
     //   cb: () => navigate("/product-list/wish"),
     // },
     {
-      name: "Ditawar",
+      name: "Penawaran",
       icon: faHandshake,
       isActive: params.category === "negotiation",
       cb: () => navigate("/product-list/negotiation"),
