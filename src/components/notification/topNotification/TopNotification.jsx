@@ -16,7 +16,10 @@ function TopNotification({ children, className, ...others }) {
   }, []);
   return (
     <div className={"topNotification " + className} {...others}>
-      {data.length === 0 && (
+      {status === apiStatus.pending && data.length === 0 && (
+        <div className="flex justify-center">Mengambil notifikasi</div>
+      )}
+      {status !== apiStatus.pending && data.length === 0 && (
         <div className="flex justify-center">Belum ada notifikasi</div>
       )}
       {data.slice(0, 3).map((notif) => (
