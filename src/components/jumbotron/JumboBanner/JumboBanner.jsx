@@ -1,6 +1,6 @@
 import React from "react";
 import "./jumboBanner.css";
-function JumboBanner(props) {
+function JumboBanner() {
   return (
     <div className="jumboBanner">
       <div className="sideBox"></div>

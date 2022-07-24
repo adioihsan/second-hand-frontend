@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContentLoader from "react-content-loader";
 import React from "react";
 import "./negoCard.css";
-import userEvent from "@testing-library/user-event";
 function NegoCard({
   product,
   negoPrice,

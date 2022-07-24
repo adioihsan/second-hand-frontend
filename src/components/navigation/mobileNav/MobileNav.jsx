@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 import "./mobileNav.css";
-function MobileNav(props) {
+function MobileNav() {
   return (
     <div className="mobileNav">
       <Link to="/" className="navItem active">
