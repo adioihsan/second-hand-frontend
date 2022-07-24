@@ -59,6 +59,19 @@ export const updateUserDetail = createAsyncThunk(
     }
   }
 );
+export const changePassword = createAsyncThunk(
+  "/user/profile/password",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const authToken = getState().user.token;
+      const response = await userApi.changePassword({ data, authToken });
+      return response.data;
+    } catch (error) {
+      if (!error.response) throw error;
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const setUserToken = createAction("user/token");
 export const setUserProfile = createAction("/user/profile/set");

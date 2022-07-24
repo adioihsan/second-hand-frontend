@@ -4,7 +4,6 @@ import ContentLoader from "react-content-loader";
 import React from "react";
 import "./productCard.css";
 function ProductCard({ product, ...others }) {
-  console.log(product);
   return (
     <div className="productCard" {...others}>
       <div className="cardHeader">
