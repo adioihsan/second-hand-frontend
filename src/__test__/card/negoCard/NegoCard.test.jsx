@@ -1,0 +1,42 @@
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import NegoCard from "../../../components/card/negoCard/NegoCard";
+
+const nego = {
+  id: 34,
+  user_id_buyer: 26,
+  product_id: 34,
+  price: 75000,
+  status: "rejected",
+  updatedAt: "2022-07-23T04:09:29.505Z",
+  product: {
+    id: 34,
+    name: "Hidung Mermaidman",
+    price: 100000,
+    images_url: "3_1658234696628_69748.jpg",
+    user_id: 3,
+  },
+  user_buyer: {
+    id: 26,
+    user_detail: {
+      name: "Kekeyi",
+      city: "Kota Surabaya",
+      image: null,
+      phone: "+6289647664464",
+    },
+  },
+};
+
+it("test Nego Card", () => {
+  render(
+    <NegoCard
+      product={nego.product}
+      negoPrice={nego.price}
+      negoDate={nego.updatedAt}
+      negoStatus={nego.status}
+      buyer={nego.user_buyer.user_detail}
+      key={"productNego"}
+      onClick={() => navigate("/negotiation-info/" + nego.id)}
+    />
+  );
+});

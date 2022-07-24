@@ -5,7 +5,6 @@ import { Carousel } from "react-responsive-carousel";
 import SellerCard from "../../card/sellerCard/SellerCard";
 import "./previewModal.css";
 function PreviewModal({ data, ...others }) {
-  console.log(data);
   var formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
