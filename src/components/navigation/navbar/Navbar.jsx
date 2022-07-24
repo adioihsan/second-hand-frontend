@@ -143,7 +143,7 @@ function Navbar({ type, title, userData }) {
           <FontAwesomeIcon icon={faUserAlt} />
           Ubah Profil
         </Link>
-        <Link to="/" className="menuListItem mb-5">
+        <Link to="/change-password" className="menuListItem mb-5">
           <FontAwesomeIcon icon={faKey} />
           Ganti Password
         </Link>

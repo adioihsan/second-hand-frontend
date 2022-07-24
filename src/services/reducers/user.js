@@ -8,6 +8,7 @@ import {
   setUserToken,
   setUserMessage,
   updateUserDetail,
+  changePassword,
 } from "../actions/userAction";
 import apiStatus from "../utils/apiStatus";
 
@@ -120,6 +121,15 @@ const userSlice = createSlice({
       defaultRejected(state, action);
     });
     //
+    builder.addCase(changePassword.fulfilled, (state, action) => {
+      defaultFulfilled(state, action);
+    });
+    builder.addCase(changePassword.pending, (state, action) => {
+      defaultPending(state, action);
+    });
+    builder.addCase(changePassword.rejected, (state, action) => {
+      defaultRejected(state, action);
+    });
   },
 });
 export default userSlice.reducer;

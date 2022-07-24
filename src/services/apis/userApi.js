@@ -8,5 +8,7 @@ const userApi = {
   getUserDetail: (authToken) => privateAxios(authToken).get("/user-detail"),
   updateUserDetail: ({ data, authToken }) =>
     privateAxios(authToken).put("/user-detail", data),
+  changePassword: ({ data, authToken }) =>
+    privateAxios(authToken).put("/profile/reset-password", data),
 };
 export default userApi;

@@ -16,6 +16,7 @@ import ProductView from "./pages/productView/ProductView";
 import WhishlistBuyer from "./pages/whishlistBuyer/WhishlistBuyer";
 import NotificationPage from "./pages/notificationpage/NotificationPage";
 import NegotiationBuyer from "./pages/negotiationBuyer/NegotiationBuyer";
+import ChangePassword from "./pages/changePassword/ChangePassword";
 function App() {
   return (
     <div className="App">
@@ -57,6 +58,7 @@ function App() {
             />
             <Route path="/whishlist" element={<WhishlistBuyer />} />
             <Route path="/notification" element={<NotificationPage />} />
+            <Route path="/change-password" element={<ChangePassword />} />
           </Route>
         </Routes>
       </BrowserRouter>
