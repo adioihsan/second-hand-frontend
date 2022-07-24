@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import iconArrowLeft from "../../assets/images/icon-arrow-left.png";
 import { useOutletContext } from "react-router-dom";
@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiStatus from "../../services/utils/apiStatus";
 import { Helmet } from "react-helmet-async";
+import PreviewModal from "../../components/modal/previewModal/PreviewModal";
+import { getUserDetail } from "../../services/actions/userAction";
 
 function ProductAdd(props) {
   const dispatch = useDispatch();
@@ -20,11 +22,13 @@ function ProductAdd(props) {
   const outletContext = useOutletContext();
   const { values, errors, handleChange } = useForm();
   const {
-    categories,
+    categories: catData,
     pending: catPending,
     error: catError,
   } = useSelector((state) => state.categoryList);
+  const [showPreview, setShowPreview] = useState(false);
   const { data, status, message } = useSelector((state) => state.product);
+  const { userDetail } = useSelector((state) => state.user);
   const [isAction, setIsAction] = useState(false);
   const [imagesUrl, setImagesUrl] = useState([]);
   // actions
@@ -41,7 +45,11 @@ function ProductAdd(props) {
       setIsAction(true);
     } else toast.warn("Data produk belum lengkap");
   };
-
+  const doShowPreview = (e) => {
+    e.preventDefault();
+    if (checkIsFormValid()) setShowPreview(true);
+    else toast.warn("Data produk belum lengkap");
+  };
   // helpers
   const checkIsFormValid = () => {
     setImagesUrl(imagesUrl);
@@ -63,6 +71,7 @@ function ProductAdd(props) {
   useEffect(() => {
     outletContext.setNavType("back");
     outletContext.setNavTitle("Lengkapi Detail Produk");
+    dispatch(getUserDetail());
     dispatch(getCategories());
   }, []);
   useEffect(() => {
@@ -71,7 +80,7 @@ function ProductAdd(props) {
     } else if (status === apiStatus.success && isAction) {
       toast.success("produk berhasil di tambahkan");
       setIsAction(false);
-      navigate("/product-list");
+      navigate("/product-list/products");
     } else if (status === apiStatus.error && isAction) {
       if (!message) toast.error("Tidak dapat terhubung ke server");
       toast.error(message);
@@ -89,11 +98,7 @@ function ProductAdd(props) {
           <img src={iconArrowLeft} alt="back" />
         </button> */}
         <div className="productAdd">
-          <form
-            className="productAddForm"
-            action="post"
-            onSubmit={doCreateProduct}
-          >
+          <form className="productAddForm" method="post">
             <div className="inputWrapper">
               <label htmlFor="name">Nama</label>
               <input
@@ -127,7 +132,7 @@ function ProductAdd(props) {
                 <option value="0">-Pilih Kategori-</option>
                 {!catPending &&
                   !catError &&
-                  categories.map((cat) => (
+                  catData.map((cat) => (
                     <option value={cat.id} key={"catprod" + cat.id}>
                       {cat.name}
                     </option>
@@ -143,7 +148,6 @@ function ProductAdd(props) {
                 onChange={handleChange}
               />
             </div>
-
             <div className="inputWrapper">
               <DropzoneImages
                 imagesUrl={imagesUrl}
@@ -151,14 +155,31 @@ function ProductAdd(props) {
               />
             </div>
             <div className="flex gap-3 mt-3 w-full ">
-              <ButtonPrimary className="w-full" type="outlined">
+              <ButtonPrimary
+                className="w-full"
+                type="outlined"
+                onClick={doShowPreview}
+              >
                 Preview
               </ButtonPrimary>
-              <ButtonPrimary className="w-full">Terbitkan</ButtonPrimary>
+              <ButtonPrimary className="w-full" onClick={doCreateProduct}>
+                Simpan
+              </ButtonPrimary>
             </div>
           </form>
         </div>
       </div>
+      {showPreview && (
+        <PreviewModal
+          data={{
+            ...values,
+            categories: catData.find((cat) => cat.id == values.categories).name,
+            images_url: imagesUrl,
+            user: userDetail,
+          }}
+          onClick={() => setShowPreview(false)}
+        />
+      )}
     </>
   );
 }

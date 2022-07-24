@@ -23,6 +23,7 @@ import { Helmet } from "react-helmet-async";
 import BuyerNegoModal from "../../components/modal/buyerNegoModal/BuyerNegoModal";
 import { postWhishList } from "../../services/actions/whishlistAction";
 import { postBuyerNego } from "../../services/actions/negotiationAction";
+import SellerCard from "../../components/card/sellerCard/SellerCard";
 const ProductView = () => {
   // hooks
   const dispatch = useDispatch();
@@ -143,6 +144,7 @@ const ProductView = () => {
     if (negoStatus === apiStatus.pending) {
       outletContext.setShowBar(true);
     } else if (negoStatus === apiStatus.success && isNego) {
+      dispatch(checkIsProductNego(params.productId));
       toast.success("Penawaran berhasil dikirim");
     } else if (negoStatus === apiStatus.error && isNego) {
       toast.error(negoMessage);
@@ -287,23 +289,8 @@ const ProductView = () => {
                 {params.userType === "seller" && renderSellerButton()}
                 {params.userType !== "seller" && renderUserButton()}
               </div>
-              <div className="description flex items-center  border-2 border-gray rounded-xl mt-7 p-5 w-full">
-                <div className="">
-                  {data.user && data.user && (
-                    <img
-                      src={
-                        process.env.REACT_APP_STORAGE_URL +
-                        "/images/" +
-                        data.user.image
-                      }
-                      className="profilePicture rounded-xl object-cover"
-                    />
-                  )}
-                </div>
-                <div className="flex-col ml-5 ">
-                  <h1 className="font-bold">{data.user && data?.user?.name}</h1>
-                  <h1>{data.user && data?.user?.city}</h1>
-                </div>
+              <div className="mt-3">
+                <SellerCard seller={data.user} noEdit />
               </div>
             </div>
           </div>

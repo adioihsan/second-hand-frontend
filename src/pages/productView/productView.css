@@ -2,7 +2,7 @@
   @apply rounded-xl  flex items-center bg-gray-600;
 }
 .carousel img {
-  height: 30rem;
+  height: 50vh;
   @apply object-contain;
 }
 .halamanProdukWraper {
@@ -13,7 +13,6 @@
 .imageProduct {
   @apply object-cover;
   @apply md:rounded-xl;
-  height: 70vh;
 }
 
 .buttonOne {
