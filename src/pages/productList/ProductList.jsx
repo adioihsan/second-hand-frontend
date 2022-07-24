@@ -7,7 +7,6 @@ import ProductCard, {
   ProductCardLoading,
 } from "../../components/card/productCard/ProductCard";
 import noProductImg from "../../assets/images/noProduct.png";
-import SellerCard from "../../components/card/sellerCard/SellerCard";
 import CategoryNav from "../../components/navigation/categoryNav/CategoryNav";
 import "./productList.css";
 import { useEffect } from "react";
@@ -36,12 +35,6 @@ function ProductList(props) {
       isActive: params.category === "products",
       cb: () => navigate("/product-list/products"),
     },
-    // {
-    //   name: "Diminati",
-    //   icon: faHeart,
-    //   isActive: params.category === "wish",
-    //   cb: () => navigate("/product-list/wish"),
-    // },
     {
       name: "Penawaran",
       icon: faHandshake,
@@ -56,7 +49,6 @@ function ProductList(props) {
     },
   ];
   const { data, status, count } = useSelector((state) => state.productList);
-  const { userData } = useSelector((state) => state.user);
   const { data: negoData, status: negoStatus } = useSelector(
     (state) => state.negotiationList
   );
@@ -110,31 +102,37 @@ function ProductList(props) {
               <CategoryNav categories={menus} type="list" />
             </section>
             {params.category !== "negotiation" && (
-              <section className="productListItem">
-                {params.category !== "sold" && (
-                  <Link to="/product-add">
-                    <ProductCardAdd />{" "}
-                  </Link>
-                )}
-                {status === apiStatus.pending &&
-                  Array(5)
-                    .fill(0)
-                    .map((dum, index) => (
-                      <ProductCardLoading key={"productDummy" + index} />
-                    ))}
-                {status === apiStatus.error && (
-                  <h1>Terjadi kesalahan saat mengambil data</h1>
-                )}
-                {data?.map((product, index) => (
-                  <ProductCard
-                    product={product}
-                    onClick={() =>
-                      navigate("/product-view/seller/" + product.id)
-                    }
-                    key={"productList" + index}
-                  />
-                ))}
-              </section>
+              <div className="flex flex-col gap-3 w-full">
+                {status === apiStatus.success &&
+                  params.category === "sold" &&
+                  renderNoProduct("Belum ada produk yang terjual")}
+                <section className="productListItem">
+                  {params.category !== "sold" && (
+                    <Link to="/product-add">
+                      <ProductCardAdd />{" "}
+                    </Link>
+                  )}
+                  {status === apiStatus.pending &&
+                    Array(5)
+                      .fill(0)
+                      .map((dum, index) => (
+                        <ProductCardLoading key={"productDummy" + index} />
+                      ))}
+                  {status === apiStatus.error && (
+                    <h1>Terjadi kesalahan saat mengambil data</h1>
+                  )}
+
+                  {data?.map((product, index) => (
+                    <ProductCard
+                      product={product}
+                      onClick={() =>
+                        navigate("/product-view/seller/" + product.id)
+                      }
+                      key={"productList" + index}
+                    />
+                  ))}
+                </section>
+              </div>
             )}
             {params.category === "negotiation" && (
               <div className="flex flex-col gap-3 w-full">
