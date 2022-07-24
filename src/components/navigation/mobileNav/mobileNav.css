@@ -1,0 +1,11 @@
+.mobileNav {
+  @apply fixed bg-white w-full flex justify-around px-3 bottom-0 shadow-inner;
+  @apply md:hidden;
+}
+.mobileNav .navItem {
+  @apply p-3 flex flex-col gap-1 justify-center text-xs cursor-pointer;
+  @apply hover:text-purple-400;
+}
+.mobileNav .navItem.active {
+  @apply text-purple-500;
+}

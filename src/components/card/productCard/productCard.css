@@ -1,0 +1,29 @@
+.productCard {
+  @apply grid gap-2 min-w-fit bg-white p-3 shadow-md rounded-md cursor-pointer;
+}
+.cardHeader {
+  background-image: url("../../../assets/images/default-product-image.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.productImage {
+  @apply w-full h-36 object-contain;
+  @apply rounded-md;
+}
+.cardBody {
+  @apply grid gap-1;
+}
+.productName {
+  @apply font-medium text-base;
+}
+.productCategory {
+  @apply text-sm text-gray-600;
+}
+.productPrice {
+  @apply text-base font-medium;
+}
+.addProduct {
+  min-height: 250px;
+  @apply border-gray-800 border border-dashed h-full grid gap-3 text-lg  place-items-center place-content-center cursor-pointer text-center w-full;
+}

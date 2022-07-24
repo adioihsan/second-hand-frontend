@@ -1,0 +1,41 @@
+.carousel {
+  @apply rounded-xl  flex items-center bg-gray-600;
+}
+.carousel img {
+  height: 50vh;
+  @apply object-contain;
+}
+.halamanProdukWraper {
+  @apply flex flex-col;
+  @apply md:mt-7 md:flex-row md:container md:justify-center md:mx-auto md:gap-10;
+}
+
+.imageProduct {
+  @apply object-cover;
+  @apply md:rounded-xl;
+}
+
+.buttonOne {
+  @apply bg-purple-400 text-white py-3 w-full flex justify-center rounded-xl mb-5;
+}
+
+.buttonTwo {
+  @apply bg-white text-black border border-purple-600 w-full py-3 flex justify-center rounded-xl mb-5;
+}
+
+.profilePicture {
+  width: 60px;
+  height: 60px;
+}
+.negoTextStatus_accepted {
+  @apply border-2 border-green-400 p-2 rounded-md my-2;
+}
+.negoTextStatus_rejected {
+  @apply border-2 border-red-400 p-2 rounded-md my-2;
+}
+.negoTextStatus_pending {
+  @apply border-2 border-gray-400 p-2 rounded-md my-2;
+}
+.negoTextStatus_done {
+  @apply border-2 border-gray-400 p-2 rounded-md my-2;
+}

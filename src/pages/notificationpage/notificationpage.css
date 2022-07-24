@@ -1,0 +1,17 @@
+.notificationCard {
+  @apply flex p-6  bg-white rounded-lg border border-gray-200 shadow-md align-middle;
+}
+
+.notificationpage {
+  @apply flex flex-col justify-center mt-5 gap-10 md:w-1/2;
+}
+.wrapper {
+  @apply flex justify-center;
+}
+.profilePicture {
+  @apply mr-5;
+}
+.notificationHeader {
+  @apply grid gap-2;
+  @apply md:flex md:justify-between md:items-center md:gap-2;
+}

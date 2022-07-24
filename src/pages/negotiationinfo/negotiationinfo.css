@@ -1,0 +1,7 @@
+.negotiationInfo {
+  @apply w-full max-w-2xl flex flex-col gap-3;
+}
+.negotiationInfo .btnsAction {
+  @apply flex justify-between gap-5;
+  @apply md:justify-end;
+}

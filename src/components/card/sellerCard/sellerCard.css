@@ -1,0 +1,15 @@
+.sellerCard {
+  @apply flex justify-between items-center p-4 bg-white rounded-xl shadow-md;
+}
+.sellerInfo {
+  @apply flex gap-3;
+}
+.sellerName {
+  @apply font-medium text-lg;
+}
+.sellerCity {
+  @apply text-gray-500 text-sm mt-1;
+}
+.sellerPhoto {
+  @apply w-16 h-16 object-cover rounded-xl;
+}

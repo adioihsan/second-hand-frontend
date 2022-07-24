@@ -1,0 +1,69 @@
+.navbar {
+  @apply w-full flex items-center justify-between gap-5 px-4 py-2 overflow-y-scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+
+.navbarBack {
+  @apply bg-white w-full flex items-center justify-between gap-5 px-4 py-2 overflow-y-scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.logo .imgMobile {
+  @apply md:hidden h-[48px] object-contain;
+}
+.logo .imgDesktop {
+  @apply hidden h-[36px] object-contain;
+  @apply md:block;
+}
+.searchField {
+  @apply relative w-full rounded-lg bg-white border border-gray-300;
+  @apply md:bg-gray-200;
+}
+.searchField > input {
+  @apply w-full rounded-lg bg-transparent outline-none placeholder-gray-500 p-2 focus:border focus:border-purple-300;
+}
+.searchField > button {
+  @apply absolute right-3 top-2;
+}
+.iconNav {
+  @apply flex gap-5;
+}
+.burger {
+  @apply cursor-pointer;
+}
+.mainMenu {
+  @apply z-50 fixed bottom-0 right-0 flex flex-col gap-5 w-full h-[90vh] bg-white p-5 transition-all duration-1000 rounded-lg shadow-inner
+  overflow-y-scroll;
+  @apply translate-y-[110%];
+  @apply md:translate-y-[220%] md:w-fit md:h-fit md:top-12  shadow-md md:transition-none;
+  @apply lg:right-5;
+  @apply xl:right-10;
+}
+.mainMenu .btnsAction {
+  @apply flex gap-10;
+}
+.menuList {
+  @apply grid gap-3 text-lg font-light;
+}
+.menuList .menuListItem {
+  @apply flex gap-3 items-center hover:text-purple-400;
+}
+.mainMenu.active {
+  @apply translate-y-5;
+  @apply md:translate-y-1.5;
+}
+.closeGrip {
+  @apply flex justify-center cursor-pointer;
+  @apply md:hidden;
+}
+.loggedUser {
+  @apply flex gap-3 border-b-2 p-2 items-center;
+}
+.loggedUser img {
+  @apply w-10 h-10 rounded-full border-2 object-cover;
+}

@@ -1,0 +1,56 @@
+.profileInfo {
+  @apply flex justify-center py-5 relative;
+}
+.profileInfoForm {
+  @apply flex flex-col gap-5 w-full max-w-4xl relative;
+}
+.inputWrapper {
+  @apply grid gap-2 w-full;
+}
+.inputWrapperPhoto {
+  @apply flex justify-center w-full;
+}
+.profileInfo input[type="text"],
+.profileInfo input[type="number"],
+.profileInfo input[type="tel"],
+.profileInfo textarea,
+.profileInfo select {
+  @apply w-full p-3 outline outline-1 outline-gray-300 rounded-xl focus:outline-purple-300;
+}
+
+.labelPhoto {
+  @apply relative bg-purple-100 w-24 h-24 rounded-xl bg-cover border-2 border-purple-300 flex items-center justify-center;
+  cursor: pointer;
+}
+.labelPhoto > .userImage {
+  @apply bg-purple-100 w-24 h-24 rounded-xl bg-cover border-2 border-purple-300 object-cover;
+}
+.inputPhoto {
+  @apply hidden;
+}
+.inputWrapper.suggestions {
+  @apply relative;
+}
+
+.suggestionsWrapper {
+  @apply bg-white absolute top-20 rounded-xl grid gap-2 p-3  outline outline-1 outline-gray-300 max-h-96 overflow-scroll;
+}
+.suggestionsWrapper .item {
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+  @apply w-full p-1 hover:bg-gray-500 hover:text-white;
+}
+.profileInfoForm .error {
+  @apply text-sm mx-1  text-red-500;
+}
+.progress-user-image {
+  @apply w-24 absolute bottom-[-15px];
+  background-color: #a06ece;
+  border-radius: 8px;
+}
+
+.progress-bar-user-image {
+  width: 1%;
+  height: 10px;
+  background-color: #73ca5c;
+  border-radius: 8px;
+}

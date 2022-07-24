@@ -1,0 +1,17 @@
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  @apply bg-red-500;
+}
+.dot_size_small {
+  width: 5px;
+  height: 5px;
+}
+.dot_active {
+  @apply bg-red-500;
+}
+.dot_deactive {
+  @apply bg-gray-300;
+}

@@ -1,0 +1,31 @@
+.modalWrapper {
+  background-color: rgba(0, 0, 0, 0.5);
+  @apply fixed top-0 left-0 z-40 w-screen h-screen flex items-center justify-center;
+}
+.buyerNegoModal {
+  @apply bg-white p-5  grid gap-3 rounded-xl;
+  @apply md:max-w-md;
+}
+.buyerNegoModal h1 {
+  @apply font-semibold;
+}
+.buyerNegoModal > p {
+  @apply text-gray-400;
+}
+.buyerNegoModal .product-nego {
+  @apply flex gap-2 p-3 bg-gray-100 rounded-md items-center;
+}
+
+.buyerNegoModal .product-nego h2 {
+  @apply font-semibold;
+}
+
+.buyerNegoModal .product-nego img {
+  @apply h-16 w-16 object-cover rounded-xl;
+}
+.buyerNegoModal .form-nego {
+  @apply grid;
+}
+.buyerNegoModal .form-nego input {
+  @apply w-full p-3 outline outline-1 outline-gray-300 rounded-xl focus:outline-purple-300 mb-3;
+}

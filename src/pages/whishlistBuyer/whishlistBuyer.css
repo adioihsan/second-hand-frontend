@@ -1,0 +1,7 @@
+.products {
+  @apply mt-6 px-3;
+}
+
+.WhishlistBuyer {
+  @apply container mx-auto px-4;
+}
