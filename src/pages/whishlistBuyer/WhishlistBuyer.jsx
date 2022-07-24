@@ -30,7 +30,7 @@ const WhishlistBuyer = () => {
   }, []);
   useEffect(() => {
     if (wishesData !== null && wishesData.length !== 0) {
-      console.log(wishesData);
+      setProductList([]);
       wishesData.forEach((element) => {
         dispatch(getProduct(element.product_id));
       });
