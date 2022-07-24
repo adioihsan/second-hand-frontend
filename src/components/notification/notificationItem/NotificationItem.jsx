@@ -1,9 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import Dot from "../../dot/Dot";
 import "./notificationItem.css";
 function NotificationItem({ notif }) {
-  console.log(notif);
+  const navigate = useNavigate();
+  const onNotifClick = () => {
+    if (notif.category_id == 1) {
+      navigate("/product-view/seller/" + notif.product_id);
+    } else if (notif.category_id == 2 && notif.nego_price) {
+      navigate("/negotiation-info/" + notif.nego_id);
+    } else {
+      navigate("/product-view/see/" + notif.product_id);
+    }
+  };
   return (
-    <div className="notificationItem">
+    <div className="notificationItem" onClick={onNotifClick}>
       <div>
         <img
           src={
@@ -43,15 +53,6 @@ function NotificationItem({ notif }) {
             currency: "IDR",
           })}
         </p>
-        {/* {notif.price && (
-          <p className="font-medium">
-            Berhasil di tawar{" "}
-            {notif.price.toLocaleString("id-ID", {
-              style: "currency",
-              currency: "IDR",
-            })}{" "}
-          </p>
-        )} */}
         {notif.nego_id && notif.status === "accepted" && (
           <>
             <p className="font-medium">
@@ -61,8 +62,15 @@ function NotificationItem({ notif }) {
                 currency: "IDR",
               })}{" "}
             </p>
-            <p className="text-xs text-gray-600 ">
+            <p className="text-xs text-green-600 ">
               Kamu akan segera di hubungi penjual via whatsapp
+            </p>
+          </>
+        )}
+        {notif.nego_id && notif.status === "rejected" && (
+          <>
+            <p className="text-xs text-red-600 ">
+              Penawaran mu belum disetujui penjual, yuk tawar lagi !
             </p>
           </>
         )}
