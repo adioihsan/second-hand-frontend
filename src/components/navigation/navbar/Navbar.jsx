@@ -116,11 +116,11 @@ function Navbar({ type, title, userData }) {
           <FontAwesomeIcon icon={faHeartCircleCheck} />
           Wishlist
         </Link>
-
+        {/* 
         <Link to="/" className="menuListItem">
           <FontAwesomeIcon icon={faEnvelope} />
           Pesan
-        </Link>
+        </Link> */}
         <Link to="/notification" className="menuListItem">
           <FontAwesomeIcon icon={faBell} />
           Notifikasi

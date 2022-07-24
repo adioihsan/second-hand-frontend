@@ -22,10 +22,10 @@ function MobileNav(props) {
         <FontAwesomeIcon icon={faHandHoldingDollar} />
         Penawaran
       </Link>
-      <Link to="/" className="navItem">
+      {/* <Link to="/" className="navItem">
         <FontAwesomeIcon icon={faEnvelope} />
         Pesan
-      </Link>
+      </Link> */}
       <Link to="/profile-info" className="navItem">
         <FontAwesomeIcon icon={faUserAlt} />
         Profile
