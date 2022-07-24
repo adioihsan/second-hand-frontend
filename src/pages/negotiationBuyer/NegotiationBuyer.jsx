@@ -18,6 +18,7 @@ import { useState } from "react";
 import apiStatus from "../../services/utils/apiStatus";
 import { ProductCardLoading } from "../../components/card/negoCard/NegoCard";
 import NegoCard from "../../components/card/negoCard/NegoCard";
+import noProductImg from "../../assets/images/noProduct.png";
 function NegotiationBuyer(props) {
   const params = useParams();
   const navigate = useNavigate();
@@ -51,6 +52,16 @@ function NegotiationBuyer(props) {
       cb: () => navigate("/negotiation/rejected"),
     },
   ];
+
+  // components
+  const renderNoProduct = (message) => {
+    return (
+      <div className="grid place-content-center place-items-center gap-5 w-full my-16">
+        <img src={noProductImg} alt="no product" />
+        <p className="text-center text-lg">{message}</p>
+      </div>
+    );
+  };
   // helpers
   const filterNegoData = (data, category, otherCategory) => {
     return data.filter(
@@ -87,35 +98,40 @@ function NegotiationBuyer(props) {
             <section className="menuLeft">
               <CategoryNav categories={menus} type="list" />
             </section>
-            <section className="negoListItem">
-              {status === apiStatus.pending &&
+            <div className="flex flex-col gap-3 w-full">
+              {status === apiStatus.success &&
                 negoData.length === 0 &&
-                Array(5)
-                  .fill(0)
-                  .map((dum, index) => (
-                    <ProductCardLoading key={"productDummy" + index} />
-                  ))}
-              {status === apiStatus.error && (
-                <h1>Terjadi kesalahan saat mengambil data</h1>
-              )}
-              {negoData?.map((nego, index) => (
-                <NegoCard
-                  product={nego.product}
-                  negoPrice={nego.price}
-                  negoDate={nego.updatedAt}
-                  negoStatus={nego.status}
-                  key={"productNego" + index}
-                  onClick={() =>
-                    navigate(
-                      "/product-view/see/" +
-                        nego.product.user_id +
-                        "/" +
-                        nego.product.id
-                    )
-                  }
-                />
-              ))}
-            </section>
+                renderNoProduct("Belum ada penawaran")}
+              <section className="negoListItem">
+                {status === apiStatus.pending &&
+                  negoData.length === 0 &&
+                  Array(5)
+                    .fill(0)
+                    .map((dum, index) => (
+                      <ProductCardLoading key={"productDummy" + index} />
+                    ))}
+                {status === apiStatus.error && (
+                  <h1>Terjadi kesalahan saat mengambil data</h1>
+                )}
+                {negoData?.map((nego, index) => (
+                  <NegoCard
+                    product={nego.product}
+                    negoPrice={nego.price}
+                    negoDate={nego.updatedAt}
+                    negoStatus={nego.status}
+                    key={"productNego" + index}
+                    onClick={() =>
+                      navigate(
+                        "/product-view/see/" +
+                          nego.product.user_id +
+                          "/" +
+                          nego.product.id
+                      )
+                    }
+                  />
+                ))}
+              </section>
+            </div>
           </div>
         </article>
       </main>

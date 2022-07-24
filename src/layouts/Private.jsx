@@ -36,13 +36,22 @@ function Private(props) {
               page: {
                 message: "Sesi telah berakhir, silahkan login",
                 domain: "/",
+                status: "error",
               },
             },
           });
         }
       }
     } catch (error) {
-      navigate("/login");
+      navigate("/login", {
+        state: {
+          page: {
+            message: "Login untuk mengakses fitur",
+            domain: "/",
+            status: "error",
+          },
+        },
+      });
     }
   }, []);
   if (!token) return <LoadingFull />;

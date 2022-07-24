@@ -5,7 +5,9 @@ const negotiationApi = {
     privateAxios(authToken).post("/negotiation", data),
   getSellerNegoList: ({ data, authToken }) =>
     privateAxios(authToken).get(
-      `/negotiations/me?page=${data.page || 1}&limit=${data.limit || 12}`
+      `/negotiations/me?page=${data.page || 1}&limit=${
+        data.limit || 12
+      }&filter=${data.filter || ""}`
     ),
   getBuyerNegoList: ({ data, authToken }) =>
     privateAxios(authToken).get(
@@ -15,10 +17,8 @@ const negotiationApi = {
     ),
   getNego: ({ negoId, authToken }) =>
     privateAxios(authToken).get("/negotiation/" + negoId),
-  // rejectNego: ({ negoId, authToken }) =>
-  //   privateAxios(authToken).patch(`/negotiation/${negoId}/reject`),
   rejectNego: ({ negoId, authToken }) =>
-    privateAxios(authToken).patch(`/negotiation/${negoId}`, { status: false }),
+    privateAxios(authToken).patch(`/negotiation/${negoId}/reject`),
   acceptNego: ({ negoId, authToken }) =>
     privateAxios(authToken).patch(`/negotiation/${negoId}/confirm`),
   doneNego: ({ negoId, authToken }) =>

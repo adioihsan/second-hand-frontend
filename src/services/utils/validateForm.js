@@ -26,6 +26,17 @@ function validateForm(name, value, result) {
         error = null;
       }
       break;
+    case "new_password":
+      if (value.length < 8) error = "Password minimal 8 karakter";
+      else if (value.length > 50) error = "Password maksimal 50 karakter";
+      else if (!/.*[a-zA-Z]+.*/.test(value))
+        error = "Password harus mengandung huruf";
+      else if (!/.*\d+.*/.test(value))
+        error = "Password harus mengandung angka";
+      else {
+        error = null;
+      }
+      break;
     case "image":
       if (!value) error = "Tambahkan profile picture !";
       else error = null;

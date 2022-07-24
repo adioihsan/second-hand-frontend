@@ -7,6 +7,7 @@ import "./notificationpage.css";
 import { useDispatch, useSelector } from "react-redux";
 import NotificationItem from "../../components/notification/notificationItem/NotificationItem";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
+import { Helmet } from "react-helmet-async";
 
 const NotificationPage = () => {
   const dispatch = useDispatch();
@@ -19,17 +20,22 @@ const NotificationPage = () => {
   }, []);
   console.log(data);
   return (
-    <div className="wrapper">
-      <div className="notificationpage">
-        <div className="notificationHeader">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-            Notifikasi
-          </h5>
-          <ButtonPrimary onClick={deleteNotificationClick}>
-            Hapus Semua Notifikasi
-          </ButtonPrimary>
-        </div>
-        {/* <div className="card notificationCard">
+    <>
+      {" "}
+      <Helmet>
+        <title>Seconhand. Notifikasi</title>
+      </Helmet>
+      <div className="wrapper">
+        <div className="notificationpage">
+          <div className="notificationHeader">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+              Notifikasi
+            </h5>
+            <ButtonPrimary onClick={deleteNotificationClick}>
+              Hapus Semua Notifikasi
+            </ButtonPrimary>
+          </div>
+          {/* <div className="card notificationCard">
         <div className="partOne">
           <div className="">
             <img
@@ -62,16 +68,17 @@ const NotificationPage = () => {
           </a>
         </div>
       </div> */}
-        {data.map((notif, index) => {
-          return (
-            <NotificationItem
-              notif={notif}
-              key={`notificationKey ${index}` + notif.id + notif.product_id}
-            />
-          );
-        })}
+          {data.map((notif, index) => {
+            return (
+              <NotificationItem
+                notif={notif}
+                key={`notificationKey ${index}` + notif.id + notif.product_id}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

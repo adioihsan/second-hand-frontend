@@ -5,8 +5,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useOutletContext } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
 import NegoCard from "../../components/card/negoCard/NegoCard";
@@ -22,9 +20,8 @@ import apiStatus from "../../services/utils/apiStatus";
 import "./negotiationinfo.css";
 import iconWhatsapp from "../../assets/images/icon-whatsapp-16.png";
 import UpdateStatusModal from "../../components/modal/updateStatusModal/UpdateStatusModal";
-import { soldProduct } from "../../services/actions/productAction";
 import { useParams } from "react-router-dom";
-import LoadingFull from "../../components/loading/lodingFull/LoadingFull";
+import { Helmet } from "react-helmet-async";
 
 const Negotiationinfo = () => {
   const dispatch = useDispatch();
@@ -35,13 +32,7 @@ const Negotiationinfo = () => {
     message,
     buyer,
   } = useSelector((state) => state.negotiation);
-  const {
-    data: product,
-    status: productStatus,
-    message: productMessage,
-  } = useSelector((state) => state.product);
   const [isAction, setIsAction] = useState(false);
-  const [isProductAction, setIsProductAction] = useState(false);
   const outletContext = useOutletContext();
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showAcceptModal, setShowAcceptModal] = useState(false);
@@ -72,7 +63,7 @@ const Negotiationinfo = () => {
   const doSoldProduct = (negoId) => {
     setShowStatusModal(false);
     dispatch(doneNego(negoId));
-    setIsProductAction(true);
+    setIsAction(true);
   };
   useEffect(() => {
     outletContext.setNavType("back");
@@ -83,7 +74,8 @@ const Negotiationinfo = () => {
     if (status === apiStatus.pending) outletContext.setShowBar(true);
     else if (status === apiStatus.success && isAction) {
       if (negoData.status === "accepted") setShowAcceptModal(true);
-      if (negoData.status === "done") toast.success("Produk mu sudah terjual");
+      if (negoData.status === "done")
+        toast.success("Produk mu sudah terjual. Transaksi selesai");
       if (negoData.status === "rejected")
         toast.warning("Tawaran telah di tolak");
     } else if (status === apiStatus.error && isAction) toast.error(message);
@@ -93,11 +85,14 @@ const Negotiationinfo = () => {
       setIsAction(false);
     }
   }, [status]);
-  console.log(negoData);
+  console.log(negoData.status);
   if (status === apiStatus.pending) return "";
   if (negoData)
     return (
       <>
+        <Helmet>
+          <title>Seconhand. Info Penawaran</title>
+        </Helmet>
         <div className="w-full flex justify-center">
           <div className="negotiationInfo">
             <SellerCard seller={buyer.user_detail} noEdit />

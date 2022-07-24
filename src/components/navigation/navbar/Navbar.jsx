@@ -110,17 +110,17 @@ function Navbar({ type, title, userData }) {
         <h2 className="font-semibold">Aktifitas Saya</h2>
         <Link to="/negotiation/all" className="menuListItem">
           <FontAwesomeIcon icon={faHandHoldingDollar} />
-          Penawaran
+          Penawaran Saya
         </Link>
         <Link to="/whishlist" className="menuListItem">
           <FontAwesomeIcon icon={faHeartCircleCheck} />
           Wishlist
         </Link>
-
+        {/* 
         <Link to="/" className="menuListItem">
           <FontAwesomeIcon icon={faEnvelope} />
           Pesan
-        </Link>
+        </Link> */}
         <Link to="/notification" className="menuListItem">
           <FontAwesomeIcon icon={faBell} />
           Notifikasi
@@ -132,18 +132,18 @@ function Navbar({ type, title, userData }) {
         </Link>
         <Link to="/product-list/products" className="menuListItem">
           <FontAwesomeIcon icon={faBoxes} />
-          Kelola Produk
+          Daftar Jual
         </Link>
         <Link to="/product-list/negotiation" className="menuListItem">
           <FontAwesomeIcon icon={faHandshakeAlt} />
-          Produk ditawar
+          Penawaran Produk
         </Link>
         <h2 className="font-semibold mt-5">Pengaturan Akun</h2>
         <Link to="/profile-info" className="menuListItem">
           <FontAwesomeIcon icon={faUserAlt} />
           Ubah Profil
         </Link>
-        <Link to="/" className="menuListItem mb-5">
+        <Link to="/change-password" className="menuListItem mb-5">
           <FontAwesomeIcon icon={faKey} />
           Ganti Password
         </Link>
