@@ -111,9 +111,11 @@ function ProductList(props) {
             </section>
             {params.category !== "negotiation" && (
               <section className="productListItem">
-                <Link to="/product-add">
-                  <ProductCardAdd />{" "}
-                </Link>
+                {params.category !== "sold" && (
+                  <Link to="/product-add">
+                    <ProductCardAdd />{" "}
+                  </Link>
+                )}
                 {status === apiStatus.pending &&
                   Array(5)
                     .fill(0)

@@ -33,7 +33,7 @@ function ProductCard({ product, ...others }) {
       </div>
       <div className="cardFooter flex justify-end">
         {product.is_release !== null && (
-          <div className="productStatus  p-1 bg-gray-300 text-xs rounded-md">
+          <div className="productStatus  p-1 bg-gray-300 flex items-center text-xs rounded-md">
             {product.status === false && "Terjual"}
             {product.status === true && product.is_release === true && "Terbit"}
             {product.status === true &&

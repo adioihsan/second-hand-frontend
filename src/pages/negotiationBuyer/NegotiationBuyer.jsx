@@ -18,6 +18,7 @@ import { useState } from "react";
 import apiStatus from "../../services/utils/apiStatus";
 import { ProductCardLoading } from "../../components/card/negoCard/NegoCard";
 import NegoCard from "../../components/card/negoCard/NegoCard";
+import noProductImg from "../../assets/images/noProduct.png";
 function NegotiationBuyer(props) {
   const params = useParams();
   const navigate = useNavigate();
@@ -51,6 +52,16 @@ function NegotiationBuyer(props) {
       cb: () => navigate("/negotiation/rejected"),
     },
   ];
+
+  // components
+  const renderNoProduct = (message) => {
+    return (
+      <div className="grid place-content-center place-items-center gap-5 w-full my-16">
+        <img src={noProductImg} alt="no product" />
+        <p className="text-center text-lg">{message}</p>
+      </div>
+    );
+  };
   // helpers
   const filterNegoData = (data, category, otherCategory) => {
     return data.filter(
@@ -98,6 +109,9 @@ function NegotiationBuyer(props) {
               {status === apiStatus.error && (
                 <h1>Terjadi kesalahan saat mengambil data</h1>
               )}
+              {status === apiStatus.success &&
+                negoData.length === 0 &&
+                renderNoProduct("Belum ada penawaran")}
               {negoData?.map((nego, index) => (
                 <NegoCard
                   product={nego.product}

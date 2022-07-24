@@ -164,80 +164,90 @@ const ProductView = () => {
     done: "Sudah terjual",
   };
   // condtitional comp
-  const renderSellerButton = () => (
-    <>
-      {data?.is_release ? (
-        <button
-          className="buttonOne button button-primary"
-          onClick={doUnReleaseProduct}
-        >
-          Sembunyikan
-        </button>
-      ) : (
-        <button
-          className="buttonOne button button-primary"
-          onClick={doReleaseProduct}
-        >
-          Terbitkan
-        </button>
-      )}
-      <button
-        className="buttonTwo button button-primary"
-        onClick={doEditProduct}
-      >
-        Edit
-      </button>
-      <button
-        className="outline  rounded-md py-3 px-2 outline-1 outline-red-600"
-        onClick={doDeleteProduct}
-      >
-        Hapus Produk
-      </button>
-    </>
-  );
-  const renderUserButton = () => (
-    <>
-      {checkNegoStatus === apiStatus.pending && (
-        <ButtonPrimary>Loading...</ButtonPrimary>
-      )}
-      {nego === null && checkNegoStatus !== apiStatus.pending && (
-        <ButtonPrimary
-          onClick={() => {
-            if (userProfile === null) navigate("/login");
-            setShowModal(true);
-          }}
-        >
-          Saya tertarik
-        </ButtonPrimary>
-      )}
-      {nego !== null && (
-        <div className="grid gap-2">
-          <p className={"negoTextStatus_" + nego.status}>
-            {negoTextStatus[nego.status] +
-              ". Kamu menawar produk ini seharga " +
-              nego.price.toLocaleString("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              })}
-          </p>
-          {nego.status !== "done" && (
-            <ButtonPrimary type="disabled">Sudah ditawar</ButtonPrimary>
+  const renderSellerButton = () => {
+    if (data.status)
+      return (
+        <>
+          {data?.is_release ? (
+            <button
+              className="buttonOne button button-primary"
+              onClick={doUnReleaseProduct}
+            >
+              Sembunyikan
+            </button>
+          ) : (
+            <button
+              className="buttonOne button button-primary"
+              onClick={doReleaseProduct}
+            >
+              Terbitkan
+            </button>
           )}
-          {nego.status === "done" && (
-            <ButtonPrimary type="disabled">Produk sudah terjual</ButtonPrimary>
+          <button
+            className="buttonTwo button button-primary"
+            onClick={doEditProduct}
+          >
+            Edit
+          </button>
+          <button
+            className="outline  rounded-md py-3 px-2 outline-1 outline-red-600"
+            onClick={doDeleteProduct}
+          >
+            Hapus Produk
+          </button>
+        </>
+      );
+    else return <ButtonPrimary type="disabled">Sudah Terjual</ButtonPrimary>;
+  };
+  const renderUserButton = () => {
+    if (data.status)
+      return (
+        <>
+          {checkNegoStatus === apiStatus.pending && (
+            <ButtonPrimary>Loading...</ButtonPrimary>
           )}
-          {nego.status === "rejected" && (
-            <ButtonPrimary onClick={() => setShowModal(true)}>
-              Tawar Lagi !
+          {nego === null && checkNegoStatus !== apiStatus.pending && (
+            <ButtonPrimary
+              onClick={() => {
+                if (userProfile === null) navigate("/login");
+                setShowModal(true);
+              }}
+            >
+              Saya tertarik
             </ButtonPrimary>
           )}
-        </div>
-      )}
-      <ButtonPrimary className={"mt-5"} type={"outlined"} onClick={doWish}>
-        tambah ke wishlist
-      </ButtonPrimary>
-    </>
-  );
+          {nego !== null && (
+            <div className="grid gap-2">
+              <p className={"negoTextStatus_" + nego.status}>
+                {negoTextStatus[nego.status] +
+                  ". Kamu menawar produk ini seharga " +
+                  nego.price.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+              </p>
+              {nego.status !== "done" && (
+                <ButtonPrimary type="disabled">Sudah ditawar</ButtonPrimary>
+              )}
+              {nego.status === "done" && (
+                <ButtonPrimary type="disabled">
+                  Produk sudah terjual
+                </ButtonPrimary>
+              )}
+              {nego.status === "rejected" && (
+                <ButtonPrimary onClick={() => setShowModal(true)}>
+                  Tawar Lagi !
+                </ButtonPrimary>
+              )}
+            </div>
+          )}
+          <ButtonPrimary className={"mt-5"} type={"outlined"} onClick={doWish}>
+            tambah ke wishlist
+          </ButtonPrimary>
+        </>
+      );
+    else return <ButtonPrimary type="disabled">Sudah Terjual</ButtonPrimary>;
+  };
   if (status === apiStatus.success && data !== null && data !== undefined)
     return (
       <>
