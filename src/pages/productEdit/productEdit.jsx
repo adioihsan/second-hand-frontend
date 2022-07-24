@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ButtonPrimary from "../../components/button/buttonPrimary/ButtonPrimary";
-import iconCamera from "../../assets/images/icon-camera.png";
-import iconArrowLeft from "../../assets/images/icon-arrow-left.png";
 import { useOutletContext } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { useDispatch } from "react-redux";
@@ -16,22 +14,27 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import apiStatus from "../../services/utils/apiStatus";
+import PreviewModal from "../../components/modal/previewModal/PreviewModal";
 import { Helmet } from "react-helmet-async";
+import { getUserDetail } from "../../services/actions/userAction";
 
 function ProductEdit(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
   const outletContex = useOutletContext();
+  const [showPreview, setShowPreview] = useState(false);
   const [isAction, setIsAction] = useState(false);
   const { values, errors, handleChange, setValues } = useForm();
   const {
-    categories,
+    categories: catData,
     pending: catPending,
     error: catError,
   } = useSelector((state) => state.categoryList);
   const { data, message, status } = useSelector((state) => state.product);
+  const { userDetail } = useSelector((state) => state.user);
   const [imagesUrl, setImagesUrl] = useState([]);
+
   // actions
   const doUpdateProduct = (e) => {
     e.preventDefault();
@@ -48,6 +51,11 @@ function ProductEdit(props) {
       dispatch(updateProduct(formData));
       setIsAction(true);
     } else toast.warn("Data produk belum lengkap");
+  };
+  const doShowPreview = (e) => {
+    e.preventDefault();
+    if (checkIsFormValid()) setShowPreview(true);
+    else toast.warn("Data produk belum lengkap");
   };
   // helpers
   const checkIsFormValid = () => {
@@ -66,6 +74,7 @@ function ProductEdit(props) {
 
   useEffect(() => {
     if (params.productId) dispatch(getMyProduct(params.productId));
+    dispatch(getUserDetail());
   }, [params.productId]);
 
   useEffect(() => {
@@ -98,7 +107,7 @@ function ProductEdit(props) {
         </Helmet>
         <div className="productAddWrapper">
           <div className="productAdd">
-            <form className="productAddForm">
+            <form className="productAddForm" method="post">
               <div className="inputWrapper">
                 <label htmlFor="name">Nama</label>
                 <input
@@ -136,7 +145,7 @@ function ProductEdit(props) {
                   </option>
                   {!catPending &&
                     !catError &&
-                    categories.map((cat) => (
+                    catData.map((cat) => (
                       <option value={cat.id} key={"catprod" + cat.id}>
                         {cat.name}
                       </option>
@@ -162,7 +171,11 @@ function ProductEdit(props) {
                 />
               </div>
               <div className="flex gap-3 mt-3 w-full ">
-                <ButtonPrimary className="w-full" type="outlined">
+                <ButtonPrimary
+                  className="w-full"
+                  type="outlined"
+                  onClick={doShowPreview}
+                >
                   Preview
                 </ButtonPrimary>
                 <ButtonPrimary className="w-full" onClick={doUpdateProduct}>
@@ -172,6 +185,18 @@ function ProductEdit(props) {
             </form>
           </div>
         </div>
+        {showPreview && (
+          <PreviewModal
+            data={{
+              ...values,
+              categories: catData.find((cat) => cat.id == values.categories)
+                .name,
+              images_url: imagesUrl,
+              user: userDetail,
+            }}
+            onClick={() => setShowPreview(false)}
+          />
+        )}
       </>
     );
 }

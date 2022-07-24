@@ -30,7 +30,6 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
       .post("/image", formData, uploadConfig)
       .then((response) => {
         const url = response.data.data.url;
-        console.log(url);
         setImagesUrl((prevImages) => {
           const newImages = prevImages.concat([url]);
           return newImages;
@@ -43,7 +42,16 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
         });
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        err.response.data
+          ? toast.error(err.response.data.message)
+          : toast.error("Gagal upload foto produk");
+        setImages((prevImages) => {
+          const failIndex = prevImages.indexOf(file);
+          const newPrev = prevImages.filter(
+            (img, imgIndex) => failIndex !== imgIndex
+          );
+          return newPrev;
+        });
       });
   };
   const removeImage = (e, file, index) => {
@@ -62,7 +70,6 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
   };
 
   const onDrop = useCallback((acceptedFiles) => {
-    console.log("on drop run");
     const filesWithUrl = acceptedFiles.map((file) => {
       return Object.assign(file, {
         localUrl: URL.createObjectURL(file),
@@ -142,12 +149,6 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
   };
 
   useEffect(() => {
-    console.log("images added");
-    console.log(images);
-  }, [images]);
-
-  useEffect(() => {
-    console.log("files generated");
     if (update) generateFiles();
   }, [imagesUrl]);
 
