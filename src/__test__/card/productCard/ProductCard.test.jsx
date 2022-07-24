@@ -27,7 +27,7 @@ const product = {
   },
 };
 
-it("test product Card", () => {
+test("test product Card", () => {
   render(
     <ProductCard
       product={product}

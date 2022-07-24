@@ -27,7 +27,7 @@ const nego = {
   },
 };
 
-it("test NegoAcceptedModal", () => {
+test("test NegoAcceptedModal", () => {
   render(
     <NegoAcceptedModal
       onClick={() => console.log("show modal")}

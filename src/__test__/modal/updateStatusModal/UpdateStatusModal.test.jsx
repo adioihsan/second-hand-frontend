@@ -27,7 +27,7 @@ const nego = {
   },
 };
 
-it("test updateStatusModal", () => {
+test("test updateStatusModal", () => {
   render(
     <UpdateStatusModal
       productId={nego.product_id}

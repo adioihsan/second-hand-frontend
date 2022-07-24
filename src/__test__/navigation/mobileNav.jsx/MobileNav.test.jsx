@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import MobileNav from "../../../components/navigation/mobileNav/MobileNav";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-it("test  mobileNav", () => {
+test("test  mobileNav", () => {
   render(
     <BrowserRouter>
       <Routes>

@@ -22,6 +22,6 @@ const product = {
   },
 };
 
-it("test PreviewModal", () => {
+test("test PreviewModal", () => {
   render(<PreviewModal data={product} />);
 });

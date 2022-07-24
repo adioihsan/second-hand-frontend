@@ -36,6 +36,6 @@ const menus = [
   },
 ];
 
-it("test categoryNav", () => {
+test("test categoryNav", () => {
   render(<CategoryNav categories={menus} />);
 });
