@@ -62,14 +62,14 @@ const Login = () => {
         dispatch(
           setUserMessage({
             message: location.state.page.message,
-            status: apiStatus.success,
+            status: location.state.page.status,
           })
         );
       else {
         dispatch(
           setUserMessage({
             message: location.state.message,
-            status: apiStatus.error,
+            status: apiStatus.success,
           })
         );
         emailRef.current.value = location.state.email;
@@ -104,10 +104,6 @@ const Login = () => {
                   className="mb-5"
                 />
               </Link>
-              {/* <button onClick={() => navigate(-1)} className="mb-5">
-              <FontAwesomeIcon icon={faArrowLeft} size="lg"  />
-            </button> */}
-
               <h1 className="text-2xl font-bold">Masuk</h1>
               {message && (
                 <div
