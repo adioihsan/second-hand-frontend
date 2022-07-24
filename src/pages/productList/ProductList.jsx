@@ -60,13 +60,11 @@ function ProductList(props) {
   const { data: negoData, status: negoStatus } = useSelector(
     (state) => state.negotiationList
   );
-  const renderNoProduct = () => {
+  const renderNoProduct = (message) => {
     return (
       <div className="grid place-content-center place-items-center gap-5 w-full my-16">
         <img src={noProductImg} alt="no product" />
-        <p className="text-center text-lg">
-          Belum ada produkmu yang diminati nih, sabar ya rejeki nggak kemana kok
-        </p>
+        <p className="text-center text-lg">{message}</p>
       </div>
     );
   };
@@ -137,13 +135,15 @@ function ProductList(props) {
               </section>
             )}
             {params.category === "negotiation" && (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 w-full">
                 <select className="p-2 rounded-md" onChange={doFilterNego}>
                   <option value="">Semua Penawaran</option>
                   <option value="pending">Penawaran baru</option>
                   <option value="rejected">Penawaran ditolak</option>
                   <option value="accepted">Penawaran diterima</option>
                 </select>
+                {negoData?.length === 0 &&
+                  renderNoProduct("Belum ada penawaran")}
                 <section className="negoListItem">
                   {negoStatus === apiStatus.pending &&
                     Array(5)
