@@ -22,8 +22,8 @@ function TopNotification({ children, className, ...others }) {
       {status !== apiStatus.pending && data.length === 0 && (
         <div className="flex justify-center">Belum ada notifikasi</div>
       )}
-      {data.slice(0, 3).map((notif) => (
-        <NotificationItem notif={notif} />
+      {data.slice(0, 3).map((notif, index) => (
+        <NotificationItem notif={notif} key={"notif" + index} />
       ))}
       {data.length > 3 && (
         <Link to="/notification" className="flex justify-center">

@@ -19,18 +19,28 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faBoxes } from "@fortawesome/free-solid-svg-icons";
 import { faHandshakeAlt } from "@fortawesome/free-solid-svg-icons";
 import userImg from "../../../assets/images/user.png";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import TopNotification from "../../notification/topNotification/TopNotification";
 import { useState } from "react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Dot from "../../dot/Dot";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import io from "socket.io-client";
+import {
+  getAllNotifications,
+  setNotifBell,
+} from "../../../services/actions/notificationAction";
 
 function Navbar({ type, title, userData }) {
+  const socket = io(process.env.REACT_APP_API_URL);
   const navbarRef = useRef();
   const mainMenuRef = useRef();
   const [openNotification, setOpenNotification] = useState(false);
+  const { isBell } = useSelector((state) => state.notificationList);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     // change bg to white when scrolled
     window.addEventListener("scroll", (event) => {
@@ -39,7 +49,16 @@ function Navbar({ type, title, userData }) {
           ? (navbarRef.current.style.backgroundColor = "white")
           : (navbarRef.current.style.backgroundColor = "unset");
     });
-    //
+    //connect to notif socket
+    if (userData) {
+      socket.emit("start", { userId: userData.id });
+      socket.on("notification", (message) => {
+        dispatch(getAllNotifications());
+        dispatch(setNotifBell(true));
+      });
+    } else {
+      socket.disconnect();
+    }
   }, []);
   // actions
   const doSearch = (e) => {
@@ -182,15 +201,19 @@ function Navbar({ type, title, userData }) {
           </div>
           <div className="iconNav">
             <div className="notification cursor-pointer">
-              <FontAwesomeIcon
-                icon={faBell}
-                size="lg"
-                width="18px"
-                onClick={() => {
-                  setOpenNotification((open) => !open);
-                  closeMainMenu();
-                }}
-              />
+              <div className="relative">
+                {isBell && <Dot className="absolute top-0 right-0" />}
+                <FontAwesomeIcon
+                  icon={faBell}
+                  size="lg"
+                  width="18px"
+                  onClick={() => {
+                    setOpenNotification((open) => !open);
+                    closeMainMenu();
+                    dispatch(setNotifBell(false));
+                  }}
+                />
+              </div>
               {openNotification && <TopNotification />}
             </div>
             <div className="burger" onClick={openMainMenu}>

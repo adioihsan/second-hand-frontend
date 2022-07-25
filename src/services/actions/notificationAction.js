@@ -1,3 +1,4 @@
+import { createAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import notificationApi from "../apis/notificationApi";
 
@@ -22,3 +23,4 @@ export const deleteNotificationAll = createAsyncThunk(
     } catch (error) {}
   }
 );
+export const setNotifBell = createAction("/notification/bell/on");
