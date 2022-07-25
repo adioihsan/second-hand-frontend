@@ -18,7 +18,6 @@ const NotificationPage = () => {
   useEffect(() => {
     dispatch(getAllNotifications());
   }, []);
-  console.log(data);
   return (
     <>
       {" "}

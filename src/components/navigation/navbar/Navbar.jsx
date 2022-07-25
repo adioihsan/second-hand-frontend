@@ -34,7 +34,6 @@ import {
 } from "../../../services/actions/notificationAction";
 
 function Navbar({ type, title, userData }) {
-  // const socket = io(process.env.REACT_APP_API_URL);
   const navbarRef = useRef();
   const mainMenuRef = useRef();
   const [openNotification, setOpenNotification] = useState(false);
@@ -50,16 +49,21 @@ function Navbar({ type, title, userData }) {
           : (navbarRef.current.style.backgroundColor = "unset");
     });
     //connect to notif socket
-    // if (userData) {
-    //   socket.emit("start", { userId: userData.id });
-    //   socket.on("notification", (message) => {
-    //     dispatch(getAllNotifications());
-    //     dispatch(setNotifBell(true));
-    //   });
-    // } else {
-    //   socket.disconnect();
-    // }
   }, []);
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_API_URL);
+    if (userData !== null) {
+      socket.emit("start", { userId: userData.id });
+      socket.on("notification", (message) => {
+        dispatch(getAllNotifications());
+        dispatch(setNotifBell(true));
+      });
+    } else {
+      socket.disconnect();
+    }
+  }, [userData]);
+
   // actions
   const doSearch = (e) => {
     const key = e.key;
