@@ -3,6 +3,7 @@ import {
   deleteNotification,
   deleteNotificationAll,
   getAllNotifications,
+  setNotifBell,
 } from "../actions/notificationAction";
 import apiStatus from "../utils/apiStatus";
 
@@ -14,6 +15,7 @@ const initialState = {
   nextPage: null,
   page: null,
   prevPage: null,
+  isBell: false,
 };
 
 const notificationListSlice = createSlice({
@@ -45,6 +47,9 @@ const notificationListSlice = createSlice({
     });
     builder.addCase(deleteNotificationAll.rejected, (state, action) => {
       state.status = apiStatus.error;
+    });
+    builder.addCase(setNotifBell, (state, action) => {
+      state.isBell = action.payload;
     });
   },
 });
