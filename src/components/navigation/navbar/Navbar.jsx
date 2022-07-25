@@ -34,7 +34,7 @@ import {
 } from "../../../services/actions/notificationAction";
 
 function Navbar({ type, title, userData }) {
-  const socket = io(process.env.REACT_APP_API_URL);
+  // const socket = io(process.env.REACT_APP_API_URL);
   const navbarRef = useRef();
   const mainMenuRef = useRef();
   const [openNotification, setOpenNotification] = useState(false);
