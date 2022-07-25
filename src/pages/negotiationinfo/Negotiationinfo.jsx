@@ -85,7 +85,6 @@ const Negotiationinfo = () => {
       setIsAction(false);
     }
   }, [status]);
-  console.log(negoData.status);
   if (status === apiStatus.pending) return "";
   if (negoData)
     return (
