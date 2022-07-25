@@ -50,15 +50,15 @@ function Navbar({ type, title, userData }) {
           : (navbarRef.current.style.backgroundColor = "unset");
     });
     //connect to notif socket
-    if (userData) {
-      socket.emit("start", { userId: userData.id });
-      socket.on("notification", (message) => {
-        dispatch(getAllNotifications());
-        dispatch(setNotifBell(true));
-      });
-    } else {
-      socket.disconnect();
-    }
+    // if (userData) {
+    //   socket.emit("start", { userId: userData.id });
+    //   socket.on("notification", (message) => {
+    //     dispatch(getAllNotifications());
+    //     dispatch(setNotifBell(true));
+    //   });
+    // } else {
+    //   socket.disconnect();
+    // }
   }, []);
   // actions
   const doSearch = (e) => {
