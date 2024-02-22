@@ -29,7 +29,7 @@ function PreviewModal({ data, ...others }) {
               <Carousel showArrows={true} showThumbs={false}>
                 {data.images_url.map((url) => (
                   <img
-                    src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
+                    src={process.env.REACT_APP_STORAGE_URL + "/images%2F" + url}
                     key={"productImg" + url}
                   />
                 ))}

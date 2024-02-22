@@ -98,7 +98,7 @@ function Navbar({ type, title, userData }) {
             src={
               userData.photo
                 ? process.env.REACT_APP_STORAGE_URL +
-                  "/images/" +
+                  "/images%2F" +
                   userData.photo
                 : userImg
             }

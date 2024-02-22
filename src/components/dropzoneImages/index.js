@@ -115,9 +115,13 @@ function DropzoneImages({ imagesUrl, setImagesUrl, update }) {
       <img
         src={
           file.isDownload
-            ? process.env.REACT_APP_STORAGE_URL + "/images/" + file.localUrl
+            ? process.env.REACT_APP_STORAGE_URL +
+              "/images%2F" +
+              file.localUrl +
+              "?alt=media"
             : file.localUrl
         }
+        alt="preview"
       />
       {!file.isDownload && progress[file.name] !== 100 && (
         <div className={styles.progress}>

@@ -18,8 +18,9 @@ function NotificationItem({ notif }) {
         <img
           src={
             process.env.REACT_APP_STORAGE_URL +
-            "/images/" +
-            notif.product.images_url.split(",")[0]
+            "/images%2F" +
+            notif.product.images_url.split(",")[0] +
+            "?alt=media"
           }
           alt={notif.name}
         />

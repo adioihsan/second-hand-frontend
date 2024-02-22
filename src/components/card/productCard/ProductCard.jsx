@@ -10,8 +10,9 @@ function ProductCard({ product, ...others }) {
         <img
           src={
             process.env.REACT_APP_STORAGE_URL +
-            "/images/" +
-            product.images_url.split(",")[0]
+            "/images%2F" +
+            product.images_url.split(",")[0] +
+            "?alt=media"
           }
           alt={product.name}
           className="productImage"

@@ -268,9 +268,15 @@ const ProductView = () => {
                 >
                   {data.images_url.split(",").map((url) => (
                     <img
-                      src={process.env.REACT_APP_STORAGE_URL + "/images/" + url}
+                      src={
+                        process.env.REACT_APP_STORAGE_URL +
+                        "/images%2F" +
+                        url +
+                        "?alt=media"
+                      }
+                      alt={data.name}
                       className="imageProduct"
-                      key={"productImg" + url}
+                      key={"productImg_view" + url}
                     />
                   ))}
                 </Carousel>

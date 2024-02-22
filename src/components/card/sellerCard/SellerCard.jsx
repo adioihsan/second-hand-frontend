@@ -11,8 +11,12 @@ function SellerCard({ children, seller, noEdit }) {
           <img
             src={
               seller.image
-                ? process.env.REACT_APP_STORAGE_URL + "/images/" + seller.image
-                : process.env.REACT_APP_STORAGE_URL + "/images/" + seller.photo
+                ? process.env.REACT_APP_STORAGE_URL +
+                  "/images%2F" +
+                  seller.image
+                : process.env.REACT_APP_STORAGE_URL +
+                  "/images%2F" +
+                  seller.photo
             }
             alt="user"
             className="sellerPhoto"

@@ -16,7 +16,12 @@ function NegoAcceptedModal({ children, negoData, cb, ...others }) {
         <div className="acceptedInfo">
           <div className="acceptedBuyer">
             <img
-              src={process.env.REACT_APP_STORAGE_URL + "/images/" + buyer.image}
+              src={
+                process.env.REACT_APP_STORAGE_URL +
+                "/images%2F" +
+                buyer.image +
+                "?alt=media"
+              }
               alt="user"
             />
             <div>
@@ -28,8 +33,9 @@ function NegoAcceptedModal({ children, negoData, cb, ...others }) {
             <img
               src={
                 process.env.REACT_APP_STORAGE_URL +
-                "/images/" +
-                product.images_url.split(",")[0]
+                "/images%2F" +
+                product.images_url.split(",")[0] +
+                "?alt=media"
               }
               alt={product.name}
               className="productNegoImage"
